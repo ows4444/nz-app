@@ -1,10 +1,7 @@
-import { Role } from '@database/entities';
-
-import { Injectable } from '@nestjs/common';
+import { Role } from '@domain/entities';
 import { EntityManager } from 'typeorm';
-import { BaseRepository } from '../../core';
+import { BaseRepository } from '@core/repositories';
 
-@Injectable()
 export class RoleRepository extends BaseRepository<Role> {
   constructor(entityManager: EntityManager) {
     super(entityManager, Role);

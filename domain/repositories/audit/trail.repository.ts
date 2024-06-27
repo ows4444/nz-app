@@ -1,10 +1,7 @@
-import { Trail } from '@database/entities';
-
-import { Injectable } from '@nestjs/common';
+import { Trail } from '@domain/entities';
 import { EntityManager } from 'typeorm';
-import { BaseRepository } from '../../core';
+import { BaseRepository } from '@core/repositories';
 
-@Injectable()
 export class TrailRepository extends BaseRepository<Trail> {
   constructor(entityManager: EntityManager) {
     super(entityManager, Trail);

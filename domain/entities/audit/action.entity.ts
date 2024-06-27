@@ -14,5 +14,5 @@ export class Action {
   description: string;
 
   @OneToMany(() => Trail, (trail) => trail.action)
-  auditLogs: Trail[];
+  auditLogs?: Trail[];
 }

@@ -1,10 +1,7 @@
-import { Permission } from '@database/entities';
-
-import { Injectable } from '@nestjs/common';
+import { Permission } from '@domain/entities';
 import { EntityManager } from 'typeorm';
-import { BaseRepository } from '../../core';
+import { BaseRepository } from '@core/repositories';
 
-@Injectable()
 export class PermissionRepository extends BaseRepository<Permission> {
   constructor(entityManager: EntityManager) {
     super(entityManager, Permission);

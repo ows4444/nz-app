@@ -1,5 +1,5 @@
 import { User } from '@domain/entities';
-import { Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum Status {
   ACTIVE = 1,
@@ -19,26 +19,29 @@ class BaseEntity<T> {
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'createdBy' })
-  @Column({ nullable: false, type: 'bigint' })
-  createdBy: number;
-
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
-
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'updatedBy' })
-  @Column({ nullable: true, type: 'bigint' })
-  updatedBy: number;
 
   @Column({ type: 'timestamp', nullable: true })
   deletedAt: Date;
 
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'deletedBy' })
-  @Column({ nullable: true, type: 'bigint' })
-  deletedBy: number;
+  @ManyToOne(() => User, { eager: true })
+  creator: User;
+
+  @ManyToMany(() => User, { eager: true })
+  creation: User[];
+
+  @ManyToOne(() => User, { eager: true })
+  editor: User;
+
+  @ManyToMany(() => User, { eager: true })
+  modification: User[];
+
+  @ManyToOne(() => User, { eager: true })
+  remover: User;
+
+  @ManyToMany(() => User, { eager: true })
+  deletion: User[];
 }
 
 export class AbstractTableEntity<T> extends BaseEntity<T> {

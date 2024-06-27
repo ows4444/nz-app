@@ -4,6 +4,7 @@ import TypeORMEnvConfig from '@config/type-orm.config';
 import { DatabaseModule } from '@infra/database/database.module';
 import { I18nModule, I18nJsonLoader, AcceptLanguageResolver } from 'nestjs-i18n';
 import path from 'path';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import path from 'path';
       },
       loader: I18nJsonLoader,
     }),
+    AuthModule,
   ],
 })
 export class AppModule {}

@@ -1,10 +1,7 @@
-import { Session } from '@database/entities';
-
-import { Injectable } from '@nestjs/common';
+import { Session } from '@domain/entities';
 import { EntityManager } from 'typeorm';
-import { BaseRepository } from '../../core';
+import { BaseRepository } from '@core/repositories';
 
-@Injectable()
 export class SessionRepository extends BaseRepository<Session> {
   constructor(entityManager: EntityManager) {
     super(entityManager, Session);

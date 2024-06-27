@@ -12,11 +12,11 @@ export class Permission extends AbstractTableEntity<Permission> {
   description: string;
 
   @OneToMany(() => Role, (role) => role.permissions)
-  roles: Role[];
+  roles?: Role[];
 
   @OneToMany(() => User, (user) => user.userPermissions)
-  users: User[];
+  users?: User[];
 
   @OneToMany(() => UserPermission, (userPermission) => userPermission.user)
-  userPermissions: UserPermission[];
+  userPermissions?: UserPermission[];
 }

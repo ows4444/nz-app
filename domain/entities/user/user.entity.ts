@@ -19,11 +19,11 @@ export class User extends AbstractTableEntity<User> {
   password: string;
 
   @OneToMany(() => UserRole, (userRole) => userRole.user)
-  userRoles: UserRole[];
+  userRoles?: UserRole[];
 
   @OneToMany(() => UserPermission, (userPermission) => userPermission.user)
-  userPermissions: UserPermission[];
+  userPermissions?: UserPermission[];
 
   @OneToMany(() => Trail, (auditLogs) => auditLogs.user)
-  trails: Trail[];
+  trails?: Trail[];
 }

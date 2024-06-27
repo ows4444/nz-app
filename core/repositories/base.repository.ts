@@ -1,7 +1,6 @@
 import { Repository, DeepPartial, FindOptionsWhere, EntityManager, EntityTarget } from 'typeorm';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 
-@Injectable()
 export class BaseRepository<T> {
   private repository: Repository<T>;
 
@@ -12,13 +11,21 @@ export class BaseRepository<T> {
     this.repository = this.entityManager.getRepository(this.entityClass);
   }
 
+  async getEntityName(): Promise<string> {
+    return this.repository.metadata.tableName;
+  }
+
   // Fetch all records
   async findAll(): Promise<T[]> {
     return this.repository.find();
   }
 
+  async findOneBy(options: FindOptionsWhere<T>): Promise<T> {
+    return this.repository.findOneBy(options);
+  }
+
   // Fetch a single record by ID
-  async findOne(id: number): Promise<T> {
+  async findOneById(id: number): Promise<T> {
     const entity = await this.repository.findOneBy({ id } as unknown as FindOptionsWhere<T>);
     if (!entity) {
       throw new NotFoundException(`Entity with ID ${id} not found`);
@@ -28,13 +35,14 @@ export class BaseRepository<T> {
 
   // Create a new record
   async create(entity: DeepPartial<T>): Promise<T> {
-    return this.repository.save(entity);
+    const entityData = await this.repository.create(entity);
+    return this.repository.save(entityData);
   }
 
   // Update an existing record by ID
   async update(id: number, entity: DeepPartial<T>): Promise<T> {
     await this.repository.update(id, entity as any);
-    return this.findOne(id);
+    return this.findOneById(id);
   }
 
   // Delete a record by ID

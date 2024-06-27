@@ -1,0 +1,22 @@
+{
+  "cSpell.words": ["datetime", "reduxjs", "resave", "sess"],
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "DB",
+      "database": "new_schema",
+      "username": "root",
+      "password": "my-secret-pw"
+    }
+  ],
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 5000,
+  "editor.formatOnSave": true
+}

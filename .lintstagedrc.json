@@ -1,0 +1,4 @@
+{
+  "{apps,core,config,domain,infra}/**/*.ts": ["eslint --fix", "prettier --write"],
+  "**/*.json": ["prettier --write"]
+}

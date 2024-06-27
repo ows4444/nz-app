@@ -1,0 +1,8 @@
+- [ ] TODO: create a core Pagination class that will be used by all the apps
+- [ ] TODO: create a core Interceptor class that will be used by all the apps for logging
+- [ ] TODO: create a core Interceptor class that will be used by all the apps for error handling
+- [ ] TODO: create a core Interceptor class that will be used by all the apps for multi-language support
+- [ ] TODO: create a core Logger class that will be used by all the apps
+- [ ] TODO: create a core Error class that will be used by all the apps
+- [ ] TODO: create a multi-language support for the apps
+- [ ] TODO: create a rbac system for the apps

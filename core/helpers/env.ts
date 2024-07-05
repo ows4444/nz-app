@@ -1,10 +1,9 @@
-export default function (env: NodeJS.ProcessEnv) {
+export default function (env: NodeJS.ProcessEnv): string {
   const nodeEnv = env.NODE_ENV || 'development';
   const envFiles = {
     development: '.env',
     test: '.env.test',
   };
-  console.log(`\n\n${envFiles[nodeEnv]}\n\n`);
 
-  return envFiles[nodeEnv] || '.env';
+  return (envFiles[nodeEnv] as string) || '.env';
 }

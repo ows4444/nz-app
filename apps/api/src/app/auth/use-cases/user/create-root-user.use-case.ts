@@ -22,14 +22,10 @@ export class CreateRootUserUseCase {
     } catch (error) {
       await queryRunner.rollbackTransaction();
       if (error instanceof QueryFailedError) {
-        console.log('QueryFailedError', error.driverError.code);
-
         switch (error.driverError.code) {
           case 'ER_DUP_ENTRY':
-            console.log('Root user already exists');
             return false;
           case 'ER_NO_REFERENCED_ROW_2':
-            console.log('User with ID 1 not found');
             return false;
           default:
             throw error;

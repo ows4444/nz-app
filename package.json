@@ -14,11 +14,9 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/api/main",
     "lint": "eslint {apps,config,core,infra,domain}/**/*.ts --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:cov": "jest --coverage  --runInBand",
     "test:e2e": "node scripts/run-e2e-tests.js",
+    "test:integration": "node scripts/run-integration-tests.js",
     "prepare": "husky",
     "tree": "tree -I 'dist|coverage|.git|node_modules|dist|test|*.json|*.js|.*'"
   },

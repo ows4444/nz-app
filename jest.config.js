@@ -19,7 +19,13 @@ module.exports = {
   projects: [
     {
       displayName: 'api:e2e',
-      testMatch: ['<rootDir>/apps/api/test/e2e/**/*.ts'],
+      testMatch: ['<rootDir>/apps/api/test/e2e/**/*spec.ts'],
+      preset: 'ts-jest',
+      ...commonSettings,
+    },
+    {
+      displayName: 'api:integration',
+      testMatch: ['<rootDir>/apps/api/test/integration/**/*spec.ts'],
       preset: 'ts-jest',
       ...commonSettings,
     },
@@ -30,6 +36,6 @@ module.exports = {
   globalSetup: '<rootDir>/test/global-setup.ts',
   globalTeardown: '<rootDir>/test/global-teardown.ts',
   roots: ['<rootDir>/apps/'],
-  collectCoverageFrom: ['<rootDir>/apps/**/src/app/**/*.(t|j)s'],
+  collectCoverageFrom: ['<rootDir>/apps/**/src/app/**/*/spec.(t|j)s'],
   ...commonSettings,
 };

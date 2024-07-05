@@ -12,7 +12,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', 'test/**', 'scripts/**'],
   rules: {
     'no-prototype-builtins': 'off',
     '@typescript-eslint/no-unsafe-call': 'warn',

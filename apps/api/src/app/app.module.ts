@@ -1,27 +1,37 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import TypeORMEnvConfig from '@config/type-orm.config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import TypeORMEnvConfigs from '@config/type-orm.config';
 import { DatabaseModule } from '@infra/database/database.module';
 import { I18nModule, I18nJsonLoader, AcceptLanguageResolver } from 'nestjs-i18n';
+import getEnvPath from '@core/helpers/env';
 import path from 'path';
 import { AuthModule } from './auth/auth.module';
+import I18nEnvConfigs, { I18nEnvConfig } from '@config/i18n.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [TypeORMEnvConfig],
+      envFilePath: getEnvPath(process.env),
+      load: [TypeORMEnvConfigs, I18nEnvConfigs],
     }),
     DatabaseModule,
-    I18nModule.forRoot({
-      fallbackLanguage: 'en',
+    I18nModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
       resolvers: [AcceptLanguageResolver],
-      loaderOptions: {
-        path: path.join(__dirname, '../../../', '/i18n/'),
-        watch: true,
-      },
       loader: I18nJsonLoader,
+      useFactory: (configService: ConfigService) => {
+        return {
+          fallbackLanguage: configService.get<I18nEnvConfig>('i18n').fallbackLanguage,
+          loaderOptions: {
+            path: path.join(__dirname, configService.get<I18nEnvConfig>('i18n').path),
+            watch: configService.get<I18nEnvConfig>('i18n').watch,
+          },
+        };
+      },
     }),
+
     AuthModule,
   ],
 })

@@ -1,11 +1,21 @@
-import { Entity, Index, ManyToOne } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Permission } from '../permission';
-import { AbstractTableEntity } from '@core/entities';
+
+export enum UserPermissionStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+}
 
 @Entity()
 @Index(['user', 'permission'], { unique: true })
-export class UserPermission extends AbstractTableEntity<UserPermission> {
+export class UserPermission extends BaseEntity {
+  @PrimaryGeneratedColumn({ type: 'bigint' })
+  id: number;
+
+  @Column({ type: 'enum', enum: UserPermissionStatus, default: UserPermissionStatus.INACTIVE })
+  status: UserPermissionStatus;
+
   @ManyToOne(() => User, (user) => user.userPermissions)
   user: User;
 

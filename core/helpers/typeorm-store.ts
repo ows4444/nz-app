@@ -68,6 +68,8 @@ export class TypeormStore extends Store {
 
   public async destroy(id: string, callback?: (error: any) => void): Promise<void> {
     try {
+      console.log('destroy', id);
+
       await this.repository.delete(id);
       if (callback) callback(null);
     } catch (error) {

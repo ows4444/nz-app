@@ -25,12 +25,8 @@ export class BaseRepository<T> {
   }
 
   // Fetch a single record by ID
-  async findOneById(id: number): Promise<T> {
-    const entity = await this.repository.findOneBy({ id } as unknown as FindOptionsWhere<T>);
-    if (!entity) {
-      throw new NotFoundException(`Entity with ID ${id} not found`);
-    }
-    return entity;
+  async findOneById(id: number): Promise<T | null> {
+    return await this.repository.findOneBy({ id } as unknown as FindOptionsWhere<T>);
   }
 
   // Create a new record

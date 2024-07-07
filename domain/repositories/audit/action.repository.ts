@@ -13,4 +13,25 @@ export class ActionRepository extends BaseRepository<Action> {
       description: 'Created a user',
     };
   }
+
+  createRoleAction(): DeepPartial<Action> {
+    return {
+      actionType: 'CREATED_A_ROLE',
+      description: 'Created a role',
+    };
+  }
+
+  createPermissionAction(): DeepPartial<Action> {
+    return {
+      actionType: 'CREATED_A_PERMISSION',
+      description: 'Created a permission',
+    };
+  }
+
+  attachPermissionToRoleAction(): DeepPartial<Action> {
+    return {
+      actionType: 'ATTACHED_PERMISSION_TO_ROLE',
+      description: 'Attached permission to role',
+    };
+  }
 }

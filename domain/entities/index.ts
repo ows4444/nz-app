@@ -1,9 +1,26 @@
 import { Action, Trail } from './audit';
-import { Permission } from './permission';
-import { Role, RolePermission } from './role';
-import { User, UserPermission, UserRole } from './user';
+import { Permission, PermissionStatus } from './permission';
+import { Role, RolePermissionStatus, RolePermission, RoleStatus } from './role';
+import { User, UserStatus, UserPermission, UserPermissionStatus, UserRole, UserRoleStatus } from './user';
 import { Session } from './session';
 
 export const entities = [User, Role, UserRole, Permission, RolePermission, UserPermission, Trail, Action, Session];
 
-export { User, Role, UserRole, Permission, RolePermission, UserPermission, Trail, Action, Session };
+export {
+  User,
+  Role,
+  UserRole,
+  Permission,
+  RolePermission,
+  UserPermission,
+  Trail,
+  Action,
+  Session,
+  // Enums
+  UserStatus,
+  RoleStatus,
+  UserRoleStatus,
+  PermissionStatus,
+  RolePermissionStatus,
+  UserPermissionStatus,
+};

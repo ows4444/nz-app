@@ -1,15 +1,24 @@
-import { Entity, Column, OneToMany } from 'typeorm';
-import { AbstractTableEntity } from '@core/entities';
+import { Entity, Column, OneToMany, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../role';
 import { User, UserPermission } from '../user';
 
+export enum PermissionStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+}
 @Entity()
-export class Permission extends AbstractTableEntity<Permission> {
+export class Permission extends BaseEntity {
+  @PrimaryGeneratedColumn({ type: 'bigint' })
+  id: number;
+
   @Column({ unique: true, nullable: false })
   name: string;
 
   @Column()
   description: string;
+
+  @Column({ type: 'enum', enum: PermissionStatus, default: PermissionStatus.INACTIVE })
+  status: PermissionStatus;
 
   @OneToMany(() => Role, (role) => role.permissions)
   roles?: Role[];

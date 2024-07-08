@@ -28,6 +28,20 @@ export class ActionRepository extends BaseRepository<Action> {
     };
   }
 
+  updatePermissionAction(): DeepPartial<Action> {
+    return {
+      actionType: 'UPDATED_A_PERMISSION',
+      description: 'Updated a permission',
+    };
+  }
+
+  deletePermissionAction(): DeepPartial<Action> {
+    return {
+      actionType: 'DELETED_A_PERMISSION',
+      description: 'Deleted a permission',
+    };
+  }
+
   attachPermissionToRoleAction(): DeepPartial<Action> {
     return {
       actionType: 'ATTACHED_PERMISSION_TO_ROLE',

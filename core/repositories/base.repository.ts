@@ -1,4 +1,4 @@
-import { Repository, DeepPartial, FindOptionsWhere, EntityManager, EntityTarget } from 'typeorm';
+import { Repository, DeepPartial, FindOptionsWhere, EntityManager, EntityTarget, FindManyOptions } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 
 export class BaseRepository<T> {
@@ -18,6 +18,10 @@ export class BaseRepository<T> {
   // Fetch all records
   async findAll(): Promise<T[]> {
     return this.repository.find();
+  }
+
+  async findAllBy(options: FindManyOptions<T>): Promise<T[]> {
+    return this.repository.find(options);
   }
 
   async findOneBy(options: FindOptionsWhere<T>): Promise<T> {

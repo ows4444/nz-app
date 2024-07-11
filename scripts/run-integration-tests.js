@@ -7,7 +7,7 @@ if (!project) {
   process.exit(1);
 }
 
-const command = `npx jest --selectProjects=${project}:integration --watchAll --no-cache`;
+const command = `npx jest --selectProjects=${project}:integration --watchAll --no-cache --runInBand --forceExit --detectOpenHandles`;
 
 try {
   execSync(command, { stdio: 'inherit' });

@@ -29,6 +29,7 @@ export class DeletePermissionUseCase {
         oldValue: JSON.stringify(permission),
         newValue: JSON.stringify(null),
       });
+      await queryRunner.commitTransaction();
       return permission;
     } catch (error) {
       await queryRunner.rollbackTransaction();

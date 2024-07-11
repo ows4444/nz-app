@@ -12,14 +12,10 @@ export class ListAllPermissionUseCase {
 
     try {
       await queryRunner.connect();
-      await queryRunner.startTransaction();
       const entityManager = queryRunner.manager;
       const repo = new Repository(entityManager);
-      return await repo.permission.findAll();
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
 
-      throw error;
+      return await repo.permission.findAll();
     } finally {
       await queryRunner.release();
     }

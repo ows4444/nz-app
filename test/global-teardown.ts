@@ -19,8 +19,8 @@ module.exports = async () => {
     const queryRunner = AppDataSource.createQueryRunner();
     await queryRunner.connect();
 
-    // Drop the existing database
-    await queryRunner.query(`DROP DATABASE IF EXISTS \`${DB_NAME}\``);
+    // // Drop the existing database
+    // await queryRunner.query(`DROP DATABASE IF EXISTS \`${DB_NAME}\``);
 
     console.log(`Database ${DB_NAME} has been dropped.`);
   } catch (error) {

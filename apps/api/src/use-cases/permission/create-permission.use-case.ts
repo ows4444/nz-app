@@ -21,6 +21,7 @@ export class CreatePermissionUseCase {
       const action = await repo.action.create(repo.action.createPermissionAction());
       const permission = await repo.permission.create({ name: PermissionPayload.name, description: PermissionPayload.description });
       await repo.trail.create({ action, user, entityId: permission.id, entityName: await repo.permission.getEntityName(), newValue: JSON.stringify(permission) });
+      await queryRunner.commitTransaction();
       return permission;
     } catch (error) {
       await queryRunner.rollbackTransaction();

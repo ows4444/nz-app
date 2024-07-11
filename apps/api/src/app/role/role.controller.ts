@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { CreateRoleUseCase, AttachPermissionToRoleUseCase, ListAllRolePermissionsUseCase, ListAllRolesUseCase } from '@apps/api/src/use-cases/role';
+import { CreateRoleUseCase, AttachPermissionToRoleUseCase, ListAllRolePermissionsUseCase, ListAllRolesUseCase, DetachPermissionFromRoleUseCase } from '@apps/api/src/use-cases/role';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { Role, RolePermission, User } from '@domain/entities';
 import { RequestUser } from '@core/decorators/user.decorator';
@@ -12,6 +12,7 @@ export class RoleController {
     private readonly createRoleUseCase: CreateRoleUseCase,
     private readonly listAllRolesUseCase: ListAllRolesUseCase,
     private readonly attachPermissionToRoleUseCase: AttachPermissionToRoleUseCase,
+    private readonly detachPermissionFromRoleUseCase: DetachPermissionFromRoleUseCase,
     private readonly listAllRolePermissionsUseCase: ListAllRolePermissionsUseCase,
   ) {}
 
@@ -36,6 +37,12 @@ export class RoleController {
   @Patch('/:roleId/permissions/:permissionId')
   @UseGuards(AuthGuard)
   async attachPermission(@Param() { permissionId, roleId }: AttachRolePermissionDto, @RequestUser() user: User): Promise<RolePermission> {
-    return await this.attachPermissionToRoleUseCase.execute(permissionId, roleId, user);
+    return await this.attachPermissionToRoleUseCase.execute(roleId, permissionId, user);
+  }
+
+  @Patch('/:roleId/permissions/:permissionId')
+  @UseGuards(AuthGuard)
+  async detachPermission(@Param() { permissionId, roleId }: AttachRolePermissionDto, @RequestUser() user: User): Promise<RolePermission> {
+    return await this.detachPermissionFromRoleUseCase.execute(roleId, permissionId, user);
   }
 }

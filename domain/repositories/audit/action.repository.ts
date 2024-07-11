@@ -14,6 +14,20 @@ export class ActionRepository extends BaseRepository<Action> {
     };
   }
 
+  attachRoleToUserAction(): DeepPartial<Action> {
+    return {
+      actionType: 'ATTACHED_ROLE_TO_USER',
+      description: 'Attached role to user',
+    };
+  }
+
+  detachRoleToUserAction(): DeepPartial<Action> {
+    return {
+      actionType: 'DETACHED_ROLE_TO_USER',
+      description: 'Detached role to user',
+    };
+  }
+
   createRoleAction(): DeepPartial<Action> {
     return {
       actionType: 'CREATED_A_ROLE',
@@ -46,6 +60,13 @@ export class ActionRepository extends BaseRepository<Action> {
     return {
       actionType: 'ATTACHED_PERMISSION_TO_ROLE',
       description: 'Attached permission to role',
+    };
+  }
+
+  detachPermissionFromRoleAction(): DeepPartial<Action> {
+    return {
+      actionType: 'DETACHED_PERMISSION_FROM_ROLE',
+      description: 'Detached permission from role',
     };
   }
 }

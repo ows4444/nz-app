@@ -4,7 +4,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { DataSource } from 'typeorm';
 
 @Injectable()
-export class AttachPermissionToRoleUseCase {
+export class DetachPermissionFromRoleUseCase {
   constructor(private readonly dataSource: DataSource) {}
 
   async execute(roleId: number, permissionId: number, user: User): Promise<RolePermission> {
@@ -26,13 +26,16 @@ export class AttachPermissionToRoleUseCase {
         throw new NotFoundException('Permission not found');
       }
 
-      if (await repo.rolePermission.findOneBy({ permission: permission, role: role })) {
-        throw new ConflictException('Permission already attached to role');
+      const rolePermission = await repo.rolePermission.findOneBy({ permission: permission, role: role });
+      if (!rolePermission) {
+        throw new ConflictException('Permission not attached to role');
       }
 
-      const action = await repo.action.create(repo.action.attachPermissionToRoleAction());
-      const rolePermission = await repo.rolePermission.create({ permission, role });
-      await repo.trail.create({ action, user, entityId: rolePermission.id, entityName: await repo.rolePermission.getEntityName(), newValue: JSON.stringify(rolePermission) });
+      const action = await repo.action.create(repo.action.detachPermissionFromRoleAction());
+
+      await repo.rolePermission.delete(rolePermission.id);
+      await repo.trail.create({ action, user, entityId: rolePermission.id, entityName: await repo.rolePermission.getEntityName(), oldValue: JSON.stringify(rolePermission) });
+
       await queryRunner.commitTransaction();
       return rolePermission;
     } catch (error) {

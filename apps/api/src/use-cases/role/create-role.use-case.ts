@@ -21,6 +21,7 @@ export class CreateRoleUseCase {
       const action = await repo.action.create(repo.action.createRoleAction());
       const role = await repo.role.create({ name: rolePayload.name, description: rolePayload.description });
       await repo.trail.create({ action, user, entityId: role.id, entityName: await repo.role.getEntityName(), newValue: JSON.stringify(role) });
+      await queryRunner.commitTransaction();
       return role;
     } catch (error) {
       await queryRunner.rollbackTransaction();

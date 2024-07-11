@@ -12,7 +12,6 @@ export class ListAllRolePermissionsUseCase {
 
     try {
       await queryRunner.connect();
-      await queryRunner.startTransaction();
       const entityManager = queryRunner.manager;
       const repo = new Repository(entityManager);
       const role = await repo.role.findOneById(roleId);
@@ -28,10 +27,6 @@ export class ListAllRolePermissionsUseCase {
           },
         },
       });
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
-
-      throw error;
     } finally {
       await queryRunner.release();
     }

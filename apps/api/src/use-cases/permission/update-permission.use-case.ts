@@ -29,6 +29,7 @@ export class UpdatePermissionUseCase {
         oldValue: JSON.stringify(permission),
         newValue: JSON.stringify(updatedPermission),
       });
+      await queryRunner.commitTransaction();
       return updatedPermission;
     } catch (error) {
       await queryRunner.rollbackTransaction();

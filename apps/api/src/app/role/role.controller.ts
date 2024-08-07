@@ -5,8 +5,10 @@ import { Role, RolePermission, User } from '@domain/entities';
 import { RequestUser } from '@core/decorators/user.decorator';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { AttachRolePermissionDto } from './dto/attach-role-permission.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('roles')
+@ApiTags('Roles')
 export class RoleController {
   constructor(
     private readonly createRoleUseCase: CreateRoleUseCase,

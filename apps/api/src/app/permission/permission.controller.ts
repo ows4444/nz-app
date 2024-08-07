@@ -6,8 +6,11 @@ import { RequestUser } from '@core/decorators/user.decorator';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { PermissionParamDto } from './dto/param-permission.dto';
+import { DeletePermissionDto } from './dto/delete-permission.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('permissions')
+@ApiTags('Permissions')
 export class PermissionController {
   constructor(
     private readonly createPermissionUseCase: CreatePermissionUseCase,
@@ -42,7 +45,7 @@ export class PermissionController {
 
   @Delete('/:permissionId')
   @UseGuards(AuthGuard)
-  async deletePermission(@Param() param: PermissionParamDto, @RequestUser() user: User): Promise<Permission> {
+  async deletePermission(@Param() param: DeletePermissionDto, @RequestUser() user: User): Promise<Permission> {
     return this.deletePermissionUseCase.execute(param.permissionId, user);
   }
 }

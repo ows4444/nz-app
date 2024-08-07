@@ -4,19 +4,20 @@ import { LoginDto } from './dto/login.dto';
 import { Response } from 'express';
 import { Session as ExpressSession } from 'express-session';
 import { AuthGuard } from '@core/guards/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController {
   constructor(private readonly loginUserUseCase: LoginUserUseCase) {}
 
   @Post('login')
   async login(@Body() payload: LoginDto, @Session() session: ExpressSession, @Res() res: Response): Promise<any> {
     const user = await this.loginUserUseCase.execute(payload.email, payload.password);
-
     if (user) {
       delete user.password;
       session['user'] = user;
-      return res.status(200).send({ ok: true, message: 'Login success ' });
+      return res.status(200).send({ ok: true, message: 'Login success' });
     }
   }
 

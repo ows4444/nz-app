@@ -3,7 +3,7 @@ import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   const replServer = await repl(AppModule);
-  replServer.setupHistory('.nest/auth.repl.log', (err) => {
+  replServer.setupHistory('.nest/api.repl.log', (err) => {
     if (err) {
       console.error(err);
     }

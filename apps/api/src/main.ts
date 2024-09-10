@@ -11,6 +11,9 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transformOptions: { enableImplicitConversion: true },
       exceptionFactory: (errors) => {
         throw new BadRequestException({
           message: 'Validation failed',

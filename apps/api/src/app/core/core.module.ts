@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ComponentController } from './component/component.controller';
 import { ThemeController } from './theme/theme.controller';
-import ComponentUseCases from '@apps/api/src/use-cases/core/component';
-import ThemeUseCases from '@apps/api/src/use-cases/core/theme';
+import CoreUseCases from '@apps/api/src/use-cases/core';
 @Module({
   controllers: [ComponentController, ThemeController],
-  providers: [...ComponentUseCases, ...ThemeUseCases],
+  providers: [...CoreUseCases],
 })
 export class CoreModule {}

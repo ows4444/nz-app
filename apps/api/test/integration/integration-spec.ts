@@ -1,10 +1,11 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { AppModule } from '@apps/api/src/app/app.module';
-import { CreateRootUserUseCase, CreateUserUseCase, LoginUserUseCase, AttachRoleToUserUseCase, DetachRoleFromUserUseCase } from '@apps/api/src/use-cases/user';
-import { CreatePermissionUseCase, DeletePermissionUseCase, ListAllPermissionUseCase, UpdatePermissionUseCase } from '@apps/api/src/use-cases/permission';
-import { CreateRoleUseCase, AttachPermissionToRoleUseCase, ListAllRolePermissionsUseCase, ListAllRolesUseCase, DetachPermissionFromRoleUseCase } from '@apps/api/src/use-cases/role';
-import { PermissionStatus, User } from '@domain/entities';
 import { Test, TestingModule } from '@nestjs/testing';
+
+import { AppModule } from '@apps/api/src/app/app.module';
+import { CreatePermissionUseCase, DeletePermissionUseCase, ListAllPermissionUseCase, UpdatePermissionUseCase } from '@apps/api/src/use-cases/permission';
+import { AttachPermissionToRoleUseCase, CreateRoleUseCase, DetachPermissionFromRoleUseCase, ListAllRolePermissionsUseCase, ListAllRolesUseCase } from '@apps/api/src/use-cases/role';
+import { AttachRoleToUserUseCase, CreateRootUserUseCase, CreateUserUseCase, DetachRoleFromUserUseCase, LoginUserUseCase } from '@apps/api/src/use-cases/user';
+import { PermissionStatus, User } from '@domain/entities';
 
 describe('All Integration Flow', () => {
   let moduleRef: TestingModule;

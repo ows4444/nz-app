@@ -1,6 +1,7 @@
 import { EntityManager } from 'typeorm';
-import { ComponentRepository, ThemeRepository } from './core';
+
 import { ActionRepository, TrailRepository } from './audit';
+import { ComponentRepository, ThemeRepository } from './core';
 import { PermissionRepository } from './permission';
 import { RolePermissionRepository, RoleRepository } from './role';
 import { SessionRepository } from './session';

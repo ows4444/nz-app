@@ -1,17 +1,17 @@
 import { Action, Trail } from './audit';
+import { Component, Property, Theme } from './core';
 import { Permission, PermissionStatus } from './permission';
-import { Role, RolePermissionStatus, RolePermission, RoleStatus } from './role';
-import { User, UserStatus, UserPermission, UserPermissionStatus, UserRole, UserRoleStatus } from './user';
+import { Role, RolePermission, RolePermissionStatus, RoleStatus } from './role';
 import { Session } from './session';
+import { User, UserPermission, UserPermissionStatus, UserRole, UserRoleStatus, UserStatus } from './user';
 
-import { Component, Theme } from './core';
-
-export const entities = [Component, Theme, User, Role, UserRole, Permission, RolePermission, UserPermission, Trail, Action, Session];
+export const entities = [Component, Theme, Property, User, Role, UserRole, Permission, RolePermission, UserPermission, Trail, Action, Session];
 
 export {
   // Core
   Component,
   Theme,
+  Property,
   // Entities
   User,
   Role,

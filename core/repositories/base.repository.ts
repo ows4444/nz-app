@@ -1,5 +1,5 @@
-import { Repository, DeepPartial, FindOptionsWhere, EntityManager, EntityTarget, FindManyOptions } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
+import { DeepPartial, EntityManager, EntityTarget, FindManyOptions, FindOptionsWhere, Repository } from 'typeorm';
 
 export class BaseRepository<T> {
   private repository: Repository<T>;

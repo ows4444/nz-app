@@ -1,5 +1,5 @@
-import { LessThan, Repository } from 'typeorm';
 import { Store } from 'express-session';
+import { LessThan, Repository } from 'typeorm';
 
 export interface SessionEntity {
   id: string;

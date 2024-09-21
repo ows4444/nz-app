@@ -1,4 +1,4 @@
-import { plainToClass, ClassConstructor } from 'class-transformer';
+import { ClassConstructor, plainToClass } from 'class-transformer';
 import { validateSync, ValidationError } from 'class-validator';
 
 function validateConfig<T extends object>(config: T, envVariablesClass: ClassConstructor<T>): T {

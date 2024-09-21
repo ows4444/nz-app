@@ -12,6 +12,7 @@ import { CookiesMiddleware } from '@core/middlewares/cookies.middleware';
 import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
 import { UserModule } from './user/user.module';
+import { CoreModule } from './core/core.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     RoleModule,
     PermissionModule,
+    CoreModule,
   ],
 })
 export class AppModule implements NestModule {

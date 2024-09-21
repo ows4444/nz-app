@@ -1,4 +1,5 @@
 import { EntityManager } from 'typeorm';
+import { ComponentRepository, ThemeRepository } from './core';
 import { ActionRepository, TrailRepository } from './audit';
 import { PermissionRepository } from './permission';
 import { RolePermissionRepository, RoleRepository } from './role';
@@ -6,6 +7,7 @@ import { SessionRepository } from './session';
 import { UserPermissionRepository, UserRepository, UserRoleRepository } from './user';
 
 export const Repositories = [
+  ComponentRepository,
   UserRepository,
   UserRoleRepository,
   UserPermissionRepository,
@@ -18,6 +20,8 @@ export const Repositories = [
 ];
 
 export class Repository {
+  public readonly component: ComponentRepository;
+  public readonly theme: ThemeRepository;
   public readonly user: UserRepository;
   public readonly userRole: UserRoleRepository;
   public readonly userPermission: UserPermissionRepository;
@@ -29,6 +33,8 @@ export class Repository {
   public readonly trail: TrailRepository;
 
   constructor(entityManager: EntityManager) {
+    this.component = new ComponentRepository(entityManager);
+    this.theme = new ThemeRepository(entityManager);
     this.user = new UserRepository(entityManager);
     this.userRole = new UserRoleRepository(entityManager);
     this.userPermission = new UserPermissionRepository(entityManager);
@@ -41,4 +47,16 @@ export class Repository {
   }
 }
 
-export { UserRepository, UserRoleRepository, UserPermissionRepository, SessionRepository, RoleRepository, RolePermissionRepository, PermissionRepository, ActionRepository, TrailRepository };
+export {
+  ComponentRepository,
+  ThemeRepository,
+  UserRepository,
+  UserRoleRepository,
+  UserPermissionRepository,
+  SessionRepository,
+  RoleRepository,
+  RolePermissionRepository,
+  PermissionRepository,
+  ActionRepository,
+  TrailRepository,
+};

@@ -35,7 +35,7 @@ export class BaseRepository<T> {
 
   // Create a new record
   async create(entity: DeepPartial<T>): Promise<T> {
-    const entityData = await this.repository.create(entity);
+    const entityData = this.repository.create(entity);
     return this.repository.save(entityData);
   }
 

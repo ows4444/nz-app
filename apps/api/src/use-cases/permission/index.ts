@@ -1,5 +1,5 @@
 import { CreatePermissionUseCase } from './create-permission.use-case';
-import { DeletePermissionUseCase } from './delete-permission.use-case copy';
+import { DeletePermissionUseCase } from './delete-permission.use-case';
 import { ListAllPermissionUseCase } from './list-all-permission.use-case';
 import { UpdatePermissionUseCase } from './update-permission.use-case';
 

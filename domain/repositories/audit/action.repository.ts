@@ -69,4 +69,46 @@ export class ActionRepository extends BaseRepository<Action> {
       description: 'Detached permission from role',
     };
   }
+
+  createComponentAction(): DeepPartial<Action> {
+    return {
+      actionType: 'CREATED_A_COMPONENT',
+      description: 'Created a component',
+    };
+  }
+
+  updateComponentAction(): DeepPartial<Action> {
+    return {
+      actionType: 'UPDATED_A_COMPONENT',
+      description: 'Updated a component',
+    };
+  }
+
+  deleteComponentAction(): DeepPartial<Action> {
+    return {
+      actionType: 'DELETED_A_COMPONENT',
+      description: 'Deleted a component',
+    };
+  }
+
+  createThemeAction(): DeepPartial<Action> {
+    return {
+      actionType: 'CREATED_A_THEME',
+      description: 'Created a theme',
+    };
+  }
+
+  updateThemeAction(): DeepPartial<Action> {
+    return {
+      actionType: 'UPDATED_A_THEME',
+      description: 'Updated a theme',
+    };
+  }
+
+  deleteThemeAction(): DeepPartial<Action> {
+    return {
+      actionType: 'DELETED_A_THEME',
+      description: 'Deleted a theme',
+    };
+  }
 }

@@ -1,3 +1,47 @@
 {
-  "cSpell.words": ["ianvs", "nodenext"]
+  "cSpell.words": ["ianvs", "nodenext"],
+  "files.autoSave": "off",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/.git/**": true
+  },
+  "search.exclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/.git/**": true
+  },
+  "explorer.excludeGitIgnore": true,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.ts, ${capture}.spec.ts"
+    // "conf": "*.md,webpack.config.js,.lintstagedrc*,tsconfig.json,tsconfig.*.json,nx.json,package.json,yarn.lock,.prettierrc*,.prettierignore,eslint.config.mjs,.gitignore,.nvmrc,.spec.swcrc",
+    // "test": "jest.preset.js,jest.config.ts"
+  },
+  "explorer.sortOrder": "modified",
+
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    ".yarn*": true,
+    "**/*-e2e": true,
+    "**/assets": true,
+    "**/dist": true,
+    "**/out-tsc": true,
+    "**/node_modules": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  }
 }

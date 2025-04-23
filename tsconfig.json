@@ -8,6 +8,9 @@
     },
     {
       "path": "./libs/domain"
+    },
+    {
+      "path": "./libs/application"
     }
   ]
 }

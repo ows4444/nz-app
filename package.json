@@ -42,6 +42,7 @@
   "workspaces": [
     "packages/*",
     "libs/shared",
-    "libs/domain"
+    "libs/domain",
+    "libs/application"
   ]
 }

@@ -11,6 +11,9 @@
     },
     {
       "path": "./libs/application"
+    },
+    {
+      "path": "./libs/infrastructure"
     }
   ]
 }

@@ -43,6 +43,7 @@
     "packages/*",
     "libs/shared",
     "libs/domain",
-    "libs/application"
+    "libs/application",
+    "libs/infrastructure"
   ]
 }

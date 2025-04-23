@@ -23,6 +23,15 @@
     },
     {
       "path": "./apps/auth-service"
+    },
+    {
+      "path": "./libs/shared/config"
+    },
+    {
+      "path": "./libs/shared/config"
+    },
+    {
+      "path": "./libs/shared/logger"
     }
   ]
 }

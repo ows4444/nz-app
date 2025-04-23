@@ -1,5 +1,5 @@
 {
-  "name": "@nz/shared",
+  "name": "@nz/config",
   "version": "0.0.1",
   "private": true,
   "main": "./dist/index.js",
@@ -15,7 +15,7 @@
     }
   },
   "nx": {
-    "name": "shared"
+    "name": "config"
   },
   "dependencies": {
     "tslib": "^2.3.0"

@@ -44,6 +44,7 @@
     "libs/shared",
     "libs/domain",
     "libs/application",
-    "libs/infrastructure"
+    "libs/infrastructure",
+    "libs/presentation"
   ]
 }

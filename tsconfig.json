@@ -4,9 +4,6 @@
   "files": [],
   "references": [
     {
-      "path": "./libs/shared"
-    },
-    {
       "path": "./libs/domain"
     },
     {
@@ -28,10 +25,13 @@
       "path": "./libs/shared/config"
     },
     {
-      "path": "./libs/shared/config"
+      "path": "./libs/shared/logger"
     },
     {
-      "path": "./libs/shared/logger"
+      "path": "./libs/shared/utils"
+    },
+    {
+      "path": "./libs/shared/const"
     }
   ]
 }

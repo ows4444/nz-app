@@ -1,0 +1,7 @@
+export enum Status {
+  ACTIVE = 1, // 0000 0001
+  INACTIVE = 2, // 0000 0010
+  DELETED = 4, // 0000 0100
+  SUSPENDED = 8, // 0000 1000
+  PENDING = 16, // 0001 0000
+}

@@ -5,6 +5,12 @@ module.exports = {
     const relativeFiles = files.map((file) => path.relative(process.cwd(), file));
     return [`nx affected --target=typecheck --files=${relativeFiles.join(',')}`];
   },
+
+  '{apps,libs,tools}/**/*.{ts,json}': (files) => {
+    const relativeFiles = files.map((file) => path.relative(process.cwd(), file));
+    return [`nx affected --target=lint --files=${relativeFiles.join(',')}`];
+  },
+
   '{apps,libs,tools}/**/*.{js,ts,jsx,tsx,json}': (files) => {
     const relativeFiles = files.map((file) => path.relative(process.cwd(), file));
     const filesArg = relativeFiles.map((file) => `"${file}"`).join(' ');

@@ -3,7 +3,7 @@ import type { UserAccountRepository } from '@nz/domain-auth';
 import { InjectUserAccountRepository, UserAccountEntity } from '@nz/domain-auth';
 
 @Injectable()
-export class UserAccountService {
+export class AuthService {
   constructor(@InjectUserAccountRepository() private readonly userAccountRepository: UserAccountRepository) {}
 
   async getUserDetail(id: string): Promise<UserAccountEntity> {

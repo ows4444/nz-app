@@ -1,10 +1,25 @@
-import { Module } from '@nestjs/common';
-import { UserAccountService } from '@nz/application-auth';
+import { Module, Provider } from '@nestjs/common';
+
+import { AuthService } from '@nz/application-auth';
+import { SharedConfigModule } from '@nz/config';
+import { USER_ACCOUNT_REPOSITORY } from '@nz/domain-auth';
+import { UserAccountEntityORM } from '@nz/infrastructure-auth';
 import { AuthController } from '@nz/presentation-auth';
 
 @Module({
-  imports: [],
+  imports: [
+    SharedConfigModule.forRoot({
+      isGlobal: true,
+      expandVariables: true,
+    }),
+  ],
   controllers: [AuthController],
-  providers: [UserAccountService],
+  providers: ([] as Provider[]).concat([
+    AuthService,
+    {
+      provide: USER_ACCOUNT_REPOSITORY,
+      useClass: UserAccountEntityORM,
+    },
+  ]),
 })
 export class AppModule {}

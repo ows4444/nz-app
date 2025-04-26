@@ -7,6 +7,15 @@
       "path": "../../libs/presentation/auth"
     },
     {
+      "path": "../../libs/infrastructure/auth"
+    },
+    {
+      "path": "../../libs/domain/auth"
+    },
+    {
+      "path": "../../libs/shared/config"
+    },
+    {
       "path": "../../libs/application/auth"
     },
     {

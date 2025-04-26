@@ -1,1 +1,1 @@
-export * from './lib/presentation-auth.js';
+export * from './lib/auth.controller';

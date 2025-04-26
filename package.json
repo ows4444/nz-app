@@ -69,6 +69,10 @@
     "libs/shared/config",
     "libs/shared/logger",
     "libs/shared/utils",
-    "libs/shared/const"
+    "libs/shared/const",
+    "libs/domain/auth",
+    "libs/application/auth",
+    "libs/infrastructure/auth",
+    "libs/presentation/auth"
   ]
 }

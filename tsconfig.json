@@ -4,24 +4,6 @@
   "files": [],
   "references": [
     {
-      "path": "./libs/domain"
-    },
-    {
-      "path": "./libs/application"
-    },
-    {
-      "path": "./libs/infrastructure"
-    },
-    {
-      "path": "./libs/presentation"
-    },
-    {
-      "path": "./apps/auth-service-e2e"
-    },
-    {
-      "path": "./apps/auth-service"
-    },
-    {
       "path": "./libs/shared/config"
     },
     {
@@ -32,6 +14,18 @@
     },
     {
       "path": "./libs/shared/const"
+    },
+    {
+      "path": "./libs/domain/auth"
+    },
+    {
+      "path": "./libs/application/auth"
+    },
+    {
+      "path": "./libs/infrastructure/auth"
+    },
+    {
+      "path": "./libs/presentation/auth"
     }
   ]
 }

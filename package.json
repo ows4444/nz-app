@@ -74,6 +74,7 @@
     "libs/application/auth",
     "libs/infrastructure/auth",
     "libs/presentation/auth",
-    "libs/shared/kernel"
+    "libs/shared/kernel",
+    "libs/shared/infrastructure"
   ]
 }

@@ -22,6 +22,8 @@
     "name": "application-auth"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@nestjs/common": "^10.0.2",
+    "@nz/domain-auth": "0.0.1"
   }
 }

@@ -22,6 +22,9 @@
     "@nestjs/common": "^10.0.2",
     "@nz/const": "0.0.1",
     "express": "4.21.2",
-    "@babel/code-frame": "^7.26.2"
+    "@babel/code-frame": "^7.26.2",
+    "error-stack-parser": "^2.1.4",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   }
 }

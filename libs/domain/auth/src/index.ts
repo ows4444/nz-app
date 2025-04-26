@@ -1,1 +1,3 @@
-export * from './lib/domain-auth.js';
+export * from './lib/aggregates';
+export * from './lib/entities';
+export * from './lib/repositories';

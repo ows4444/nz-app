@@ -16,7 +16,7 @@
     "**/.git/**": true
   },
   "explorer.excludeGitIgnore": true,
-  "explorer.fileNesting.enabled": true,
+  // "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.ts, ${capture}.spec.ts"

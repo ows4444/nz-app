@@ -18,8 +18,6 @@
     "name": "const"
   },
   "dependencies": {
-    "tslib": "^2.3.0",
-    "@nestjs/common": "^10.0.2",
-    "@nestjs/swagger": "^11.1.5"
+    "tslib": "^2.3.0"
   }
 }

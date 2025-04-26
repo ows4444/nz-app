@@ -22,7 +22,6 @@
     "name": "presentation-auth"
   },
   "dependencies": {
-    "tslib": "^2.3.0",
-    "@nestjs/common": "^10.0.2"
+    "tslib": "^2.3.0"
   }
 }

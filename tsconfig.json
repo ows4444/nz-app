@@ -26,6 +26,9 @@
     },
     {
       "path": "./libs/presentation/auth"
+    },
+    {
+      "path": "./libs/shared/kernel"
     }
   ]
 }

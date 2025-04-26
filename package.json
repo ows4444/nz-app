@@ -73,6 +73,7 @@
     "libs/domain/auth",
     "libs/application/auth",
     "libs/infrastructure/auth",
-    "libs/presentation/auth"
+    "libs/presentation/auth",
+    "libs/shared/kernel"
   ]
 }

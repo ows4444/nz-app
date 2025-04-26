@@ -22,6 +22,12 @@
     "name": "shared-infrastructure"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@nestjs/common": "^10.0.2",
+    "express": "4.21.2",
+    "class-transformer": "^0.5.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.0",
+    "@nz/utils": "0.0.1"
   }
 }

@@ -6,7 +6,7 @@ import { InjectUserAccountRepository, UserAccountEntity } from '@nz/domain-auth'
 export class RegisterUserUseCase {
   constructor(@InjectUserAccountRepository() private readonly userAccountRepository: UserAccountRepository) {}
 
-  async execute(user: Pick<UserAccountEntity, 'username' | 'email' | 'passwordHash'>): Promise<UserAccountEntity> {
+  async execute(user: Pick<UserAccountEntity, 'username' | 'email' | 'password'>): Promise<UserAccountEntity> {
     const userExists = await this.userAccountRepository.findOneByEmailOrUsername(user.email, user.username);
 
     if (userExists) {

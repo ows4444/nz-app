@@ -1,5 +1,6 @@
 import { Status } from '@nz/const';
 import { Bitwise, State } from '@nz/kernel';
+import bcrypt from 'bcrypt';
 
 export class UserAccountEntity extends State.StatefulEntity<Status> {
   public static allowedFlags: number = Status.ACTIVE | Status.INACTIVE | Status.DELETED;
@@ -9,6 +10,7 @@ export class UserAccountEntity extends State.StatefulEntity<Status> {
 
   public username: string;
   public passwordHash: string;
+  public password: string;
   public email: string;
   public emailVerified: boolean;
   public status: Status;
@@ -17,6 +19,7 @@ export class UserAccountEntity extends State.StatefulEntity<Status> {
     id,
     username,
     passwordHash,
+    password,
     email,
     emailVerified = false,
     status = Status.PENDING,
@@ -24,6 +27,7 @@ export class UserAccountEntity extends State.StatefulEntity<Status> {
     id: string;
     username: string;
     emailVerified?: boolean;
+    password: string;
     passwordHash: string;
     email: string;
     status: Status;
@@ -31,7 +35,8 @@ export class UserAccountEntity extends State.StatefulEntity<Status> {
     super(status, UserAccountEntity.validator);
     this.id = id;
     this.username = username;
-    this.passwordHash = passwordHash;
+    this.password = password;
+    this.passwordHash = passwordHash ?? bcrypt.hashSync(password, 10);
     this.emailVerified = emailVerified;
     this.email = email;
     this.status = this.getState();
@@ -61,6 +66,10 @@ export class UserAccountEntity extends State.StatefulEntity<Status> {
     this.transitionState(newState);
     this.status = this.getState();
     this.setStateMessage();
+  }
+
+  setPassword(password: string): void {
+    this.passwordHash = bcrypt.hashSync(password, 10);
   }
 
   activate(): void {

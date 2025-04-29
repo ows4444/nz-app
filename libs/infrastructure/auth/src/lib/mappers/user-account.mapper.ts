@@ -7,6 +7,7 @@ export class UserAccountMapper {
       id: user.id,
       email: user.email,
       passwordHash: user.passwordHash,
+      password: '',
       username: user.username,
       emailVerified: user.emailVerified,
       status: user.status,

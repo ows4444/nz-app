@@ -7,9 +7,6 @@ export class AuthService {
   constructor(private readonly registerUserUseCase: RegisterUserUseCase) {}
 
   public async register(payload: { username: string; email: string; password: string }) {
-    return this.registerUserUseCase.execute({
-      ...payload,
-      passwordHash: payload.password,
-    });
+    return this.registerUserUseCase.execute(payload);
   }
 }

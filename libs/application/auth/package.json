@@ -24,8 +24,6 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@nz/domain-auth": "0.0.1",
-    "@nestjs/swagger": "^11.1.5",
-    "class-validator": "^0.14.1",
     "@nestjs/common": "^10.0.2"
   }
 }

@@ -2,10 +2,10 @@ import { Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AuthService } from '@nz/application-auth';
+import { AuthService, UseCases } from '@nz/application-auth';
 import { SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
 import { USER_ACCOUNT_REPOSITORY } from '@nz/domain-auth';
-import { UserAccountEntityORM } from '@nz/infrastructure-auth';
+import { TypeormUserAccountRepository, UserAccountEntityORM } from '@nz/infrastructure-auth';
 import { AuthController } from '@nz/presentation-auth';
 
 @Module({
@@ -24,12 +24,15 @@ import { AuthController } from '@nz/presentation-auth';
     }),
   ],
   controllers: [AuthController],
-  providers: ([] as Provider[]).concat([
-    AuthService,
-    {
-      provide: USER_ACCOUNT_REPOSITORY,
-      useClass: UserAccountEntityORM,
-    },
-  ]),
+  providers: ([] as Provider[]).concat(
+    [
+      AuthService,
+      {
+        provide: USER_ACCOUNT_REPOSITORY,
+        useClass: TypeormUserAccountRepository,
+      },
+    ],
+    UseCases,
+  ),
 })
 export class AppModule {}

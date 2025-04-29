@@ -9,11 +9,11 @@ import { UserAccountMapper } from '../mappers/user-account.mapper';
 export class TypeormUserAccountRepository implements UserAccountRepository {
   constructor(@InjectDataSource() private readonly ds: DataSource) {}
 
-  async findOneByEmailOrUsername(email: string, username: string, qr?: QueryRunner): Promise<UserAccountEntity> {
+  async findOneByEmailOrUsername(email: string, username: string, qr?: QueryRunner): Promise<UserAccountEntity | null> {
     const repo = qr ? qr.manager.getRepository(UserAccountEntityORM) : this.ds.getRepository(UserAccountEntityORM);
     return repo.findOne({ where: [{ email }, { username }] }).then((user) => {
       if (!user) {
-        throw new Error('UserAccount not found');
+        return null;
       }
       return UserAccountMapper.toDomain(user);
     });

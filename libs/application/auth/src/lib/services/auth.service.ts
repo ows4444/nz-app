@@ -1,26 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import type { UserAccountRepository } from '@nz/domain-auth';
-import { InjectUserAccountRepository, UserAccountEntity } from '@nz/domain-auth';
+import { RegisterUserDto } from '../dtos';
+import { RegisterUserUseCase } from '../use-cases/register-user.use-case';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectUserAccountRepository() private readonly userAccountRepository: UserAccountRepository) {}
+  constructor(private readonly registerUserUseCase: RegisterUserUseCase) {}
 
-  async getUserDetail(id: string): Promise<UserAccountEntity> {
-    return await this.userAccountRepository.findOneById(id);
-  }
-
-  async getUserList(): Promise<UserAccountEntity[]> {
-    return await this.userAccountRepository.findAll();
-  }
-
-  async createUser(user: Pick<UserAccountEntity, 'id' | 'username' | 'email' | 'passwordHash' | 'emailVerified'>): Promise<UserAccountEntity> {
-    const userExists = await this.userAccountRepository.findOneByEmailOrUsername(user.email, user.username);
-
-    if (userExists) {
-      throw new Error('User already exists');
-    }
-
-    return await this.userAccountRepository.create(user);
+  public async register(payload: RegisterUserDto) {
+    return this.registerUserUseCase.execute({
+      ...payload,
+      passwordHash: payload.password,
+    });
   }
 }

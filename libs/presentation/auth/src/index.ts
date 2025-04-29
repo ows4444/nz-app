@@ -1,1 +1,2 @@
-export * from './lib/controllers/auth.controller';
+export * from './lib/controllers';
+export * from './lib/dtos';

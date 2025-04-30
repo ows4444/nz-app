@@ -44,6 +44,18 @@
     },
     {
       "path": "./apps/user-service"
+    },
+    {
+      "path": "./libs/domain/user"
+    },
+    {
+      "path": "./libs/application/user"
+    },
+    {
+      "path": "./libs/infrastructure/user"
+    },
+    {
+      "path": "./libs/presentation/user"
     }
   ]
 }

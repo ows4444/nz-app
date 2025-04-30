@@ -82,6 +82,10 @@
     "libs/infrastructure/auth",
     "libs/presentation/auth",
     "libs/shared/kernel",
-    "libs/shared/infrastructure"
+    "libs/shared/infrastructure",
+    "libs/domain/user",
+    "libs/application/user",
+    "libs/infrastructure/user",
+    "libs/presentation/user"
   ]
 }

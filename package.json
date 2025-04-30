@@ -17,6 +17,7 @@
   "devDependencies": {
     "@babel/code-frame": "^7.26.2",
     "@eslint/js": "^9.8.0",
+    "@golevelup/nestjs-rabbitmq": "^5.7.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/cqrs": "^11.0.3",

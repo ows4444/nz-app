@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["ianvs", "nodenext", "swcrc"],
+  "cSpell.words": ["dtos", "ianvs", "nodenext", "swcrc"],
   "files.autoSave": "off",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
@@ -15,7 +15,7 @@
     "**/build/**": true,
     "**/.git/**": true
   },
-  "explorer.excludeGitIgnore": true,
+  //"explorer.excludeGitIgnore": true,
   // "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {

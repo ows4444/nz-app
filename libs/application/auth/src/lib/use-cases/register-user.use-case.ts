@@ -1,18 +1,28 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import type { UserAccountRepository } from '@nz/domain-auth';
-import { InjectUserAccountRepository, UserAccountEntity } from '@nz/domain-auth';
+import { Email, InjectUserAccountRepository, UserAccountEntity, Username } from '@nz/domain-auth';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class RegisterUserUseCase {
-  constructor(@InjectUserAccountRepository() private readonly userAccountRepository: UserAccountRepository) {}
+  constructor(
+    @InjectUserAccountRepository()
+    private readonly userAccountRepository: UserAccountRepository,
+  ) {}
 
-  async execute(user: Pick<UserAccountEntity, 'username' | 'email' | 'password'>): Promise<UserAccountEntity> {
-    const userExists = await this.userAccountRepository.findOneByEmailOrUsername(user.email, user.username);
+  async execute(input: { email: string; username: string; password: string }): Promise<UserAccountEntity> {
+    const emailVo = Email.create(input.email);
+    const usernameVo = Username.create(input.username);
 
-    if (userExists) {
-      throw new HttpException('User already exists', 409);
+    const existing = await this.userAccountRepository.findOneByEmailOrUsername(emailVo, usernameVo);
+    if (existing) {
+      throw new ConflictException('User already exists');
     }
 
-    return await this.userAccountRepository.create(user);
+    const id = uuidv4();
+
+    const newUser = await UserAccountEntity.createNew(id, usernameVo.getValue(), emailVo.getValue(), input.password, false);
+
+    return this.userAccountRepository.create(newUser);
   }
 }

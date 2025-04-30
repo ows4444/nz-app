@@ -1,16 +1,17 @@
-import { UserAccountEntity } from '@nz/domain-auth';
+import { Email, Password, UserAccountEntity, Username } from '@nz/domain-auth';
 import { UserAccountEntityORM } from '../entities/user-account.entity';
 
 export class UserAccountMapper {
   static toDomain(user: UserAccountEntityORM): UserAccountEntity {
-    return new UserAccountEntity({
+    return UserAccountEntity.restore({
       id: user.id,
-      email: user.email,
-      passwordHash: user.passwordHash,
-      password: '',
-      username: user.username,
+      email: Email.create(user.email),
+      password: Password.restore(user.passwordHash),
+      username: Username.create(user.username),
       emailVerified: user.emailVerified,
       status: user.status,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     });
   }
 

@@ -20,6 +20,9 @@
     },
     {
       "path": "../../libs/shared/config/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/application/auth/tsconfig.lib.json"
     }
   ]
 }

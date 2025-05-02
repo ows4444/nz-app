@@ -1,6 +1,7 @@
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthService, UseCases } from '@nz/application-auth';
@@ -11,6 +12,7 @@ import { AuthController } from '@nz/presentation-auth';
 
 @Module({
   imports: [
+    CqrsModule.forRoot(),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
@@ -28,7 +30,6 @@ import { AuthController } from '@nz/presentation-auth';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         ...configService.getOrThrow<RabbitMQEnvironment>('rabbitmq'),
-        enableControllerDiscovery: true,
       }),
     }),
   ],

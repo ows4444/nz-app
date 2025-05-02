@@ -22,12 +22,12 @@
     "name": "infrastructure-auth"
   },
   "dependencies": {
-    "tslib": "^2.3.0",
     "@nz/const": "0.0.1",
     "@nz/shared-infrastructure": "0.0.1",
     "@nz/domain-auth": "0.0.1",
-    "typeorm": "^0.3.22",
-    "@nestjs/common": "^10.0.2",
-    "@nestjs/typeorm": "^11.0.0"
+    "tslib": "^2.3.0",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/typeorm": "^11.0.0",
+    "typeorm": "^0.3.22"
   }
 }

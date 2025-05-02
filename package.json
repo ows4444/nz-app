@@ -7,11 +7,11 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@nestjs/common": "^10.0.2",
-    "@nestjs/core": "^10.0.2",
-    "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
     "axios": "^1.6.0",
-    "reflect-metadata": "^0.1.13",
+    "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.0"
   },
   "devDependencies": {
@@ -22,9 +22,9 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/cqrs": "^11.0.3",
     "@nestjs/graphql": "^13.1.0",
-    "@nestjs/schematics": "^10.0.1",
+    "@nestjs/schematics": "^11.0.0",
     "@nestjs/swagger": "^11.1.5",
-    "@nestjs/testing": "^10.0.2",
+    "@nestjs/testing": "^11.0.0",
     "@nestjs/typeorm": "^11.0.0",
     "@nx/eslint": "20.8.0",
     "@nx/eslint-plugin": "20.8.0",
@@ -58,7 +58,7 @@
     "prettier": "^2.6.2",
     "prettier-plugin-organize-imports": "^4.1.0",
     "ts-jest": "^29.1.0",
-    "ts-node": "10.9.1",
+    "ts-node": "10.9.2",
     "tslib": "^2.3.0",
     "typeorm": "^0.3.22",
     "typescript": "~5.7.2",

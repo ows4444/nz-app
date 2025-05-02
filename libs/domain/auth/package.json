@@ -22,10 +22,10 @@
     "name": "domain-auth"
   },
   "dependencies": {
-    "tslib": "^2.3.0",
     "@nz/const": "0.0.1",
     "@nz/kernel": "0.0.1",
-    "@nestjs/common": "^10.0.2",
+    "tslib": "^2.3.0",
+    "@nestjs/common": "^11.0.0",
     "bcrypt": "^5.1.1"
   }
 }

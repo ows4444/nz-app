@@ -13,6 +13,9 @@
       "path": "../../libs/shared/config"
     },
     {
+      "path": "../../libs/application/auth"
+    },
+    {
       "path": "./tsconfig.app.json"
     },
     {

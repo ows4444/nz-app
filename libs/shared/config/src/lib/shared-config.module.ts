@@ -6,6 +6,7 @@ import { typeOrmLoader } from './database/typeorm-loader';
 import { envLoader, getEnvFile } from './env/env-loader';
 import { loggerLoader } from './logger/logger-loader';
 import { LoggerEnvironment } from './logger/logger.types';
+import { rabbitMQLoader } from './rabbitmq';
 import { swaggerEnvLoader } from './swagger/swagger-loader';
 
 @Global()
@@ -29,7 +30,7 @@ export class SharedConfigModule {
         ConfigModule.forRoot({
           ...options,
           isGlobal: options.isGlobal ?? true,
-          load: [envLoader, typeOrmLoader, swaggerEnvLoader, loggerLoader, ...(options.load ?? [])],
+          load: [envLoader, typeOrmLoader, swaggerEnvLoader, loggerLoader, rabbitMQLoader, ...(options.load ?? [])],
           envFilePath: getEnvFile(options.envFilePath),
           validationOptions: {
             allowUnknown: true,

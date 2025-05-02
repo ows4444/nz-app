@@ -1,9 +1,10 @@
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthService, UseCases } from '@nz/application-auth';
-import { SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
+import { RabbitMQEnvironment, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
 import { USER_ACCOUNT_REPOSITORY } from '@nz/domain-auth';
 import { TypeormUserAccountRepository, UserAccountEntityORM } from '@nz/infrastructure-auth';
 import { AuthController } from '@nz/presentation-auth';
@@ -21,6 +22,14 @@ import { AuthController } from '@nz/presentation-auth';
     SharedConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
+    }),
+    RabbitMQModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        ...configService.getOrThrow<RabbitMQEnvironment>('rabbitmq'),
+        enableControllerDiscovery: true,
+      }),
     }),
   ],
   controllers: [AuthController],

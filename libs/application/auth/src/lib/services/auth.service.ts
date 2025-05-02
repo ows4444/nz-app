@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 
-import { LoginUserUseCase, RegisterUserUseCase } from '../use-cases';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly registerUserUseCase: RegisterUserUseCase, private readonly loginUserUseCase: LoginUserUseCase) {}
+  constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
   public async register(payload: { username: string; email: string; password: string }) {
-    return this.registerUserUseCase.execute(payload);
+    return this.commandBus.execute(payload);
   }
 
   public async login(payload: { username?: string; email?: string; password: string }) {
-    return this.loginUserUseCase.execute(payload);
+    return this.queryBus.execute(payload);
   }
 }

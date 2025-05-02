@@ -25,6 +25,7 @@
     "tslib": "^2.3.0",
     "@nz/domain-auth": "0.0.1",
     "@nestjs/common": "^10.0.2",
-    "uuid": "11.1.0"
+    "uuid": "11.1.0",
+    "@nestjs/cqrs": "^11.0.3"
   }
 }

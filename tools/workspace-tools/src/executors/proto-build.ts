@@ -71,6 +71,23 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
   }
 
   logger.info('🎉 All proto types generated successfully.');
+
+  const prettierArgs = ['--write', `${outDir}/**/*.ts`];
+
+  const prettierResult = spawnSync('npx', ['prettier', ...prettierArgs], {
+    cwd: outDir,
+    stdio: 'inherit',
+    shell: process.platform === 'win32',
+  });
+  if (prettierResult.error) {
+    logger.error(`⛔️ spawnSync error for prettier: ${prettierResult.error.message}`);
+    return { success: false };
+  }
+  if (prettierResult.status !== 0) {
+    logger.error(`⛔️ prettier failed with exit code ${prettierResult.status}`);
+    return { success: false };
+  }
+
   return { success: true };
 };
 

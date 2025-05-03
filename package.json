@@ -29,6 +29,7 @@
     "@nestjs/swagger": "^11.1.5",
     "@nestjs/testing": "^11.0.0",
     "@nestjs/typeorm": "^11.0.0",
+    "@nrwl/nx-plugin": "^19.8.4",
     "@nx/eslint": "20.8.0",
     "@nx/eslint-plugin": "20.8.0",
     "@nx/jest": "20.8.0",

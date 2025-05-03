@@ -23,6 +23,13 @@
   },
   "dependencies": {
     "tslib": "^2.3.0",
-    "@nz/utils": "0.0.1"
+    "@nz/utils": "0.0.1",
+    "typeorm": "^0.3.22",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/graphql": "^13.1.0",
+    "express": "5.1.0",
+    "class-transformer": "^0.5.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.0"
   }
 }

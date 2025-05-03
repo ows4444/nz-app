@@ -24,9 +24,6 @@
   "dependencies": {
     "@nz/const": "0.0.1",
     "@nz/kernel": "0.0.1",
-    "tslib": "^2.3.0",
-    "@nestjs/common": "^11.0.0",
-    "bcrypt": "^5.1.1",
-    "@nestjs/cqrs": "^11.0.3"
+    "tslib": "^2.3.0"
   }
 }

@@ -16,44 +16,61 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
   const serviceDir = resolve(rootDir, 'apps', projectName);
   const outDir = resolve(serviceDir, options.protoDir);
   const protoDirAbs = resolve(rootDir, options.protoDir);
-  const protoFileName = `${options.entity}.proto`;
-  const protoPath = resolve(protoDirAbs, protoFileName);
+
+  const entities = Array.isArray(options.entity) ? options.entity : [options.entity];
 
   try {
     await fs.mkdir(outDir, { recursive: true });
     logger.info(`✔️ Ensured output directory exists at ${outDir}`);
 
-    await fs.access(protoPath);
-    logger.info(`✔️ Found .proto file: ${protoFileName}`);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    if (err.code === 'ENOENT') {
-      logger.error(`⛔️ .proto file not found at ${protoPath}`);
-    } else {
-      logger.error(`⛔️ File system error: ${err.message}`);
+    // Check all proto files exist
+    for (const entity of entities) {
+      const protoFileName = `${entity}.proto`;
+      const protoPath = resolve(protoDirAbs, protoFileName);
+      try {
+        await fs.access(protoPath);
+        logger.info(`✔️ Found .proto file: ${protoFileName}`);
+      } catch (err: any) {
+        if (err.code === 'ENOENT') {
+          logger.error(`⛔️ .proto file not found at ${protoPath}`);
+        } else {
+          logger.error(`⛔️ File system error: ${err.message}`);
+        }
+        return { success: false };
+      }
     }
+  } catch (err: any) {
+    logger.error(`⛔️ File system error: ${err.message}`);
     return { success: false };
   }
 
-  const protocArgs = [`--ts_proto_out=${outDir}`, protoFileName, '--ts_proto_opt=nestJs=true'];
+  // Run protoc for each entity
+  for (const entity of entities) {
+    const protoFileName = `${entity}.proto`;
+    const protocArgs = [`--ts_proto_out=${outDir}`, protoFileName, '--ts_proto_opt=nestJs=true'];
 
-  const result = spawnSync('npx', ['protoc', ...protocArgs], {
-    cwd: protoDirAbs,
-    stdio: 'inherit',
-    shell: process.platform === 'win32',
-  });
+    logger.info(`🚀 Generating types for ${protoFileName}...`);
 
-  if (result.error) {
-    logger.error(`⛔️ spawnSync error: ${result.error.message}`);
-    return { success: false };
+    const result = spawnSync('npx', ['protoc', ...protocArgs], {
+      cwd: protoDirAbs,
+      stdio: 'inherit',
+      shell: process.platform === 'win32',
+    });
+
+    if (result.error) {
+      logger.error(`⛔️ spawnSync error for ${protoFileName}: ${result.error.message}`);
+      return { success: false };
+    }
+
+    if (result.status !== 0) {
+      logger.error(`⛔️ protoc failed for ${protoFileName} with exit code ${result.status}`);
+      return { success: false };
+    }
+
+    logger.info(`✅ Types generated for ${protoFileName}`);
   }
 
-  if (result.status !== 0) {
-    logger.error(`⛔️ protoc failed with exit code ${result.status}`);
-    return { success: false };
-  }
-
-  logger.info('✅ Proto types generated successfully.');
+  logger.info('🎉 All proto types generated successfully.');
   return { success: true };
 };
 

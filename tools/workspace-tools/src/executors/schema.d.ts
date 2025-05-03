@@ -1,4 +1,4 @@
 export interface ProtoBuildExecutorSchema {
-  entity: string;
+  entity: string[];
   protoDir: string;
 }

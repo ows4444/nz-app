@@ -8,7 +8,9 @@
       "proto-build": {
         "executor": "@nz/workspace-tools:proto-build",
         "options": {
-          "entity": "auth"
+          "entity": [
+            "auth"
+          ]
         }
       },
       "build": {

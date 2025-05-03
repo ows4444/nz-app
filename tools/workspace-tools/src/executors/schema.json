@@ -6,19 +6,20 @@
   "type": "object",
   "properties": {
     "entity": {
-      "type": "string",
-      "description": "The name of the protobuf entity (e.g. user)"
-    },
-    "outputPath": {
-      "type": "string",
-      "description": "Where to place generated code",
-      "default": "proto"
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "The name of a Protobuf entity (e.g., 'user')"
+      },
+      "minItems": 1,
+      "description": "A list of Protobuf entity names to generate types for."
     },
     "protoDir": {
       "type": "string",
-      "description": "Directory containing .proto files",
+      "description": "Path to the directory containing .proto files.",
       "default": "proto"
     }
   },
-  "required": ["entity"]
+  "required": ["entity"],
+  "additionalProperties": false
 }

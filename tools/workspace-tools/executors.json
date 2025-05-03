@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "proto-build": {
+      "implementation": "./dist/executors/proto-build",
+      "schema": "./dist/executors/schema.json",
+      "description": "proto-build executor"
+    }
+  }
+}

@@ -23,6 +23,9 @@
   },
   "dependencies": {
     "@nz/domain-auth": "0.0.1",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/cqrs": "^11.0.3",
+    "uuid": "11.1.0"
   }
 }

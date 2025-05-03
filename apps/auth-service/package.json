@@ -5,6 +5,12 @@
   "nx": {
     "name": "auth-service",
     "targets": {
+      "proto-build": {
+        "executor": "@nz/workspace-tools:proto-build",
+        "options": {
+          "entity": "auth"
+        }
+      },
       "build": {
         "executor": "nx:run-commands",
         "options": {

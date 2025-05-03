@@ -51,6 +51,12 @@
         "buildDepsTargetName": "build-deps",
         "watchDepsTargetName": "watch-deps"
       }
+    },
+    {
+      "plugin": "@nz/workspace-tools",
+      "options": {
+        "targetName": "proto-build"
+      }
     }
   ],
   "targetDefaults": {

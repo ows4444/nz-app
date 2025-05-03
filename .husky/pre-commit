@@ -1,5 +1,6 @@
 #!/bin/sh
 nx run-many --target=lint --fix
+nx affected:lint --fix
 git add libs/**/package.json apps/**/package.json
 
 npx lint-staged

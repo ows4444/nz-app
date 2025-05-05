@@ -13,7 +13,7 @@ import {
   UserServiceControllerMethods,
 } from '../proto/user';
 
-@Controller()
+@Controller('user')
 @UserServiceControllerMethods()
 export class AppController implements UserServiceController {
   getUser(request: GetUserRequest): Promise<GetUserResponse> | Observable<GetUserResponse> | GetUserResponse {

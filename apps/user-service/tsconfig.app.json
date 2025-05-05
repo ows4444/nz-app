@@ -16,6 +16,9 @@
       "path": "../../libs/shared/logger/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/shared/infrastructure/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/infrastructure/auth/tsconfig.lib.json"
     },
     {

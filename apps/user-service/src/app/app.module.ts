@@ -1,11 +1,13 @@
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
-import { Module } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { APP_FILTER } from '@nestjs/core';
 import { RabbitMQEnvironment, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
 import { UserAccountEntityORM } from '@nz/infrastructure-auth';
+import { GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import { AppController } from './app.controller';
 
 @Module({
@@ -32,15 +34,11 @@ import { AppController } from './app.controller';
     }),
   ],
   controllers: [AppController],
-  // providers: ([] as Provider[]).concat(
-  //   [
-  //     AuthService,
-  //     {
-  //       provide: USER_ACCOUNT_REPOSITORY,
-  //       useClass: TypeormUserAccountRepository,
-  //     },
-  //   ],
-  //   UseCases,
-  // ),
+  providers: ([] as Provider[]).concat([
+    {
+      provide: APP_FILTER,
+      useClass: GrpcServerExceptionFilter,
+    },
+  ]),
 })
 export class AppModule {}

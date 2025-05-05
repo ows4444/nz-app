@@ -22,9 +22,7 @@
     "name": "presentation-auth"
   },
   "dependencies": {
-    "@nz/application-auth": "0.0.1",
     "tslib": "^2.3.0",
-    "@nestjs/common": "^11.0.0",
     "@nestjs/swagger": "^11.1.5",
     "class-validator": "^0.14.1"
   }

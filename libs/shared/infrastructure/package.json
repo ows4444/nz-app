@@ -30,6 +30,8 @@
     "express": "5.1.0",
     "class-transformer": "^0.5.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "@grpc/grpc-js": "^1.13.3",
+    "@nestjs/microservices": "^11.1.0"
   }
 }

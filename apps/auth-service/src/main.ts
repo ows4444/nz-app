@@ -1,15 +1,25 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestApplication, NestFactory } from '@nestjs/core';
-import { Environment } from '@nz/config';
+import { NestFactory } from '@nestjs/core';
+import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
+import { join } from 'path';
 import { AppModule } from './app/app.module';
-import { BootstrapSwagger } from './bootstrap/swagger.bootstrap';
+import { AUTH_PACKAGE_NAME } from './proto/auth';
 
 async function Bootstrap() {
-  const app = await NestFactory.create<NestApplication>(AppModule, {
-    bufferLogs: true,
+  const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(AppModule, {
+    useFactory: () => ({
+      transport: Transport.GRPC,
+      options: {
+        package: AUTH_PACKAGE_NAME,
+        protoPath: join(__dirname, 'proto', 'auth.proto'),
+      },
+    }),
+
+    inject: [ConfigService],
   });
+
   const logger = new Logger(Bootstrap.name);
   const loggerService: LoggerService = app.get(LOGGER_SERVICE);
 
@@ -18,30 +28,12 @@ async function Bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.flushLogs();
-  const configService = app.get(ConfigService);
-  const { port, host, corsOrigins = ['*'] } = configService.getOrThrow<Environment>('env');
 
-  const globalPrefix = configService.get<string>('API_PREFIX') || 'api';
+  app.enableShutdownHooks();
 
-  app.enableCors({
-    origin: corsOrigins,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    credentials: true,
-  });
-  app.setGlobalPrefix(globalPrefix);
+  await app.listen();
 
-  const isProduction = configService.getOrThrow<string>('NODE_ENV') === 'production';
-
-  if (isProduction) {
-    app.enableShutdownHooks();
-    app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
-  } else {
-    BootstrapSwagger(app);
-  }
-
-  await app.listen(port, host);
-  logger.log(`🚀 Application is running on: http://${host}:${port}/${globalPrefix}`);
+  logger.log(`🚀 Auth service is running...  on Grpc Channel`);
 }
 
 Bootstrap();

@@ -15,9 +15,6 @@
       },
       "build": {
         "executor": "nx:run-commands",
-        "dependsOn": [
-          "proto-build"
-        ],
         "options": {
           "command": "webpack-cli build",
           "args": [
@@ -36,7 +33,6 @@
         "executor": "@nx/js:node",
         "defaultConfiguration": "development",
         "dependsOn": [
-          "proto-build",
           "build"
         ],
         "options": {

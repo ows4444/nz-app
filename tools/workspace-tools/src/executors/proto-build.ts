@@ -14,7 +14,7 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
   }
 
   const serviceDir = resolve(rootDir, 'apps', projectName);
-  const outDir = resolve(serviceDir, options.protoDir);
+  const outDir = resolve(serviceDir, 'src', options.protoDir);
   const protoDirAbs = resolve(rootDir, options.protoDir);
 
   const entities = Array.isArray(options.entity) ? options.entity : [options.entity];
@@ -48,6 +48,12 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
   for (const entity of entities) {
     const protoFileName = `${entity}.proto`;
     const protocArgs = [`--ts_proto_out=${outDir}`, protoFileName, '--ts_proto_opt=nestJs=true'];
+
+    console.log({
+      protocArgs,
+      protoDirAbs,
+      outDir,
+    });
 
     logger.info(`🚀 Generating types for ${protoFileName}...`);
 

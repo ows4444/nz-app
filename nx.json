@@ -60,12 +60,6 @@
     }
   ],
   "targetDefaults": {
-    "build": {
-      "dependsOn": ["proto-build", "^build"]
-    },
-    "serve": {
-      "dependsOn": ["proto-build"]
-    },
     "test": {
       "dependsOn": ["^build"]
     },

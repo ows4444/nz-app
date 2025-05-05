@@ -7,9 +7,6 @@
       "path": "../../libs/shared/logger"
     },
     {
-      "path": "../../libs/presentation/auth"
-    },
-    {
       "path": "../../libs/infrastructure/auth"
     },
     {

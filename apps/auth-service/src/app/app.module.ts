@@ -8,7 +8,7 @@ import { AuthService, UseCases } from '@nz/application-auth';
 import { RabbitMQEnvironment, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
 import { USER_ACCOUNT_REPOSITORY } from '@nz/domain-auth';
 import { TypeormUserAccountRepository, UserAccountEntityORM } from '@nz/infrastructure-auth';
-import { AuthController } from '@nz/presentation-auth';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { AuthController } from '@nz/presentation-auth';
       }),
     }),
   ],
-  controllers: [AuthController],
+  controllers: [AppController],
   providers: ([] as Provider[]).concat(
     [
       AuthService,

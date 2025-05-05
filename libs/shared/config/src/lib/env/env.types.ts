@@ -4,9 +4,11 @@ export interface Environment {
   environment: EnvironmentType;
   isProduction: boolean;
   port: number;
-  enableSwagger: boolean;
+
   awsRegion: string;
   host: string;
+  url: string;
+  enableSwagger: boolean;
   apiPrefix?: string;
   corsOrigins?: string[];
 }

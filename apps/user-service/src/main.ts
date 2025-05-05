@@ -1,15 +1,26 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestApplication, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
+import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Environment } from '@nz/config';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
+import { join } from 'path';
 import { AppModule } from './app/app.module';
-import { BootstrapSwagger } from './bootstrap/swagger.bootstrap';
+import { USER_PACKAGE_NAME } from './proto/user';
 
 async function Bootstrap() {
-  const app = await NestFactory.create<NestApplication>(AppModule, {
-    bufferLogs: true,
+  const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(AppModule, {
+    useFactory: (configService: ConfigService) => ({
+      transport: Transport.GRPC,
+      options: {
+        package: USER_PACKAGE_NAME,
+        protoPath: join(__dirname, 'assets', 'user.proto'),
+        url: configService.getOrThrow<Environment>('env').url,
+      },
+    }),
+    inject: [ConfigService],
   });
+
   const logger = new Logger(Bootstrap.name);
   const loggerService: LoggerService = app.get(LOGGER_SERVICE);
 
@@ -18,30 +29,14 @@ async function Bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.flushLogs();
-  const configService = app.get(ConfigService);
-  const { port, host, corsOrigins = ['*'] } = configService.getOrThrow<Environment>('env');
 
-  const globalPrefix = configService.get<string>('API_PREFIX') || 'api';
+  app.enableShutdownHooks();
 
-  app.enableCors({
-    origin: corsOrigins,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    credentials: true,
-  });
-  app.setGlobalPrefix(globalPrefix);
+  const config: ConfigService = app.get(ConfigService);
 
-  const isProduction = configService.getOrThrow<string>('NODE_ENV') === 'production';
+  await app.listen();
 
-  if (isProduction) {
-    app.enableShutdownHooks();
-    app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
-  } else {
-    BootstrapSwagger(app);
-  }
-
-  await app.listen(port, host);
-  logger.log(`🚀 Application is running on: http://${host}:${port}/${globalPrefix}`);
+  logger.log(`🚀 User service is running...  on Grpc Channel ${config.getOrThrow<Environment>('env').url}`);
 }
 
 Bootstrap();

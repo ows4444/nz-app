@@ -5,6 +5,14 @@
   "nx": {
     "name": "user-service",
     "targets": {
+      "proto-build": {
+        "executor": "@nz/workspace-tools:proto-build",
+        "options": {
+          "entity": [
+            "user"
+          ]
+        }
+      },
       "build": {
         "executor": "nx:run-commands",
         "options": {

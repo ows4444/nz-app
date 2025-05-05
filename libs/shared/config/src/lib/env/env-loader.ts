@@ -44,6 +44,7 @@ export const envLoader = registerAs('env', (): Environment => {
   }
 
   return {
+    url: `${config.HOST}:${config.PORT}`,
     host: config.HOST,
     apiPrefix: config.API_PREFIX,
     environment: config.NODE_ENV,

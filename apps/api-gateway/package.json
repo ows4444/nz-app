@@ -7,9 +7,17 @@
     "targets": {
       "proto-build": {
         "executor": "@nz/workspace-tools:proto-build",
+        "cache": true,
+        "inputs": [
+          "{workspaceRoot}/proto/*.proto"
+        ],
+        "outputs": [
+          "{projectRoot}/proto/*.proto"
+        ],
         "options": {
           "entity": [
-            "auth"
+            "auth",
+            "user"
           ]
         }
       },

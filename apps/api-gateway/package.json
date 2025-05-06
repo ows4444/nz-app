@@ -23,6 +23,9 @@
       },
       "build": {
         "executor": "nx:run-commands",
+        "dependsOn": [
+          "^proto-build"
+        ],
         "options": {
           "command": "webpack-cli build",
           "args": [

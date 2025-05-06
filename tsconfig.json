@@ -65,6 +65,30 @@
     },
     {
       "path": "./tools/workspace-tools"
+    },
+    {
+      "path": "./libs/auth/domain"
+    },
+    {
+      "path": "./libs/auth/application"
+    },
+    {
+      "path": "./libs/auth/infrastructure"
+    },
+    {
+      "path": "./libs/auth/presentation"
+    },
+    {
+      "path": "./libs/user/domain"
+    },
+    {
+      "path": "./libs/user/application"
+    },
+    {
+      "path": "./libs/user/infrastructure"
+    },
+    {
+      "path": "./libs/user/presentation"
     }
   ]
 }

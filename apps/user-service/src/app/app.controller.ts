@@ -16,16 +16,16 @@ import {
 @Controller('user')
 @UserServiceControllerMethods()
 export class AppController implements UserServiceController {
-  getUser(request: GetUserRequest): Promise<GetUserResponse> | Observable<GetUserResponse> | GetUserResponse {
+  getUser(_request: GetUserRequest): Promise<GetUserResponse> | Observable<GetUserResponse> | GetUserResponse {
     throw new Error('Method not implemented.');
   }
-  createUser(request: CreateUserRequest): Promise<CreateUserResponse> | Observable<CreateUserResponse> | CreateUserResponse {
+  createUser(_request: CreateUserRequest): Promise<CreateUserResponse> | Observable<CreateUserResponse> | CreateUserResponse {
     throw new Error('Method not implemented.');
   }
-  updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> | Observable<UpdateUserResponse> | UpdateUserResponse {
+  updateUser(_request: UpdateUserRequest): Promise<UpdateUserResponse> | Observable<UpdateUserResponse> | UpdateUserResponse {
     throw new Error('Method not implemented.');
   }
-  deleteUser(request: DeleteUserRequest): Promise<DeleteUserResponse> | Observable<DeleteUserResponse> | DeleteUserResponse {
+  deleteUser(_request: DeleteUserRequest): Promise<DeleteUserResponse> | Observable<DeleteUserResponse> | DeleteUserResponse {
     throw new Error('Method not implemented.');
   }
 }

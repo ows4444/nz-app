@@ -4,10 +4,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthService, UseCases } from '@nz/application-auth';
+import { AuthService, UseCases } from '@nz/auth-application';
+import { USER_ACCOUNT_REPOSITORY } from '@nz/auth-domain';
+import { TypeormUserAccountRepository, UserAccountEntityORM } from '@nz/auth-infrastructure';
 import { RabbitMQEnvironment, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
-import { USER_ACCOUNT_REPOSITORY } from '@nz/domain-auth';
-import { TypeormUserAccountRepository, UserAccountEntityORM } from '@nz/infrastructure-auth';
 import { GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import { AppController } from './app.controller';
 

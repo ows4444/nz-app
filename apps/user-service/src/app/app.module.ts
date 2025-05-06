@@ -5,8 +5,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { APP_FILTER } from '@nestjs/core';
+import { UserAccountEntityORM } from '@nz/auth-infrastructure';
 import { RabbitMQEnvironment, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
-import { UserAccountEntityORM } from '@nz/infrastructure-auth';
 import { GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import { AppController } from './app.controller';
 

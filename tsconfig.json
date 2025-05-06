@@ -16,18 +16,6 @@
       "path": "./libs/shared/const"
     },
     {
-      "path": "./libs/domain/auth"
-    },
-    {
-      "path": "./libs/application/auth"
-    },
-    {
-      "path": "./libs/infrastructure/auth"
-    },
-    {
-      "path": "./libs/presentation/auth"
-    },
-    {
       "path": "./libs/shared/kernel"
     },
     {
@@ -44,18 +32,6 @@
     },
     {
       "path": "./apps/user-service"
-    },
-    {
-      "path": "./libs/domain/user"
-    },
-    {
-      "path": "./libs/application/user"
-    },
-    {
-      "path": "./libs/infrastructure/user"
-    },
-    {
-      "path": "./libs/presentation/user"
     },
     {
       "path": "./apps/api-gateway-e2e"

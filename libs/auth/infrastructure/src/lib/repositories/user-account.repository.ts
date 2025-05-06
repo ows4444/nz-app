@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import type { UserAccountRepository } from '@nz/domain-auth';
-import { Email, UserAccountEntity, Username } from '@nz/domain-auth';
+import type { UserAccountRepository } from '@nz/auth-domain';
+import { Email, UserAccountEntity, Username } from '@nz/auth-domain';
 import { DataSource, QueryFailedError, QueryRunner } from 'typeorm';
 import { UserAccountEntityORM } from '../entities/user-account.entity';
 import { UserAccountMapper } from '../mappers/user-account.mapper';

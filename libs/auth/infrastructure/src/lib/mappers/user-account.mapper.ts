@@ -1,4 +1,4 @@
-import { Email, Password, UserAccountEntity, Username } from '@nz/domain-auth';
+import { Email, Password, UserAccountEntity, Username } from '@nz/auth-domain';
 import { UserAccountEntityORM } from '../entities/user-account.entity';
 
 export class UserAccountMapper {

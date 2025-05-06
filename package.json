@@ -95,6 +95,14 @@
     "libs/application/user",
     "libs/infrastructure/user",
     "libs/presentation/user",
-    "tools/*"
+    "tools/*",
+    "libs/auth/domain",
+    "libs/auth/application",
+    "libs/auth/infrastructure",
+    "libs/auth/presentation",
+    "libs/user/domain",
+    "libs/user/application",
+    "libs/user/infrastructure",
+    "libs/user/presentation"
   ]
 }

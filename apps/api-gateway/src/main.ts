@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { Environment } from '@nz/config';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
+import { GrpcToHttpInterceptor } from '@nz/shared-infrastructure';
 import { AppModule } from './app/app.module';
 import { BootstrapSwagger } from './bootstrap/swagger.bootstrap';
 
@@ -30,6 +31,8 @@ async function Bootstrap() {
     credentials: true,
   });
   app.setGlobalPrefix(globalPrefix);
+
+  app.useGlobalInterceptors(new GrpcToHttpInterceptor());
 
   const isProduction = configService.getOrThrow<string>('NODE_ENV') === 'production';
 

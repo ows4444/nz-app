@@ -7,10 +7,13 @@
       "path": "../../libs/shared/logger"
     },
     {
-      "path": "../../libs/infrastructure/auth"
+      "path": "../../libs/shared/infrastructure"
     },
     {
       "path": "../../libs/shared/config"
+    },
+    {
+      "path": "../../libs/auth/infrastructure"
     },
     {
       "path": "./tsconfig.app.json"

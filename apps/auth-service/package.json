@@ -7,6 +7,13 @@
     "targets": {
       "proto-build": {
         "executor": "@nz/workspace-tools:proto-build",
+        "cache": true,
+        "inputs": [
+          "{workspaceRoot}/proto/auth.proto"
+        ],
+        "outputs": [
+          "{projectRoot}/proto/auth.proto"
+        ],
         "options": {
           "entity": [
             "auth"
@@ -15,6 +22,9 @@
       },
       "build": {
         "executor": "nx:run-commands",
+        "dependsOn": [
+          "^proto-build"
+        ],
         "options": {
           "command": "webpack-cli build",
           "args": [

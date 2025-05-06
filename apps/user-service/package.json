@@ -5,8 +5,26 @@
   "nx": {
     "name": "user-service",
     "targets": {
+      "proto-build": {
+        "executor": "@nz/workspace-tools:proto-build",
+        "cache": true,
+        "inputs": [
+          "{workspaceRoot}/proto/user.proto"
+        ],
+        "outputs": [
+          "{projectRoot}/proto/user.proto"
+        ],
+        "options": {
+          "entity": [
+            "user"
+          ]
+        }
+      },
       "build": {
         "executor": "nx:run-commands",
+        "dependsOn": [
+          "^proto-build"
+        ],
         "options": {
           "command": "webpack-cli build",
           "args": [

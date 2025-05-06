@@ -15,16 +15,12 @@
     "**/build/**": true,
     "**/.git/**": true
   },
-  //"explorer.excludeGitIgnore": true,
-  // "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.ts, ${capture}.spec.ts"
-    // "conf": "*.md,webpack.config.js,.lintstagedrc*,tsconfig.json,tsconfig.*.json,nx.json,package.json,yarn.lock,.prettierrc*,.prettierignore,eslint.config.mjs,.gitignore,.nvmrc,.spec.swcrc",
-    // "test": "jest.preset.js,jest.config.ts"
   },
   "explorer.sortOrder": "modified",
-
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -33,7 +29,8 @@
     "**/Thumbs.db": true,
     ".yarn*": true,
     "**/*-e2e": true,
-    "**/assets": true,
+    // "**/assets": true,
+    "tmp": true,
     "**/dist": true,
     "**/out-tsc": true,
     "**/node_modules": true
@@ -60,5 +57,6 @@
       "username": "user",
       "password": "pass"
     }
-  ]
+  ],
+  "eslint.validate": ["json"]
 }

@@ -4,16 +4,13 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/shared/infrastructure"
+    },
+    {
       "path": "../../libs/shared/logger"
     },
     {
-      "path": "../../libs/presentation/auth"
-    },
-    {
       "path": "../../libs/shared/config"
-    },
-    {
-      "path": "../../libs/application/auth"
     },
     {
       "path": "./tsconfig.app.json"

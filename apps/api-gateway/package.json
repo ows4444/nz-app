@@ -67,7 +67,7 @@
     },
     "tags": [
       "type:gateway",
-      "scope:api-gateway"
+      "scope:api"
     ]
   }
 }

@@ -7,7 +7,9 @@
     "**/node_modules/**": true,
     "**/dist/**": true,
     "**/build/**": true,
-    "**/.git/**": true
+    "**/.git/**": true,
+    "**/out-tsc": true,
+    ".yarn*": true
   },
   "search.exclude": {
     "**/node_modules/**": true,

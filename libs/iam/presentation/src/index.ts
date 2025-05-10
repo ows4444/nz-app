@@ -1,1 +1,1 @@
-export * from './lib/iam-presentation.js';
+export * from './lib/dtos';

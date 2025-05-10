@@ -22,11 +22,6 @@
     "name": "auth-domain"
   },
   "dependencies": {
-    "tslib": "^2.3.0",
-    "@nestjs/cqrs": "^11.0.3",
-    "@nz/const": "0.0.1",
-    "@nz/kernel": "0.0.1",
-    "@nestjs/common": "^11.0.0",
-    "bcrypt": "^5.1.1"
+    "tslib": "^2.3.0"
   }
 }

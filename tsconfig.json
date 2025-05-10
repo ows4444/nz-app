@@ -71,6 +71,18 @@
     },
     {
       "path": "./apps/iam-service"
+    },
+    {
+      "path": "./libs/iam/domain"
+    },
+    {
+      "path": "./libs/iam/application"
+    },
+    {
+      "path": "./libs/iam/infrastructure"
+    },
+    {
+      "path": "./libs/iam/presentation"
     }
   ]
 }

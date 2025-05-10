@@ -26,8 +26,8 @@
     "@nz/const": "0.0.1",
     "@nz/shared-infrastructure": "0.0.1",
     "typeorm": "^0.3.22",
-    "@nz/auth-domain": "0.0.1",
     "@nestjs/common": "^11.0.0",
-    "@nestjs/typeorm": "^11.0.0"
+    "@nestjs/typeorm": "^11.0.0",
+    "@nz/iam-domain": "0.0.1"
   }
 }

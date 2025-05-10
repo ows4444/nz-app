@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import type { UserAccountRepository } from '@nz/auth-domain';
-import { Email, InjectUserAccountRepository, Password, UserAccountEntity, Username } from '@nz/auth-domain';
+import type { UserAccountRepository } from '@nz/iam-domain';
+import { Email, InjectUserAccountRepository, Password, UserAccountEntity, Username } from '@nz/iam-domain';
 
 @Injectable()
 export class LoginUserUseCase {

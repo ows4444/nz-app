@@ -28,12 +28,6 @@
       "path": "./apps/auth-service"
     },
     {
-      "path": "./apps/user-service-e2e"
-    },
-    {
-      "path": "./apps/user-service"
-    },
-    {
       "path": "./apps/api-gateway-e2e"
     },
     {
@@ -53,18 +47,6 @@
     },
     {
       "path": "./libs/auth/presentation"
-    },
-    {
-      "path": "./libs/user/domain"
-    },
-    {
-      "path": "./libs/user/application"
-    },
-    {
-      "path": "./libs/user/infrastructure"
-    },
-    {
-      "path": "./libs/user/presentation"
     },
     {
       "path": "./apps/iam-service-e2e"

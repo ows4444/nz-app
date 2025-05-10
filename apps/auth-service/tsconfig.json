@@ -7,16 +7,16 @@
       "path": "../../libs/shared/logger"
     },
     {
+      "path": "../../libs/iam/infrastructure"
+    },
+    {
+      "path": "../../libs/iam/domain"
+    },
+    {
+      "path": "../../libs/iam/application"
+    },
+    {
       "path": "../../libs/shared/config"
-    },
-    {
-      "path": "../../libs/auth/infrastructure"
-    },
-    {
-      "path": "../../libs/auth/domain"
-    },
-    {
-      "path": "../../libs/auth/application"
     },
     {
       "path": "../../libs/shared/infrastructure"

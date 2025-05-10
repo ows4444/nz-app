@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import type { UserAccountRepository } from '@nz/auth-domain';
-import { Email, InjectUserAccountRepository, UserAccountEntity, Username } from '@nz/auth-domain';
+import type { UserAccountRepository } from '@nz/iam-domain';
+import { Email, InjectUserAccountRepository, UserAccountEntity, Username } from '@nz/iam-domain';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

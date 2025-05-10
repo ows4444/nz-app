@@ -4,15 +4,6 @@
   "include": [],
   "references": [
     {
-      "path": "../../shared/infrastructure"
-    },
-    {
-      "path": "../../shared/const"
-    },
-    {
-      "path": "../domain"
-    },
-    {
       "path": "./tsconfig.lib.json"
     },
     {

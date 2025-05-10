@@ -16,16 +16,16 @@
       "path": "../../libs/shared/logger/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/iam/infrastructure/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/iam/domain/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/iam/application/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/shared/config/tsconfig.lib.json"
-    },
-    {
-      "path": "../../libs/auth/infrastructure/tsconfig.lib.json"
-    },
-    {
-      "path": "../../libs/auth/domain/tsconfig.lib.json"
-    },
-    {
-      "path": "../../libs/auth/application/tsconfig.lib.json"
     },
     {
       "path": "../../libs/shared/infrastructure/tsconfig.lib.json"

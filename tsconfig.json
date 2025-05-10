@@ -65,6 +65,12 @@
     },
     {
       "path": "./libs/user/presentation"
+    },
+    {
+      "path": "./apps/iam-service-e2e"
+    },
+    {
+      "path": "./apps/iam-service"
     }
   ]
 }

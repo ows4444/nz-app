@@ -10,5 +10,25 @@
     "target": "es2021"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["out-tsc", "dist", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts", "eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"]
+  "exclude": ["out-tsc", "dist", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts", "eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
+  "references": [
+    {
+      "path": "../../libs/shared/logger/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/iam/infrastructure/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/iam/domain/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/iam/application/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/shared/config/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/shared/infrastructure/tsconfig.lib.json"
+    }
+  ]
 }

@@ -33,7 +33,7 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
         await fs.access(protoPath);
         logger.info(`✔️ Found .proto file: ${protoFileName}`);
 
-        await fs.copyFile(protoPath, protoAssetsPath);
+        //await fs.copyFile(protoPath, protoAssetsPath);
         logger.info(`✔️ Copied .proto file to: ${protoAssetsPath}`);
       } catch (err: any) {
         if (err.code === 'ENOENT') {

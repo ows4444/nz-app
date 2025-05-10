@@ -1,12 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller } from '@nestjs/common';
+import { GrpcNotFoundException } from '@nz/shared-infrastructure';
+import { Observable } from 'rxjs';
+import { AuthServiceController, AuthServiceControllerMethods, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from '../proto/auth';
 
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getData() {
-    return this.appService.getData();
+@Controller('auth')
+@AuthServiceControllerMethods()
+export class AppController implements AuthServiceController {
+  login(_request: LoginRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse {
+    throw new GrpcNotFoundException('Method not implemented.');
+  }
+  register(_request: RegisterRequest): Promise<RegisterResponse> | Observable<RegisterResponse> | RegisterResponse {
+    throw new Error('Method not implemented.');
   }
 }

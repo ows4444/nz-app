@@ -4,6 +4,24 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/shared/logger"
+    },
+    {
+      "path": "../../libs/iam/infrastructure"
+    },
+    {
+      "path": "../../libs/iam/domain"
+    },
+    {
+      "path": "../../libs/iam/application"
+    },
+    {
+      "path": "../../libs/shared/config"
+    },
+    {
+      "path": "../../libs/shared/infrastructure"
+    },
+    {
       "path": "./tsconfig.app.json"
     },
     {

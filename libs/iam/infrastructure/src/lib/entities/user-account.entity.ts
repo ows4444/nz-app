@@ -3,25 +3,30 @@ import { StringColumn, WithCreated, WithRevocation, WithSoftDelete, WithUpdated 
 
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-class UserAccount extends BaseEntity {
+class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
+  @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true, unique: true })
+  username!: string;
 
   @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true, unique: true })
   email!: string;
 
-  @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true, unique: true })
-  username!: string;
-
-  @Column()
-  passwordHash!: string;
+  @StringColumn({ length: 32, nullable: false, trim: true })
+  phone!: string;
 
   @Column({ default: false })
-  emailVerified!: boolean;
+  isEmailVerified!: boolean;
+
+  @Column({ default: false })
+  isPhoneVerified!: boolean;
+
+  @StringColumn({ length: 32, nullable: false, trim: true })
+  locale!: string;
 
   @Column({ type: 'int' })
   status!: Status;
 }
 
-@Entity({ name: 'user_accounts' })
-export class UserAccountEntityORM extends WithSoftDelete(WithUpdated(WithCreated(WithRevocation(UserAccount)))) {}
+@Entity({ name: 'users' })
+export class UserEntityORM extends WithSoftDelete(WithUpdated(WithCreated(WithRevocation(User)))) {}

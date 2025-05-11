@@ -35,6 +35,7 @@
     ".husky": true,
     "**/*-e2e": true,
     "**/assets": true,
+    "tools": true,
     "tmp": true,
     "**/dist": true,
     "**/out-tsc": true,

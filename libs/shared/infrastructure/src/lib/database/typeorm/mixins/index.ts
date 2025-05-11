@@ -16,16 +16,16 @@ export interface IWithUpdated {
 }
 
 export interface IWithSoftDelete {
-  deletedAt: Date | null;
+  deletedAt: Date | undefined;
 }
 
 export interface IWithExpiration {
-  expiresAt: Date | null;
+  expiresAt: Date | undefined;
 }
 
 export interface IWithRevocation {
-  revokedAt: Date | null;
-  revokedUntil: Date | null;
+  revokedAt: Date | undefined;
+  revokedUntil: Date | undefined;
 }
 
 export function WithCreated<TBase extends Constructor>(Base: TBase): MixinReturn<TBase, IWithCreated> {
@@ -55,7 +55,7 @@ export function WithUpdated<TBase extends Constructor>(Base: TBase): MixinReturn
 export function WithSoftDelete<TBase extends Constructor>(Base: TBase): MixinReturn<TBase, IWithSoftDelete> {
   class SoftDeleteMixin extends Base {
     @DeleteDateColumn({ type: 'timestamp', precision: 6, nullable: true })
-    deletedAt!: Date | null;
+    deletedAt!: Date | undefined;
   }
   return SoftDeleteMixin as unknown as MixinReturn<TBase, IWithSoftDelete>;
 }
@@ -63,7 +63,7 @@ export function WithSoftDelete<TBase extends Constructor>(Base: TBase): MixinRet
 export function WithExpiration<TBase extends Constructor>(Base: TBase): MixinReturn<TBase, IWithExpiration> {
   class ExpirationMixin extends Base {
     @Column({ type: 'timestamp', precision: 6, nullable: true })
-    expiresAt!: Date | null;
+    expiresAt!: Date | undefined;
   }
   return ExpirationMixin as unknown as MixinReturn<TBase, IWithExpiration>;
 }
@@ -71,10 +71,10 @@ export function WithExpiration<TBase extends Constructor>(Base: TBase): MixinRet
 export function WithRevocation<TBase extends Constructor>(Base: TBase): MixinReturn<TBase, IWithRevocation> {
   class RevocationMixin extends Base {
     @Column({ type: 'timestamp', precision: 6, nullable: true })
-    revokedAt!: Date | null;
+    revokedAt!: Date | undefined;
 
     @Column({ type: 'timestamp', precision: 6, nullable: true })
-    revokedUntil!: Date | null;
+    revokedUntil!: Date | undefined;
   }
   return RevocationMixin as unknown as MixinReturn<TBase, IWithRevocation>;
 }

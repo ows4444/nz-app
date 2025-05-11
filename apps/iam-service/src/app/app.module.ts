@@ -6,8 +6,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RabbitMQEnvironment, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
 import { AuthService, UseCases } from '@nz/iam-application';
-import { USER_ACCOUNT_REPOSITORY } from '@nz/iam-domain';
-import { TypeormUserAccountRepository, UserAccountEntityORM } from '@nz/iam-infrastructure';
+import { USER_REPOSITORY } from '@nz/iam-domain';
+import { TypeormUserRepository, UserEntityORM } from '@nz/iam-infrastructure';
 import { GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import { AppController } from './app.controller';
 
@@ -18,7 +18,7 @@ import { AppController } from './app.controller';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         ...configService.getOrThrow<TypeOrmEnvironment>('typeorm'),
-        entities: [UserAccountEntityORM],
+        entities: [UserEntityORM],
       }),
       imports: [ConfigModule],
     }),
@@ -43,8 +43,8 @@ import { AppController } from './app.controller';
         useClass: GrpcServerExceptionFilter,
       },
       {
-        provide: USER_ACCOUNT_REPOSITORY,
-        useClass: TypeormUserAccountRepository,
+        provide: USER_REPOSITORY,
+        useClass: TypeormUserRepository,
       },
     ],
     UseCases,

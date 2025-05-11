@@ -1,1 +1,1 @@
-export * from './user-account.aggregate';
+export * from './user.aggregate';

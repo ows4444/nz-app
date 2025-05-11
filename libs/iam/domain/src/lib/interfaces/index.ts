@@ -1,1 +1,1 @@
-export * from './user-account.repository.interface';
+export * from './user.repository.interface';

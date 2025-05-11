@@ -1,41 +1,41 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import type { UserAccountRepository } from '@nz/iam-domain';
-import { Email, UserAccountEntity, Username } from '@nz/iam-domain';
+import type { UserRepository } from '@nz/iam-domain';
+import { Email, UserEntity, Username } from '@nz/iam-domain';
 import { DataSource, QueryFailedError, QueryRunner } from 'typeorm';
-import { UserAccountEntityORM } from '../entities/user-account.entity';
-import { UserAccountMapper } from '../mappers/user-account.mapper';
+import { UserEntityORM } from '../entities/user-account.entity';
+import { UserMapper } from '../mappers/user.mapper';
 
 @Injectable()
-export class TypeormUserAccountRepository implements UserAccountRepository {
+export class TypeormUserRepository implements UserRepository {
   constructor(@InjectDataSource() private readonly ds: DataSource) {}
 
   private repo(qr?: QueryRunner) {
-    return qr ? qr.manager.getRepository(UserAccountEntityORM) : this.ds.getRepository(UserAccountEntityORM);
+    return qr ? qr.manager.getRepository(UserEntityORM) : this.ds.getRepository(UserEntityORM);
   }
 
-  async findOneByEmail(email: Email, qr?: QueryRunner): Promise<UserAccountEntity | null> {
+  async findOneByEmail(email: Email, qr?: QueryRunner): Promise<UserEntity | null> {
     const orm = await this.repo(qr).findOne({ where: { email: email.getValue() } });
-    return orm ? UserAccountMapper.toDomain(orm) : null;
+    return orm ? UserMapper.toDomain(orm) : null;
   }
 
-  async findOneByUsername(username: Username, qr?: QueryRunner): Promise<UserAccountEntity | null> {
+  async findOneByUsername(username: Username, qr?: QueryRunner): Promise<UserEntity | null> {
     const orm = await this.repo(qr).findOne({ where: { username: username.getValue() } });
-    return orm ? UserAccountMapper.toDomain(orm) : null;
+    return orm ? UserMapper.toDomain(orm) : null;
   }
 
-  async findOneByEmailOrUsername(email: Email, username: Username, qr?: QueryRunner): Promise<UserAccountEntity | null> {
+  async findOneByEmailOrUsername(email: Email, username: Username, qr?: QueryRunner): Promise<UserEntity | null> {
     const orm = await this.repo(qr).findOne({
       where: [{ email: email.getValue() }, { username: username.getValue() }],
     });
-    return orm ? UserAccountMapper.toDomain(orm) : null;
+    return orm ? UserMapper.toDomain(orm) : null;
   }
 
-  async create(user: UserAccountEntity, qr?: QueryRunner): Promise<UserAccountEntity> {
-    const ormEntity = this.repo(qr).create(UserAccountMapper.toPersistence(user));
+  async create(user: UserEntity, qr?: QueryRunner): Promise<UserEntity> {
+    const ormEntity = this.repo(qr).create(UserMapper.toPersistence(user));
     try {
       const saved = await this.repo(qr).save(ormEntity);
-      return UserAccountMapper.toDomain(saved);
+      return UserMapper.toDomain(saved);
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (err instanceof QueryFailedError && (err as any).code === 'ER_DUP_ENTRY') {
@@ -45,25 +45,25 @@ export class TypeormUserAccountRepository implements UserAccountRepository {
     }
   }
 
-  async findAll(qr?: QueryRunner): Promise<UserAccountEntity[]> {
+  async findAll(qr?: QueryRunner): Promise<UserEntity[]> {
     const list = await this.repo(qr).find();
-    return list.map(UserAccountMapper.toDomain);
+    return list.map(UserMapper.toDomain);
   }
 
-  async findOneById(id: string, qr?: QueryRunner): Promise<UserAccountEntity> {
+  async findOneById(id: string, qr?: QueryRunner): Promise<UserEntity> {
     try {
       const orm = await this.repo(qr).findOneOrFail({ where: { id } });
-      return UserAccountMapper.toDomain(orm);
+      return UserMapper.toDomain(orm);
     } catch {
       throw new NotFoundException(`User with id ${id} not found`);
     }
   }
 
-  async save(user: UserAccountEntity, qr?: QueryRunner): Promise<UserAccountEntity> {
-    const ormEntity = this.repo(qr).create(UserAccountMapper.toPersistence(user));
+  async save(user: UserEntity, qr?: QueryRunner): Promise<UserEntity> {
+    const ormEntity = this.repo(qr).create(UserMapper.toPersistence(user));
     try {
       const updated = await this.repo(qr).save(ormEntity);
-      return UserAccountMapper.toDomain(updated);
+      return UserMapper.toDomain(updated);
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (err instanceof QueryFailedError && (err as any).code === 'ER_DUP_ENTRY') {

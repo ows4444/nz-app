@@ -37,7 +37,7 @@ async function Bootstrap() {
 
   await app.listen();
 
-  logger.log(`🚀 Auth service is running...  on Grpc Channel ${config.getOrThrow<Environment>('env').url}`);
+  logger.log(`🚀 IAM Service is running...  on Grpc Channel ${config.getOrThrow<Environment>('env').url}`);
 }
 
 Bootstrap();

@@ -22,12 +22,6 @@
       "path": "./libs/shared/infrastructure"
     },
     {
-      "path": "./apps/auth-service-e2e"
-    },
-    {
-      "path": "./apps/auth-service"
-    },
-    {
       "path": "./apps/api-gateway-e2e"
     },
     {

@@ -1,20 +1,20 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import type { UserAccountRepository } from '@nz/iam-domain';
-import { Email, InjectUserAccountRepository, Password, UserAccountEntity, Username } from '@nz/iam-domain';
+import type { UserRepository } from '@nz/iam-domain';
+import { Email, InjectUserRepository, UserEntity, Username } from '@nz/iam-domain';
 
 @Injectable()
 export class LoginUserUseCase {
-  constructor(@InjectUserAccountRepository() private readonly userAccountRepository: UserAccountRepository) {}
+  constructor(@InjectUserRepository() private readonly UserRepository: UserRepository) {}
 
-  async execute({ email, username, password }: { email?: string; username?: string; password: string }): Promise<UserAccountEntity> {
+  async execute({ email, username }: { email?: string; username?: string; password: string }): Promise<UserEntity> {
     const emailVO = email ? Email.create(email) : undefined;
-    const passwordVO = Password.create(password);
+    // const passwordVO = Password.create(password);
     const usernameVO = username ? Username.create(username) : undefined;
 
-    const user = emailVO ? await this.userAccountRepository.findOneByEmail(emailVO) : usernameVO ? await this.userAccountRepository.findOneByUsername(usernameVO) : null;
+    const user = emailVO ? await this.UserRepository.findOneByEmail(emailVO) : usernameVO ? await this.UserRepository.findOneByUsername(usernameVO) : null;
 
-    if (!user || !(await user.validatePassword(passwordVO.getValue()))) {
-      throw new HttpException(!user ? 'User not found' : 'Invalid password', !user ? 404 : 401);
+    if (!user) {
+      throw new HttpException('User not found', 404);
     }
 
     return user;

@@ -6,15 +6,15 @@ import { Environment } from '@nz/config';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
-import { AUTH_PACKAGE_NAME } from './proto/auth';
+import { IAM_PACKAGE_NAME } from './proto/iam';
 
 async function Bootstrap() {
   const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(AppModule, {
     useFactory: (configService: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
-        package: AUTH_PACKAGE_NAME,
-        protoPath: join(__dirname, 'assets', 'auth.proto'),
+        package: IAM_PACKAGE_NAME,
+        protoPath: join(__dirname, 'assets', 'iam.proto'),
         url: configService.getOrThrow<Environment>('env').url,
       },
     }),

@@ -1,11 +1,11 @@
 import { Controller } from '@nestjs/common';
 import { GrpcNotFoundException } from '@nz/shared-infrastructure';
 import { Observable } from 'rxjs';
-import { AuthServiceController, AuthServiceControllerMethods, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from '../proto/auth';
+import { IAMServiceController, IAMServiceControllerMethods, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from '../proto/iam';
 
-@Controller('auth')
-@AuthServiceControllerMethods()
-export class AppController implements AuthServiceController {
+@Controller('iam')
+@IAMServiceControllerMethods()
+export class AppController implements IAMServiceController {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   login(_request: LoginRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse {
     throw new GrpcNotFoundException('Method not implemented.');

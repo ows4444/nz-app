@@ -9,14 +9,14 @@
         "executor": "@nz/workspace-tools:proto-build",
         "cache": true,
         "inputs": [
-          "{workspaceRoot}/proto/auth.proto"
+          "{workspaceRoot}/proto/iam.proto"
         ],
         "outputs": [
-          "{projectRoot}/proto/auth.proto"
+          "{projectRoot}/proto/iam.proto"
         ],
         "options": {
           "entity": [
-            "auth"
+            "iam"
           ]
         }
       },

@@ -2,13 +2,13 @@
 // versions:
 //   protoc-gen-ts_proto  v2.7.0
 //   protoc               v3.20.3
-// source: auth.proto
+// source: iam.proto
 
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
-export const protobufPackage = 'auth';
+export const protobufPackage = 'iam';
 
 export interface LoginRequest {
   username: string;
@@ -29,33 +29,33 @@ export interface RegisterResponse {
   message: string;
 }
 
-export const AUTH_PACKAGE_NAME = 'auth';
+export const IAM_PACKAGE_NAME = 'iam';
 
-export interface AuthServiceClient {
+export interface IAMServiceClient {
   login(request: LoginRequest): Observable<LoginResponse>;
 
   register(request: RegisterRequest): Observable<RegisterResponse>;
 }
 
-export interface AuthServiceController {
+export interface IAMServiceController {
   login(request: LoginRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
 
   register(request: RegisterRequest): Promise<RegisterResponse> | Observable<RegisterResponse> | RegisterResponse;
 }
 
-export function AuthServiceControllerMethods() {
+export function IAMServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = ['login', 'register'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod('AuthService', method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('IAMService', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod('AuthService', method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('IAMService', method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const AUTH_SERVICE_NAME = 'AuthService';
+export const IAM_SERVICE_NAME = 'IAMService';

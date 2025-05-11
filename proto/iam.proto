@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package auth;
+package iam;
 
-service AuthService {
+service IAMService {
   rpc Login (LoginRequest) returns (LoginResponse);
   rpc Register (RegisterRequest) returns (RegisterResponse);
 }
@@ -24,6 +24,3 @@ message RegisterRequest {
 message RegisterResponse {
   string message = 1;
 }
-
-
- 

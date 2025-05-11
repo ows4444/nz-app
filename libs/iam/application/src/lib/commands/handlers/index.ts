@@ -1,1 +1,3 @@
-export const UserCommandHandlers = [];
+import { LoginHandler } from './login.handler';
+
+export const IAMCommandHandlers = [LoginHandler];

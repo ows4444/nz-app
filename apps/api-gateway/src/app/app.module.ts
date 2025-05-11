@@ -5,7 +5,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { RabbitMQEnvironment, SharedConfigModule } from '@nz/config';
 import { join } from 'path';
 import { IAM_PACKAGE_NAME } from '../proto/iam';
-import { IAMController } from './auth.controller';
+import { AuthController } from './auth.controller';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { IAMController } from './auth.controller';
         options: {
           package: IAM_PACKAGE_NAME,
           protoPath: join(__dirname, 'assets', 'iam.proto'),
-          url: 'localhost:8000',
+          url: 'localhost:4000',
         },
       },
     ]),
@@ -34,6 +34,6 @@ import { IAMController } from './auth.controller';
       }),
     }),
   ],
-  controllers: [IAMController],
+  controllers: [AuthController],
 })
 export class AppModule {}

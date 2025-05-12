@@ -5,7 +5,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RabbitMQEnvironment, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
-import { AuthService, IAMCommandHandlers, UseCases } from '@nz/iam-application';
+import { AuthService, IAMCommandHandlers } from '@nz/iam-application';
 import { USER_REPOSITORY } from '@nz/iam-domain';
 import { TypeormUserRepository, UserEntityORM } from '@nz/iam-infrastructure';
 import { GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
@@ -47,7 +47,6 @@ import { AppController } from './app.controller';
         useClass: TypeormUserRepository,
       },
     ],
-    UseCases,
     IAMCommandHandlers,
   ),
 })

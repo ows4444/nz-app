@@ -27,6 +27,7 @@
     "@nestjs/cqrs": "^11.0.3",
     "uuid": "11.1.0",
     "@nz/iam-domain": "0.0.1",
-    "@nz/iam-presentation": "0.0.1"
+    "@nz/iam-presentation": "0.0.1",
+    "@nz/shared-infrastructure": "0.0.1"
   }
 }

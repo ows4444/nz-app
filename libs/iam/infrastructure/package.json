@@ -1,0 +1,33 @@
+{
+  "name": "@nz/iam-infrastructure",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "nx": {
+    "tags": [
+      "type:infrastructure",
+      "scope:iam"
+    ],
+    "name": "iam-infrastructure"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@nz/const": "0.0.1",
+    "@nz/shared-infrastructure": "0.0.1",
+    "typeorm": "^0.3.22",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/typeorm": "^11.0.0",
+    "@nz/iam-domain": "0.0.1"
+  }
+}

@@ -103,6 +103,10 @@
     "libs/user/domain",
     "libs/user/application",
     "libs/user/infrastructure",
-    "libs/user/presentation"
+    "libs/user/presentation",
+    "libs/iam/domain",
+    "libs/iam/application",
+    "libs/iam/infrastructure",
+    "libs/iam/presentation"
   ]
 }

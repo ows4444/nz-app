@@ -22,18 +22,6 @@
       "path": "./libs/shared/infrastructure"
     },
     {
-      "path": "./apps/auth-service-e2e"
-    },
-    {
-      "path": "./apps/auth-service"
-    },
-    {
-      "path": "./apps/user-service-e2e"
-    },
-    {
-      "path": "./apps/user-service"
-    },
-    {
       "path": "./apps/api-gateway-e2e"
     },
     {
@@ -55,16 +43,22 @@
       "path": "./libs/auth/presentation"
     },
     {
-      "path": "./libs/user/domain"
+      "path": "./apps/iam-service-e2e"
     },
     {
-      "path": "./libs/user/application"
+      "path": "./apps/iam-service"
     },
     {
-      "path": "./libs/user/infrastructure"
+      "path": "./libs/iam/domain"
     },
     {
-      "path": "./libs/user/presentation"
+      "path": "./libs/iam/application"
+    },
+    {
+      "path": "./libs/iam/infrastructure"
+    },
+    {
+      "path": "./libs/iam/presentation"
     }
   ]
 }

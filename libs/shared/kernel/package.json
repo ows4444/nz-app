@@ -16,8 +16,8 @@
   },
   "nx": {
     "tags": [
-      "type:shared",
-      "scope:kernel"
+      "type:kernel",
+      "scope:shared"
     ],
     "name": "kernel"
   },

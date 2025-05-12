@@ -1,18 +1,20 @@
-import { Controller, Inject, OnModuleInit, Post } from '@nestjs/common';
+import { Body, Controller, Inject, OnModuleInit, Post } from '@nestjs/common';
 import type { ClientGrpc } from '@nestjs/microservices';
-import { AUTH_PACKAGE_NAME, AUTH_SERVICE_NAME, AuthServiceClient } from '../proto/auth';
+import { IAM_PACKAGE_NAME, IAM_SERVICE_NAME, IAMServiceClient } from '../proto/iam';
+import { LoginRequestDto } from './dtos';
 
 @Controller('auth')
 export class AuthController implements OnModuleInit {
-  private authService!: AuthServiceClient;
-  constructor(@Inject(AUTH_PACKAGE_NAME) private readonly client: ClientGrpc) {}
+  private iamServiceClient!: IAMServiceClient;
+
+  constructor(@Inject(IAM_PACKAGE_NAME) private readonly grpcClient: ClientGrpc) {}
+
   onModuleInit() {
-    this.authService = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
+    this.iamServiceClient = this.grpcClient.getService<IAMServiceClient>(IAM_SERVICE_NAME);
   }
 
   @Post('login')
-  //@UseInterceptors(GrpcToHttpInterceptor)
-  login(username: string, password: string) {
-    return this.authService.login({ username, password });
+  authenticate(@Body() loginRequest: LoginRequestDto) {
+    return this.iamServiceClient.login(loginRequest);
   }
 }

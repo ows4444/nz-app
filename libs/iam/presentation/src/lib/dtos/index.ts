@@ -16,3 +16,14 @@ export class LoginByUsernameDto implements iam.LoginByUsernameRequest {
   @ApiProperty()
   password!: string;
 }
+
+export class RegisterDto implements iam.RegisterRequest {
+  @ApiProperty()
+  username!: string;
+
+  @ApiProperty()
+  email!: string;
+
+  @ApiProperty()
+  password!: string;
+}

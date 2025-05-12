@@ -1,3 +1,5 @@
+import { RegisterDto } from '@nz/iam-presentation';
+
 export class RegisterCommand {
-  constructor(public readonly email: string, public readonly password: string, public readonly fullName: string) {}
+  constructor(public readonly payload: RegisterDto) {}
 }

@@ -3,10 +3,17 @@ syntax = "proto3";
 package iam;
 
 service IAMService {
-  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc LoginByEmail (LoginByEmailRequest) returns (LoginResponse) ;
+  rpc LoginByUsername (LoginByUsernameRequest) returns (LoginResponse);
   rpc Register (RegisterRequest) returns (RegisterResponse);
 }
-message LoginRequest {
+
+message LoginByEmailRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginByUsernameRequest {
   string username = 1;
   string password = 2;
 }
@@ -17,8 +24,9 @@ message LoginResponse {
 }
 
 message RegisterRequest {
-  string username = 1;
-  string password = 2;
+  string email = 1;
+  string username = 2;
+  string password = 3;
 }
 
 message RegisterResponse {

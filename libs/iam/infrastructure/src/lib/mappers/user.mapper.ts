@@ -1,5 +1,5 @@
 import { Email, UserEntity, Username } from '@nz/iam-domain';
-import { UserEntityORM } from '../entities/user-account.entity';
+import { UserEntityORM } from '../entities/user.entity';
 
 export class UserMapper {
   static toDomain(user: UserEntityORM): UserEntity {

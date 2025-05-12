@@ -10,7 +10,12 @@ import { Observable } from 'rxjs';
 
 export const protobufPackage = 'iam';
 
-export interface LoginRequest {
+export interface LoginByEmailRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginByUsernameRequest {
   username: string;
   password: string;
 }
@@ -21,6 +26,7 @@ export interface LoginResponse {
 }
 
 export interface RegisterRequest {
+  email: string;
   username: string;
   password: string;
 }
@@ -32,20 +38,24 @@ export interface RegisterResponse {
 export const IAM_PACKAGE_NAME = 'iam';
 
 export interface IAMServiceClient {
-  login(request: LoginRequest): Observable<LoginResponse>;
+  loginByEmail(request: LoginByEmailRequest): Observable<LoginResponse>;
+
+  loginByUsername(request: LoginByUsernameRequest): Observable<LoginResponse>;
 
   register(request: RegisterRequest): Observable<RegisterResponse>;
 }
 
 export interface IAMServiceController {
-  login(request: LoginRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
+  loginByEmail(request: LoginByEmailRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
+
+  loginByUsername(request: LoginByUsernameRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
 
   register(request: RegisterRequest): Promise<RegisterResponse> | Observable<RegisterResponse> | RegisterResponse;
 }
 
 export function IAMServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['login', 'register'];
+    const grpcMethods: string[] = ['loginByEmail', 'loginByUsername', 'register'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod('IAMService', method)(constructor.prototype[method], method, descriptor);

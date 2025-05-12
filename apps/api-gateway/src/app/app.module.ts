@@ -3,18 +3,18 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { RabbitMQEnvironment, SharedConfigModule } from '@nz/config';
+import { iam } from '@nz/shared-proto';
 import { join } from 'path';
-import { IAM_PACKAGE_NAME } from '../proto/iam';
 import { AuthController } from './auth.controller';
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: IAM_PACKAGE_NAME,
+        name: iam.IAM_PACKAGE_NAME,
         transport: Transport.GRPC,
         options: {
-          package: IAM_PACKAGE_NAME,
+          package: iam.IAM_PACKAGE_NAME,
           protoPath: join(__dirname, 'assets', 'iam.proto'),
           url: 'localhost:4000',
         },

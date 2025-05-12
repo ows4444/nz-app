@@ -5,21 +5,6 @@
   "nx": {
     "name": "iam-service",
     "targets": {
-      "proto-build": {
-        "executor": "@nz/workspace-tools:proto-build",
-        "cache": true,
-        "inputs": [
-          "{workspaceRoot}/proto/iam.proto"
-        ],
-        "outputs": [
-          "{projectRoot}/proto/iam.proto"
-        ],
-        "options": {
-          "entity": [
-            "iam"
-          ]
-        }
-      },
       "build": {
         "executor": "nx:run-commands",
         "options": {

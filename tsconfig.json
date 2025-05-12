@@ -31,18 +31,6 @@
       "path": "./tools/workspace-tools"
     },
     {
-      "path": "./libs/auth/domain"
-    },
-    {
-      "path": "./libs/auth/application"
-    },
-    {
-      "path": "./libs/auth/infrastructure"
-    },
-    {
-      "path": "./libs/auth/presentation"
-    },
-    {
       "path": "./apps/iam-service-e2e"
     },
     {
@@ -59,6 +47,12 @@
     },
     {
       "path": "./libs/iam/presentation"
+    },
+    {
+      "path": "./libs/shared/proto"
+    },
+    {
+      "path": "./libs/shared/proto"
     }
   ]
 }

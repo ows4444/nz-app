@@ -1,3 +1,4 @@
-import { LoginHandler } from './login.handler';
+import { LoginByEmailHandler } from './login-by-email.handler';
+import { LoginByUsernameHandler } from './login-by-username.handler';
 
-export const IAMCommandHandlers = [LoginHandler];
+export const IAMCommandHandlers = [LoginByEmailHandler, LoginByUsernameHandler];

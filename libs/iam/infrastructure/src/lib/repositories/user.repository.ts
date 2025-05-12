@@ -3,7 +3,7 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import type { UserRepository } from '@nz/iam-domain';
 import { Email, UserEntity, Username } from '@nz/iam-domain';
 import { DataSource, QueryFailedError, QueryRunner } from 'typeorm';
-import { UserEntityORM } from '../entities/user-account.entity';
+import { UserEntityORM } from '../entities/user.entity';
 import { UserMapper } from '../mappers/user.mapper';
 
 @Injectable()

@@ -4,16 +4,16 @@ import { NestFactory } from '@nestjs/core';
 import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Environment } from '@nz/config';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
+import { iam } from '@nz/shared-proto';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
-import { IAM_PACKAGE_NAME } from './proto/iam';
 
 async function Bootstrap() {
   const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(AppModule, {
     useFactory: (configService: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
-        package: IAM_PACKAGE_NAME,
+        package: iam.IAM_PACKAGE_NAME,
         protoPath: join(__dirname, 'assets', 'iam.proto'),
         url: configService.getOrThrow<Environment>('env').url,
       },

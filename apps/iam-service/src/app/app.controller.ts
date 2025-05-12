@@ -1,18 +1,19 @@
 import { Controller } from '@nestjs/common';
 import { AuthService } from '@nz/iam-application';
+import { iam } from '@nz/shared-proto';
 import { Observable } from 'rxjs';
-import { IAMServiceController, IAMServiceControllerMethods, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from '../proto/iam';
 
 @Controller('auth')
-@IAMServiceControllerMethods()
-export class AppController implements IAMServiceController {
+@iam.IAMServiceControllerMethods()
+export class AppController implements iam.IAMServiceController {
   constructor(private readonly authService: AuthService) {}
-
-  login(loginRequest: LoginRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse {
-    return this.authService.login(loginRequest);
+  loginByEmail(request: iam.LoginByEmailRequest): Promise<iam.LoginResponse> | Observable<iam.LoginResponse> | iam.LoginResponse {
+    return this.authService.loginByEmail(request);
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  register(_request: RegisterRequest): Promise<RegisterResponse> | Observable<RegisterResponse> | RegisterResponse {
-    throw new Error('Method not implemented.');
+  loginByUsername(request: iam.LoginByUsernameRequest): Promise<iam.LoginResponse> | Observable<iam.LoginResponse> | iam.LoginResponse {
+    return this.authService.loginByUsername(request);
+  }
+  register(request: iam.RegisterRequest): Promise<iam.RegisterResponse> | Observable<iam.RegisterResponse> | iam.RegisterResponse {
+    return this.authService.register(request);
   }
 }

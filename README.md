@@ -10,9 +10,10 @@ Use this README as a pro‑developer checklist to track completed APIs and datab
 
 * [ ] **Auth Endpoints**
 
-  * [ ] `POST /auth/login`
-  * [ ] `POST /auth/logout`
   * [ ] `POST /auth/register`
+  * [ ] `POST /auth/login/email`
+  * [ ] `POST /auth/login/username`
+  * [ ] `POST /auth/logout`
   * [ ] `POST /auth/password-reset`
 * [ ] **OAuth2/OIDC Endpoints**
 

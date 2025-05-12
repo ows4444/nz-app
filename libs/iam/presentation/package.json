@@ -24,6 +24,6 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@nestjs/swagger": "^11.1.5",
-    "class-validator": "^0.14.1"
+    "@nz/shared-proto": "0.0.1"
   }
 }

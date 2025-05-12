@@ -4,7 +4,13 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/shared/proto"
+    },
+    {
       "path": "../../libs/shared/logger"
+    },
+    {
+      "path": "../../libs/shared/infrastructure"
     },
     {
       "path": "../../libs/iam/infrastructure"
@@ -13,13 +19,10 @@
       "path": "../../libs/iam/domain"
     },
     {
-      "path": "../../libs/iam/application"
-    },
-    {
       "path": "../../libs/shared/config"
     },
     {
-      "path": "../../libs/shared/infrastructure"
+      "path": "../../libs/iam/application"
     },
     {
       "path": "./tsconfig.app.json"

@@ -6,6 +6,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
+
   @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true, unique: true })
   username!: string;
 

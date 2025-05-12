@@ -6,16 +6,18 @@ import { ProtoBuildExecutorSchema } from './schema';
 
 const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: ProtoBuildExecutorSchema, context: ExecutorContext) => {
   const rootDir = context.root;
-  const projectName = context.projectName;
+  const projectName = String(context.projectName);
+  const serviceRoot = context.projectsConfigurations.projects[projectName].root;
+  const projectType = context.projectsConfigurations.projects[projectName].projectType;
 
   if (!projectName) {
-    logger.error('⛔️ Project name not found in the executor context.');
+    logger.error(`⛔️ ${projectType} name not found in the executor context.`);
     return { success: false };
   }
+  const serviceDir = resolve(serviceRoot);
+  const serviceSrcDir = resolve(serviceDir, 'src');
+  const outDir = resolve(serviceDir, 'src', projectType === 'library' ? 'lib' : '', options.protoDir);
 
-  const serviceDir = resolve(rootDir, 'apps', projectName);
-  const outDir = resolve(serviceDir, 'src', options.protoDir);
-  const assetsDir = resolve(serviceDir, 'src', 'assets');
   const protoDirAbs = resolve(rootDir, options.protoDir);
 
   const entities = Array.isArray(options.entity) ? options.entity : [options.entity];
@@ -28,13 +30,9 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
     for (const entity of entities) {
       const protoFileName = `${entity}.proto`;
       const protoPath = resolve(protoDirAbs, protoFileName);
-      const protoAssetsPath = resolve(assetsDir, protoFileName);
       try {
         await fs.access(protoPath);
         logger.info(`✔️ Found .proto file: ${protoFileName}`);
-
-        //await fs.copyFile(protoPath, protoAssetsPath);
-        logger.info(`✔️ Copied .proto file to: ${protoAssetsPath}`);
       } catch (err: any) {
         if (err.code === 'ENOENT') {
           logger.error(`⛔️ .proto file not found at ${protoPath}`);
@@ -78,6 +76,24 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
   logger.info('🎉 All proto types generated successfully.');
 
   const prettierArgs = ['--write', `${outDir}/**/*.ts`];
+
+  logger.info(`${serviceSrcDir} serviceSrcDir`);
+  // create or recreate index.ts file
+  const indexFilePath = resolve(serviceSrcDir, 'index.ts');
+  const indexFileContent = entities
+    .map((entity) => {
+      const protoFileName = `${entity}.proto`;
+      const protoFileNameWithoutExt = protoFileName.replace('.proto', '');
+      return `export * as ${protoFileNameWithoutExt} from './${projectType === 'library' ? 'lib/' : ''}${options.protoDir}/${protoFileNameWithoutExt}';`;
+    })
+    .join('\n');
+  try {
+    await fs.writeFile(indexFilePath, indexFileContent, { encoding: 'utf-8' });
+    logger.info(`✔️ Created index.ts file at ${indexFilePath}`);
+  } catch (err: any) {
+    logger.error(`⛔️ Error writing index.ts file: ${err.message}`);
+    return { success: false };
+  }
 
   const prettierResult = spawnSync('npx', ['prettier', ...prettierArgs], {
     cwd: outDir,

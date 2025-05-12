@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 import { CommandBus } from '@nestjs/cqrs';
-import { LoginCommand } from '../commands/impl/login.command';
+import { LoginByEmailDto } from '@nz/iam-presentation';
+import { LoginByEmailCommand, LoginByUsernameCommand } from '../commands';
 
 @Injectable()
 export class AuthService {
@@ -10,8 +11,10 @@ export class AuthService {
   public async register(payload: { username: string; email: string; password: string }) {
     return this.commandBus.execute(payload);
   }
-
-  public async login(payload: { username: string; password: string }) {
-    return this.commandBus.execute(new LoginCommand(payload.username, payload.password));
+  public async loginByUsername(payload: { username: string; password: string }) {
+    return this.commandBus.execute(new LoginByUsernameCommand(payload));
+  }
+  public async loginByEmail(payload: LoginByEmailDto) {
+    return this.commandBus.execute(new LoginByEmailCommand(payload));
   }
 }

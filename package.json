@@ -107,6 +107,7 @@
     "libs/iam/domain",
     "libs/iam/application",
     "libs/iam/infrastructure",
-    "libs/iam/presentation"
+    "libs/iam/presentation",
+    "libs/shared/proto"
   ]
 }

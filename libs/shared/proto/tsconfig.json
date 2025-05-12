@@ -4,12 +4,6 @@
   "include": [],
   "references": [
     {
-      "path": "../presentation"
-    },
-    {
-      "path": "../domain"
-    },
-    {
       "path": "./tsconfig.lib.json"
     },
     {

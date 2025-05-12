@@ -10,6 +10,12 @@
       "path": "../../libs/shared/logger"
     },
     {
+      "path": "../../libs/iam/presentation"
+    },
+    {
+      "path": "../../libs/shared/proto"
+    },
+    {
       "path": "../../libs/shared/config"
     },
     {

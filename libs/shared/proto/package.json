@@ -1,5 +1,5 @@
 {
-  "name": "@nz/iam-application",
+  "name": "@nz/shared-proto",
   "version": "0.0.1",
   "private": true,
   "main": "./dist/index.js",
@@ -15,18 +15,26 @@
     }
   },
   "nx": {
+    "targets": {
+      "proto-build": {
+        "executor": "@nz/workspace-tools:proto-build",
+        "cache": true,
+        "options": {
+          "entity": [
+            "iam"
+          ]
+        }
+      }
+    },
     "tags": [
-      "type:application",
-      "scope:iam"
+      "type:shared",
+      "scope:proto"
     ],
-    "name": "iam-application"
+    "name": "shared-proto"
   },
   "dependencies": {
     "tslib": "^2.3.0",
-    "@nestjs/common": "^11.0.0",
-    "@nestjs/cqrs": "^11.0.3",
-    "uuid": "11.1.0",
-    "@nz/iam-domain": "0.0.1",
-    "@nz/iam-presentation": "0.0.1"
+    "@nestjs/microservices": "^11.1.0",
+    "rxjs": "^7.8.0"
   }
 }

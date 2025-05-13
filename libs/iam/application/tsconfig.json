@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../shared/config"
+    },
+    {
       "path": "../../shared/infrastructure"
     },
     {

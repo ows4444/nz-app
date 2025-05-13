@@ -2,6 +2,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { Environment } from '@nz/config';
+import { EnvironmentType } from '@nz/const';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
 import { GrpcToHttpInterceptor } from '@nz/shared-infrastructure';
 import { AppModule } from './app/app.module';
@@ -34,7 +35,7 @@ async function Bootstrap() {
 
   app.useGlobalInterceptors(new GrpcToHttpInterceptor());
 
-  const isProduction = configService.getOrThrow<string>('NODE_ENV') === 'production';
+  const isProduction = configService.getOrThrow<string>('NODE_ENV') === EnvironmentType.Production;
 
   if (isProduction) {
     app.enableShutdownHooks();

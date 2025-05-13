@@ -4,10 +4,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RabbitMQEnvironment, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
+import { authConfigLoader, RabbitMQEnvironment, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
 import { AuthService, IAMCommandHandlers } from '@nz/iam-application';
-import { USER_REPOSITORY } from '@nz/iam-domain';
-import { TypeormUserRepository, UserEntityORM } from '@nz/iam-infrastructure';
+import { USER_CREDENTIAL_REPOSITORY, USER_REPOSITORY } from '@nz/iam-domain';
+import { TypeormUserCredentialRepository, TypeormUserRepository, UserCredentialEntityORM, UserEntityORM } from '@nz/iam-infrastructure';
 import { GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import { AppController } from './app.controller';
 
@@ -18,13 +18,14 @@ import { AppController } from './app.controller';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         ...configService.getOrThrow<TypeOrmEnvironment>('typeorm'),
-        entities: [UserEntityORM],
+        entities: [UserEntityORM, UserCredentialEntityORM],
       }),
       imports: [ConfigModule],
     }),
     SharedConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
+      load: [authConfigLoader],
     }),
     RabbitMQModule.forRootAsync({
       imports: [ConfigModule],
@@ -45,6 +46,10 @@ import { AppController } from './app.controller';
       {
         provide: USER_REPOSITORY,
         useClass: TypeormUserRepository,
+      },
+      {
+        provide: USER_CREDENTIAL_REPOSITORY,
+        useClass: TypeormUserCredentialRepository,
       },
     ],
     IAMCommandHandlers,

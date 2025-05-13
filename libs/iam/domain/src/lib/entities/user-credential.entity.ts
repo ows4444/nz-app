@@ -2,32 +2,49 @@ import { Password } from '../value-objects';
 
 export interface IUserCredentialProps {
   id: string;
-  password_hash: Password;
+  passwordHash: string;
   salt: string;
+  algo: string;
+  pepperVersion: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export class UserCredentialEntity {
   public readonly id: string;
-  private _password_hash: Password;
+  private _passwordHash: string;
+  private _password: Password;
   private _salt: string;
+  private _algo: string;
+  private _pepperVersion: string;
   private _createdAt: Date;
   private _updatedAt: Date;
 
   private constructor(props: IUserCredentialProps) {
     this.id = props.id;
-    this._password_hash = props.password_hash;
+    this._passwordHash = props.passwordHash;
     this._salt = props.salt;
+    this._algo = props.algo;
+    this._pepperVersion = props.pepperVersion;
+
+    this._password = Password.fromStorage({
+      passwordHash: props.passwordHash,
+      salt: props.salt,
+      algo: props.algo,
+      pepperVersion: props.pepperVersion,
+    });
     this._createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
   }
 
-  public static createNew(id: string, rawPassword: string, rawSalt: string): UserCredentialEntity {
+  public static createNew(id: string, password: string, pepper: string, algo: string, pepperVersion: string): UserCredentialEntity {
+    const PasswordVO = Password.generate(password, pepper, pepperVersion, algo);
     return new UserCredentialEntity({
       id,
-      password_hash: Password.create(rawPassword),
-      salt: rawSalt,
+      passwordHash: PasswordVO.props.passwordHash,
+      salt: PasswordVO.props.salt,
+      algo: PasswordVO.props.algo,
+      pepperVersion: PasswordVO.props.pepperVersion,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -37,12 +54,29 @@ export class UserCredentialEntity {
     return new UserCredentialEntity(props);
   }
 
-  public get password_hash(): string {
-    return this._password_hash.getValue();
+  public updatePassword(password: string, pepper: string, algo: string, pepperVersion: string): void {
+    const PasswordVO = Password.generate(password, pepper, pepperVersion, algo);
+    this._passwordHash = PasswordVO.props.passwordHash;
+    this._salt = PasswordVO.props.salt;
+    this._algo = PasswordVO.props.algo;
+    this._pepperVersion = PasswordVO.props.pepperVersion;
+    this.touchUpdatedAt();
+  }
+
+  public get passwordHash(): string {
+    return this._passwordHash;
   }
 
   public get salt(): string {
     return this._salt;
+  }
+
+  public get algo(): string {
+    return this._algo;
+  }
+
+  public get pepperVersion(): string {
+    return this._pepperVersion;
   }
 
   public get createdAt(): Date {
@@ -53,13 +87,8 @@ export class UserCredentialEntity {
     return this._updatedAt;
   }
 
-  public async validatePassword(plain: string): Promise<boolean> {
-    return this._password_hash.compare(plain);
-  }
-
-  public async changePassword(newPassword: string): Promise<void> {
-    this._password_hash = Password.create(newPassword);
-    this.touchUpdatedAt();
+  public get password(): Password {
+    return this._password;
   }
 
   private touchUpdatedAt(): void {

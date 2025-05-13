@@ -28,6 +28,8 @@
     "uuid": "11.1.0",
     "@nz/iam-domain": "0.0.1",
     "@nz/iam-presentation": "0.0.1",
-    "@nz/shared-infrastructure": "0.0.1"
+    "@nz/shared-infrastructure": "0.0.1",
+    "@nestjs/config": "^4.0.2",
+    "@nz/config": "0.0.1"
   }
 }

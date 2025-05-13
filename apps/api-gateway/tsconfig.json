@@ -10,6 +10,9 @@
       "path": "../../libs/shared/logger"
     },
     {
+      "path": "../../libs/shared/const"
+    },
+    {
       "path": "../../libs/iam/presentation"
     },
     {

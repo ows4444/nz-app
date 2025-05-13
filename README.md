@@ -70,7 +70,7 @@
 
 ### Database Schemas
 
-* [ ] **Table: `users_credentials`**
+* [x] **Table: `users_credentials`**
 
   * id (PK), user\_id (FK), password\_hash, salt, algo, pepper\_version, created\_at, updated\_at
 * [ ] **Table: `password_resets`**
@@ -94,7 +94,7 @@
 * [ ] **Table: `openid_permissions`**
 
   * user\_id (FK), client\_id (FK), scopes (array), granted\_at, expiration\_policy
-* [ ] **Table: `users_profile`**
+* [x] **Table: `users_profile`**
 
   * user\_id (PK), name, email (unique), phone, locale, avatar\_url, metadata (JSON), created\_at, updated\_at
 * [ ] **Table: `user_preferences`**

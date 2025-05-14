@@ -12,9 +12,9 @@ export class TypeormUserCredentialRepository implements UserCredentialRepository
     return qr ? qr.manager.getRepository(UserCredentialEntityORM) : this.ds.getRepository(UserCredentialEntityORM);
   }
 
-  async save(userCredential: UserCredentialEntity): Promise<UserCredentialEntity> {
-    const ormEntity = this.repo().create(UserCredentialMapper.toPersistence(userCredential));
-    const saved = await this.repo().save(ormEntity);
+  async save(userCredential: UserCredentialEntity, qr?: QueryRunner): Promise<UserCredentialEntity> {
+    const ormEntity = this.repo(qr).create(UserCredentialMapper.toPersistence(userCredential));
+    const saved = await this.repo(qr).save(ormEntity);
     return UserCredentialMapper.toDomain(saved);
   }
   async findOneById(id: string, qr?: QueryRunner): Promise<UserCredentialEntity | null> {

@@ -30,6 +30,8 @@
     "@nz/iam-presentation": "0.0.1",
     "@nz/shared-infrastructure": "0.0.1",
     "@nestjs/config": "^4.0.2",
-    "@nz/config": "0.0.1"
+    "@nz/config": "0.0.1",
+    "@nestjs/typeorm": "^11.0.0",
+    "typeorm": "^0.3.22"
   }
 }

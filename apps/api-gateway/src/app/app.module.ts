@@ -16,7 +16,7 @@ import { AuthController } from './auth.controller';
         options: {
           package: iam.IAM_PACKAGE_NAME,
           protoPath: join(__dirname, 'assets', 'iam.proto'),
-          url: 'localhost:4000',
+          url: 'localhost:4040',
         },
       },
     ]),

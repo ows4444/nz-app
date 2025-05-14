@@ -5,8 +5,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { authConfigLoader, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
 import { AuthService, IAMCommandHandlers } from '@nz/iam-application';
-import { USER_CREDENTIAL_REPOSITORY, USER_REPOSITORY } from '@nz/iam-domain';
-import { TypeormUserCredentialRepository, TypeormUserRepository, UserCredentialEntityORM, UserEntityORM } from '@nz/iam-infrastructure';
+import { USER_CONTACT_REPOSITORY, USER_CREDENTIAL_REPOSITORY, USER_REPOSITORY } from '@nz/iam-domain';
+import { TypeormUserContactRepository, TypeormUserCredentialRepository, TypeormUserRepository, UserContactEntityORM, UserCredentialEntityORM, UserEntityORM } from '@nz/iam-infrastructure';
 import { GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import { AppController } from './app.controller';
 
@@ -17,7 +17,7 @@ import { AppController } from './app.controller';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         ...configService.getOrThrow<TypeOrmEnvironment>('typeorm'),
-        entities: [UserEntityORM, UserCredentialEntityORM],
+        entities: [UserEntityORM, UserContactEntityORM, UserCredentialEntityORM],
       }),
       imports: [ConfigModule],
     }),
@@ -42,6 +42,10 @@ import { AppController } from './app.controller';
       {
         provide: USER_CREDENTIAL_REPOSITORY,
         useClass: TypeormUserCredentialRepository,
+      },
+      {
+        provide: USER_CONTACT_REPOSITORY,
+        useClass: TypeormUserContactRepository,
       },
     ],
     IAMCommandHandlers,

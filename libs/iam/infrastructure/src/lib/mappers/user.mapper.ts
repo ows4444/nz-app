@@ -7,21 +7,10 @@ export class UserMapper {
       id: user.id,
       email: Email.create(user.email),
       username: Username.create(user.username),
-      status: user.status,
-
-      locale: user.locale,
-      phone: user.phone,
-
-      isEmailVerified: user.isEmailVerified,
-      isPhoneVerified: user.isPhoneVerified,
+      primaryContactId: user.primary_contact_id,
 
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-
-      suspendedAt: user.revokedAt,
-      suspendedUntil: user.revokedUntil,
-
-      deletedAt: user.deletedAt,
     });
   }
 
@@ -30,20 +19,10 @@ export class UserMapper {
       id: user.id,
       email: user.email,
       username: user.username,
-      status: user.status,
-
-      locale: user.locale,
-      phone: user.phone,
-
-      isEmailVerified: user.isEmailVerified,
-      isPhoneVerified: user.isPhoneVerified,
+      primary_contact_id: user.primaryContactId,
 
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-      revokedAt: user.suspendedAt,
-      revokedUntil: user.suspendedUntil,
-
-      deletedAt: user.deletedAt,
     };
   }
 }

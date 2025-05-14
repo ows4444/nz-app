@@ -1,7 +1,7 @@
-import { Status } from '@nz/const';
-import { StringColumn, WithCreated, WithRevocation, WithSoftDelete, WithUpdated } from '@nz/shared-infrastructure';
+import { StringColumn, WithCreated, WithUpdated } from '@nz/shared-infrastructure';
 
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { UserContactEntityORM } from './user-contact.entity';
 
 class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -13,21 +13,17 @@ class User extends BaseEntity {
   @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true, unique: true })
   email!: string;
 
-  @StringColumn({ length: 32, nullable: true, trim: true })
-  phone!: string;
+  // FK for the “primary” contact row
+  @Column({ type: 'uuid', nullable: true })
+  primary_contact_id!: string | null;
 
-  @Column({ default: false })
-  isEmailVerified!: boolean;
+  @OneToMany(() => UserContactEntityORM, (contact) => contact.user)
+  contacts!: UserContactEntityORM[];
 
-  @Column({ default: false })
-  isPhoneVerified!: boolean;
-
-  @StringColumn({ length: 32, nullable: false, trim: true })
-  locale!: string;
-
-  @Column({ type: 'int' })
-  status!: Status;
+  @OneToOne(() => UserContactEntityORM, (contact) => contact.user, { nullable: true, cascade: ['insert'] })
+  @JoinColumn({ name: 'primary_contact_id' })
+  primaryContact!: UserContactEntityORM;
 }
 
 @Entity({ name: 'users' })
-export class UserEntityORM extends WithSoftDelete(WithUpdated(WithCreated(WithRevocation(User)))) {}
+export class UserEntityORM extends WithUpdated(WithCreated(User)) {}

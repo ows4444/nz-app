@@ -1,0 +1,8 @@
+{
+  "{apps,libs,tools}/**/*.{ts,tsx}": [
+    "eslint --fix",
+    "prettier --plugin prettier-plugin-organize-imports --single-quote --semi --trailing-comma all --print-width 200 --end-of-line auto --write",
+    "prettier --write"
+  ],
+  "*.json": ["prettier --write"]
+}

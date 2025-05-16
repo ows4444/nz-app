@@ -31,6 +31,7 @@
     "@nestjs/config": "^4.0.2",
     "@nz/config": "0.0.1",
     "@nestjs/typeorm": "^11.0.0",
-    "typeorm": "^0.3.22"
+    "typeorm": "^0.3.22",
+    "@nestjs/microservices": "^11.1.0"
   }
 }

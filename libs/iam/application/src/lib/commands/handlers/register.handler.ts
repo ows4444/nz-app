@@ -1,6 +1,8 @@
 import { ConfigService } from '@nestjs/config';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { RpcException } from '@nestjs/microservices';
 import { InjectDataSource } from '@nestjs/typeorm';
+
 import { AuthEnvironment } from '@nz/config';
 import type { UserContactRepository, UserCredentialRepository, UserRepository } from '@nz/iam-domain';
 import {
@@ -14,9 +16,12 @@ import {
   UserEntity,
   Username,
 } from '@nz/iam-domain';
-import { GrpcAlreadyExistsException } from '@nz/shared-infrastructure';
+import { GrpcAlreadyExistsException, GrpcUnknownException } from '@nz/shared-infrastructure';
+
 import { DataSource } from 'typeorm';
+
 import { RegisterCommand } from '../impl';
+
 @CommandHandler(RegisterCommand)
 export class RegisterHandler implements ICommandHandler<RegisterCommand> {
   constructor(
@@ -59,11 +64,12 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
 
       await queryRunner.commitTransaction();
       return user;
-    } catch (error) {
+    } catch (error: unknown) {
       await queryRunner.rollbackTransaction();
-      console.log(error);
-
-      throw error;
+      if (error instanceof RpcException) {
+        throw error;
+      }
+      throw new GrpcUnknownException(error as Error);
     } finally {
       await queryRunner.release();
     }

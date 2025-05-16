@@ -19,6 +19,9 @@
       "path": "../../libs/shared/logger/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/shared/const/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/iam/presentation/tsconfig.lib.json"
     },
     {

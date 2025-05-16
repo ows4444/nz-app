@@ -1,3 +1,4 @@
+export * from './lib/auth-env';
 export * from './lib/database';
 export * from './lib/env';
 export * from './lib/logger';

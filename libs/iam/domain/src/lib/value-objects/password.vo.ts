@@ -1,42 +1,35 @@
 import bcrypt from 'bcrypt';
 
+export interface PasswordProps {
+  passwordHash: string;
+  salt: string;
+  algo: string;
+  pepperVersion: string;
+}
+
 export class Password {
-  private constructor(private readonly value: string) {}
+  private constructor(private readonly _passwordHash: string, private readonly _salt: string, private readonly _algo: string, private readonly _pepperVersion: string) {}
 
-  public static create(password: string, isHashed = false): Password {
-    if (!isHashed && !this.isValid(password)) {
-      throw new Error('Password must be at least 8 characters');
-    }
-
-    const hashedValue = isHashed ? password : this.hash(password);
-    return new Password(hashedValue);
+  public static generate(plainText: string, pepper: string, pepperVersion: string, algo = 'bcrypt', cost = 12): Password {
+    const salt = bcrypt.genSaltSync(cost);
+    const hash = bcrypt.hashSync(plainText + pepper, salt);
+    return new Password(hash, salt, algo, pepperVersion);
   }
 
-  static restore(hashed: string): Password {
-    return Password.create(hashed, true);
+  public static fromStorage(props: PasswordProps): Password {
+    return new Password(props.passwordHash, props.salt, props.algo, props.pepperVersion);
   }
 
-  public static fromHashed(hashed: string): Password {
-    return new Password(hashed);
+  public async verify(attempt: string, pepper: string): Promise<boolean> {
+    return bcrypt.compare(attempt + pepper, this._passwordHash);
   }
 
-  public getValue(): string {
-    return this.value;
-  }
-
-  public compare(plain: string): boolean {
-    return bcrypt.compareSync(plain, this.value);
-  }
-
-  public equals(other: Password): boolean {
-    return this.value === other.getValue();
-  }
-
-  private static isValid(password: string): boolean {
-    return password.length >= 8;
-  }
-
-  private static hash(password: string): string {
-    return bcrypt.hashSync(password, 10);
+  public get props(): PasswordProps {
+    return {
+      passwordHash: this._passwordHash,
+      salt: this._salt,
+      algo: this._algo,
+      pepperVersion: this._pepperVersion,
+    };
   }
 }

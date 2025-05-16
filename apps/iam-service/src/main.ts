@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Environment } from '@nz/config';
+import { EnvironmentType } from '@nz/const';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
 import { iam } from '@nz/shared-proto';
 import { join } from 'path';
@@ -10,6 +11,7 @@ import { AppModule } from './app/app.module';
 
 async function Bootstrap() {
   const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(AppModule, {
+    bufferLogs: true,
     useFactory: (configService: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
@@ -30,10 +32,11 @@ async function Bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.flushLogs();
-
-  app.enableShutdownHooks();
-
   const config: ConfigService = app.get(ConfigService);
+  const isProduction = config.getOrThrow<string>('NODE_ENV') === EnvironmentType.Production;
+  if (isProduction) {
+    app.enableShutdownHooks();
+  }
 
   await app.listen();
 

@@ -1,13 +1,12 @@
-import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RabbitMQEnvironment, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
-import { AuthService, IAMCommandHandlers, UseCases } from '@nz/iam-application';
-import { USER_REPOSITORY } from '@nz/iam-domain';
-import { TypeormUserRepository, UserEntityORM } from '@nz/iam-infrastructure';
+import { authConfigLoader, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
+import { AuthService, IAMCommandHandlers } from '@nz/iam-application';
+import { USER_CONTACT_REPOSITORY, USER_CREDENTIAL_REPOSITORY, USER_REPOSITORY } from '@nz/iam-domain';
+import { TypeormUserContactRepository, TypeormUserCredentialRepository, TypeormUserRepository, UserContactEntityORM, UserCredentialEntityORM, UserEntityORM } from '@nz/iam-infrastructure';
 import { GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import { AppController } from './app.controller';
 
@@ -18,20 +17,14 @@ import { AppController } from './app.controller';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         ...configService.getOrThrow<TypeOrmEnvironment>('typeorm'),
-        entities: [UserEntityORM],
+        entities: [UserEntityORM, UserContactEntityORM, UserCredentialEntityORM],
       }),
       imports: [ConfigModule],
     }),
     SharedConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
-    }),
-    RabbitMQModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        ...configService.getOrThrow<RabbitMQEnvironment>('rabbitmq'),
-      }),
+      load: [authConfigLoader],
     }),
   ],
   controllers: [AppController],
@@ -46,8 +39,15 @@ import { AppController } from './app.controller';
         provide: USER_REPOSITORY,
         useClass: TypeormUserRepository,
       },
+      {
+        provide: USER_CREDENTIAL_REPOSITORY,
+        useClass: TypeormUserCredentialRepository,
+      },
+      {
+        provide: USER_CONTACT_REPOSITORY,
+        useClass: TypeormUserContactRepository,
+      },
     ],
-    UseCases,
     IAMCommandHandlers,
   ),
 })

@@ -1,8 +1,6 @@
-import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { RabbitMQEnvironment, SharedConfigModule } from '@nz/config';
+import { SharedConfigModule } from '@nz/config';
 import { iam } from '@nz/shared-proto';
 import { join } from 'path';
 import { AuthController } from './auth.controller';
@@ -16,7 +14,7 @@ import { AuthController } from './auth.controller';
         options: {
           package: iam.IAM_PACKAGE_NAME,
           protoPath: join(__dirname, 'assets', 'iam.proto'),
-          url: 'localhost:4000',
+          url: 'localhost:4040',
         },
       },
     ]),
@@ -24,14 +22,6 @@ import { AuthController } from './auth.controller';
     SharedConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
-    }),
-
-    RabbitMQModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        ...configService.getOrThrow<RabbitMQEnvironment>('rabbitmq'),
-      }),
     }),
   ],
   controllers: [AuthController],

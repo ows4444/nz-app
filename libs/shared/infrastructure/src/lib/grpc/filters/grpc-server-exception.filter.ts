@@ -4,8 +4,7 @@ import { Observable, throwError } from 'rxjs';
 
 @Catch(RpcException)
 export class GrpcServerExceptionFilter implements RpcExceptionFilter<RpcException> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  catch(exception: RpcException): Observable<any> {
+  catch(exception: RpcException): Observable<unknown> {
     return throwError(() => exception.getError());
   }
 }

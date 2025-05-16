@@ -4,10 +4,10 @@
   "include": [],
   "references": [
     {
-      "path": "../../libs/shared/proto"
+      "path": "../../libs/shared/logger"
     },
     {
-      "path": "../../libs/shared/logger"
+      "path": "../../libs/shared/const"
     },
     {
       "path": "../../libs/shared/infrastructure"
@@ -20,6 +20,9 @@
     },
     {
       "path": "../../libs/shared/config"
+    },
+    {
+      "path": "../../libs/shared/proto"
     },
     {
       "path": "../../libs/iam/application"

@@ -1,1 +1,2 @@
-export * as iam from './lib/proto/iam';
+export * as auth from './lib/proto/auth';
+export * as health from './lib/proto/health';

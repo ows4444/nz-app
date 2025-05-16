@@ -8,7 +8,8 @@ import { AuthService, IAMCommandHandlers } from '@nz/iam-application';
 import { USER_CONTACT_REPOSITORY, USER_CREDENTIAL_REPOSITORY, USER_REPOSITORY } from '@nz/iam-domain';
 import { TypeormUserContactRepository, TypeormUserCredentialRepository, TypeormUserRepository, UserContactEntityORM, UserCredentialEntityORM, UserEntityORM } from '@nz/iam-infrastructure';
 import { GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
-import { AppController } from './app.controller';
+import { AuthController } from './auth.controller';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { AppController } from './app.controller';
       load: [authConfigLoader],
     }),
   ],
-  controllers: [AppController],
+  controllers: [AuthController, HealthController],
   providers: ([] as Provider[]).concat(
     [
       AuthService,

@@ -1,4 +1,4 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { Environment } from '@nz/config';
@@ -31,7 +31,9 @@ async function Bootstrap() {
     preflightContinue: false,
     credentials: true,
   });
-  app.setGlobalPrefix(globalPrefix);
+  app.setGlobalPrefix(globalPrefix, {
+    exclude: [{ method: RequestMethod.GET, path: '/health/*path' }],
+  });
 
   app.useGlobalInterceptors(new GrpcToHttpInterceptor());
 

@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package iam;
+package auth;
 
-service IAMService {
-  rpc LoginByEmail (LoginByEmailRequest) returns (LoginResponse) ;
+service AuthService {
+  rpc LoginByEmail (LoginByEmailRequest) returns (LoginResponse);
   rpc LoginByUsername (LoginByUsernameRequest) returns (LoginResponse);
   rpc Register (RegisterRequest) returns (RegisterResponse);
 }

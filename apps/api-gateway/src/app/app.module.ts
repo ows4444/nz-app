@@ -1,19 +1,20 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { SharedConfigModule } from '@nz/config';
-import { iam } from '@nz/shared-proto';
+import { auth, health } from '@nz/shared-proto';
 import { join } from 'path';
 import { AuthController } from './auth.controller';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: iam.IAM_PACKAGE_NAME,
+        name: auth.protobufPackage,
         transport: Transport.GRPC,
         options: {
-          package: iam.IAM_PACKAGE_NAME,
-          protoPath: join(__dirname, 'assets', 'iam.proto'),
+          package: [auth.AUTH_PACKAGE_NAME, health.HEALTH_PACKAGE_NAME],
+          protoPath: [join(__dirname, 'assets', 'auth.proto'), join(__dirname, 'assets', 'health.proto')],
           url: 'localhost:4040',
         },
       },
@@ -24,6 +25,6 @@ import { AuthController } from './auth.controller';
       expandVariables: true,
     }),
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, HealthController],
 })
 export class AppModule {}

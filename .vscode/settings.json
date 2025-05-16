@@ -30,6 +30,7 @@
   "explorer.sortOrder": "modified",
   "files.exclude": {
     "**/.git": true,
+    "**/.github": true,
     "**/.svn": true,
     "**/.hg": true,
     "**/.DS_Store": true,

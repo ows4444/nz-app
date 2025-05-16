@@ -21,7 +21,8 @@
         "cache": true,
         "options": {
           "entity": [
-            "iam"
+            "auth",
+            "health"
           ]
         }
       }

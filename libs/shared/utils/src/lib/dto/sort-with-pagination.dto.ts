@@ -1,8 +1,6 @@
 import { IntersectionType } from '@nestjs/mapped-types';
-
 import { Exclude, Expose, Type } from 'class-transformer';
 import { IsOptional, ValidateNested } from 'class-validator';
-
 import { PaginationDto } from './pagination.dto';
 import { SortDto } from './sort.dto';
 

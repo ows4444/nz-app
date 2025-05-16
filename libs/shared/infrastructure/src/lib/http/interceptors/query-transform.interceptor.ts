@@ -1,13 +1,11 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-
 import { plainToInstance } from 'class-transformer';
 import { Request } from 'express';
 
 import 'reflect-metadata';
 
-import { Observable } from 'rxjs';
-
 import { SortWithPaginationDto } from '@nz/utils';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class QueryTransformInterceptor implements NestInterceptor {

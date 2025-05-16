@@ -1,8 +1,7 @@
-import { Expose, Transform } from 'class-transformer';
-import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
-
 import { EnvironmentType } from '@nz/const';
 import { parseBoolean } from '@nz/utils';
+import { Expose, Transform } from 'class-transformer';
+import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class EnvironmentSchema {
   @Expose()

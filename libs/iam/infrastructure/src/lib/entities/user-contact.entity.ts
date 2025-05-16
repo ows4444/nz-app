@@ -1,5 +1,4 @@
 import { WithCreated, WithUpdated } from '@nz/shared-infrastructure';
-
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntityORM } from './user.entity';
 

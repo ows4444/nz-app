@@ -2,7 +2,6 @@ import { ConfigService } from '@nestjs/config';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RpcException } from '@nestjs/microservices';
 import { InjectDataSource } from '@nestjs/typeorm';
-
 import { AuthEnvironment } from '@nz/config';
 import type { UserContactRepository, UserCredentialRepository, UserRepository } from '@nz/iam-domain';
 import {
@@ -17,9 +16,7 @@ import {
   Username,
 } from '@nz/iam-domain';
 import { GrpcAlreadyExistsException, GrpcUnknownException } from '@nz/shared-infrastructure';
-
 import { DataSource } from 'typeorm';
-
 import { RegisterCommand } from '../impl';
 
 @CommandHandler(RegisterCommand)

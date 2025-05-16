@@ -1,5 +1,4 @@
 import { DynamicModule, Global, Module, Provider, Type } from '@nestjs/common';
-
 import { LOGGER_OPTIONS, LOGGER_SERVICE } from './logger.constants';
 import { LoggerModuleAsyncOptions, LoggerModuleFactory, LoggerModuleOptions } from './logger.interfaces';
 import { LoggerService } from './logger.service';

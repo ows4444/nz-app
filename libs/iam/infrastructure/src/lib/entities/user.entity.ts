@@ -1,5 +1,4 @@
 import { StringColumn, WithCreated, WithUpdated } from '@nz/shared-infrastructure';
-
 import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserContactEntityORM } from './user-contact.entity';
 

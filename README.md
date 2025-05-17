@@ -12,7 +12,7 @@
 
 - [ ] **User Registration & Authentication**
 
-  - [ ] `POST /v1/auth/register` — supports email, username, OAuth client registrations
+  - [ ] `POST /v1/auth/register` — supports **email**, **username** registrations
   - [ ] `POST /v1/auth/login/email` — multi-factor support (SMS, TOTP, hardware keys)
   - [ ] `POST /v1/auth/login/username` — optional SMS/OTP factor, risk-based step-up
   - [ ] `POST /v1/auth/logout` — blacklist tokens + notify audit stream
@@ -51,6 +51,16 @@
 
   - [ ] `GET /v1/userinfo` — supports JSON and JWT responses + SCIM v2 compatibility
   - [ ] `PATCH /v1/userinfo` — partial profile updates + schema validation
+
+- [ ] **OAuth Client Management**
+  - [ ] `POST   /v1/oauth/clients`  
+    - Register new OAuth2 client applications  
+    - Accepts: `client_name`, `redirect_uris`, `grant_types`, `response_types`, `token_endpoint_auth_method`, `scopes`, `owner_id`, `metadata`  
+    - Requires `Idempotency-Key` header and admin-scoped authorization  
+    - Returns `client_id` (and `client_secret` if confidential) plus full client metadata  
+  - [ ] `PATCH  /v1/oauth/clients/:client_id` — update redirect URIs, scopes, metadata  
+  - [ ] `DELETE /v1/oauth/clients/:client_id` — soft-delete or deactivate client  
+  - [ ] `POST   /v1/oauth/clients/:client_id/rotate-secret` — revoke old secret and issue new one
 
 #### Adaptive Security Hooks
 

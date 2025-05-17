@@ -53,6 +53,7 @@
   - [ ] `PATCH /v1/userinfo` — partial profile updates + schema validation
 
 - [ ] **OAuth Client Management**
+  
   - [ ] `POST   /v1/oauth/clients`  
     - Register new OAuth2 client applications  
     - Accepts: `client_name`, `redirect_uris`, `grant_types`, `response_types`, `token_endpoint_auth_method`, `scopes`, `owner_id`, `metadata`  

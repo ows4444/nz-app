@@ -1,6 +1,8 @@
-import { Controller, Get, Inject, OnModuleInit } from '@nestjs/common';
-import type { ClientGrpc } from '@nestjs/microservices';
+import { status } from '@grpc/grpc-js';
+import { Controller, Get, HttpException, HttpStatus, Inject, OnModuleInit } from '@nestjs/common';
+import { type ClientGrpc } from '@nestjs/microservices';
 import { auth, health } from '@nz/shared-proto';
+import { catchError, throwError } from 'rxjs';
 
 @Controller('health')
 export class HealthController implements OnModuleInit {
@@ -14,6 +16,13 @@ export class HealthController implements OnModuleInit {
 
   @Get(auth.protobufPackage)
   check() {
-    return this.healthServiceClient.check({});
+    return this.healthServiceClient.check({}).pipe(
+      catchError((error) => {
+        if (error.code === status.UNAVAILABLE) {
+          throw new HttpException('Health service unreachable', HttpStatus.BAD_GATEWAY);
+        }
+        return throwError(() => error);
+      }),
+    );
   }
 }

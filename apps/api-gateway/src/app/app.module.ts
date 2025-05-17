@@ -6,6 +6,7 @@ import { join } from 'path';
 import { AuthController } from './auth.controller';
 import { HealthController } from './health.controller';
 
+const protoPath = (name: string) => join(__dirname, 'assets', `${name}.proto`);
 @Module({
   imports: [
     ClientsModule.register([
@@ -14,7 +15,7 @@ import { HealthController } from './health.controller';
         transport: Transport.GRPC,
         options: {
           package: [auth.AUTH_PACKAGE_NAME, health.HEALTH_PACKAGE_NAME],
-          protoPath: [join(__dirname, 'assets', 'auth.proto'), join(__dirname, 'assets', 'health.proto')],
+          protoPath: [protoPath(auth.protobufPackage), protoPath(health.protobufPackage)],
           url: 'localhost:4040',
         },
       },
@@ -25,6 +26,6 @@ import { HealthController } from './health.controller';
       expandVariables: true,
     }),
   ],
-  controllers: [AuthController, HealthController],
+  controllers: [HealthController, AuthController],
 })
 export class AppModule {}

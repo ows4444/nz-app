@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { SharedConfigModule } from '@nz/config';
-import { IdempotencyInterceptor } from '@nz/shared-infrastructure';
+import { IdempotencyInterceptor, RateLimitInterceptor } from '@nz/shared-infrastructure';
 import { auth, health } from '@nz/shared-proto';
 import Keyv from 'keyv';
 import { join } from 'path';
@@ -42,6 +42,10 @@ const protoPath = (name: string) => join(__dirname, 'assets', `${name}.proto`);
     {
       provide: APP_INTERCEPTOR,
       useClass: IdempotencyInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: RateLimitInterceptor,
     },
   ],
 })

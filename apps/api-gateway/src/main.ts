@@ -1,6 +1,7 @@
 import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestApplication, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { Environment } from '@nz/config';
 import { EnvironmentType } from '@nz/const';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
@@ -9,7 +10,7 @@ import { AppModule } from './app/app.module';
 import { BootstrapSwagger } from './bootstrap/swagger.bootstrap';
 
 async function Bootstrap() {
-  const app = await NestFactory.create<NestApplication>(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
   });
   const logger = new Logger(Bootstrap.name);
@@ -45,7 +46,7 @@ async function Bootstrap() {
   } else {
     BootstrapSwagger(app);
   }
-
+  app.disable('x-powered-by');
   await app.listen(port, host);
   logger.log(`🚀 Application is running on: http://${host}:${port}/${globalPrefix}`);
 }

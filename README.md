@@ -32,15 +32,28 @@
 
 - [ ] **Authorization**
 
-  - [ ] `GET /v1/oauth/authorize` — supports PKCE, consent screen parameters, custom claims
-  - [ ] `POST /v1/oauth/authorize/consent` — record scopes and grants, store audit trail
+  - [ ] `GET /v1/oauth/authorize`
+
+    * Query params: `response_type`, `client_id`, `redirect_uri`, `scope`, `state`, `code_challenge` (PKCE)
+    * Returns authorization code or prompt for user consent
+  - [ ] `POST /v1/oauth/authorize/consent`
+
+    * Body: `{ consented_scopes: [], user_decision: "approve"|"deny", session_state: "" }`
+    * Records grant in audit trail
   - [ ] **Consent Revocation**: `DELETE /v1/oauth/consent/:consentId`
 
 - [ ] **Token Lifecycle**
 
-  - [ ] `POST /v1/oauth/token` — grant types: auth_code, client_credentials, refresh_token, PKCE; support JWT-structured responses
-  - [ ] `POST /v1/oauth/revoke` — token revocation (access & refresh) + dynamic secrets cleanup
-  - [ ] `POST /v1/oauth/introspect` — token validation with rate limiting + trace ID for observability
+  - [ ] `POST /v1/oauth/token`
+
+    * Grant types: `authorization_code`, `client_credentials`, `refresh_token`, `password`, `urn:ietf:params:oauth:grant-type:device_code` (device flow), PKCE support
+    * Accepts form-encoded or JSON
+    * Returns JWT or opaque tokens with `access_token`, `refresh_token`, `expires_in`
+  - [ ] `POST /v1/oauth/revoke`
+
+    * Token revocation for access and refresh, triggers secret cleanup
+  - [ ] `POST /v1/oauth/introspect`
+    * Validates token, returns active state, `client_id`, `username`, `scope`, `exp`
 
 - [ ] **Discovery & JWKS**
 
@@ -320,6 +333,7 @@
 - [ ] `POST /devices` — idempotent, return existing if duplicate, attach metadata
 - [ ] `PUT /devices/:deviceId` — update metadata, verify device health
 - [ ] `DELETE /devices/:deviceId` — revoke device + cleanup sessions
+- [ ] **Upsert on Auth**: invoked internally during register/login to insert or update device record (see schema below)
 
 #### Session Service
 
@@ -333,6 +347,7 @@
 
 - [ ] `devices` (device_id PK, user_id FK, device_info JSON, created_at, last_seen, status, trust_score)
 - [ ] `device_sessions` (session_id PK, device_id FK, user_id FK, active_flag, ip_address, started_at, last_seen_at, geo_location)
+- [ ] `user_devices` (user_id FK, device_id FK, is_active BOOLEAN NOT NULL DEFAULT FALSE, linked_at TIMESTAMP, PRIMARY KEY(user_id, device_id), UNIQUE INDEX on (device_id) WHERE is_active=TRUE)
 - [ ] **Table: `session_policies`** (policy_id PK, max_sessions, inactivity_timeout, created_at)
 
 ---

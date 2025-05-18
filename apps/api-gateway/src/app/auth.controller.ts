@@ -1,6 +1,7 @@
 import { Body, Controller, Inject, OnModuleInit, Post } from '@nestjs/common';
 import type { ClientGrpc } from '@nestjs/microservices';
 import { LoginByEmailDto, LoginByUsernameDto, RegisterDto } from '@nz/iam-presentation';
+import { Idempotent } from '@nz/shared-infrastructure';
 import { auth } from '@nz/shared-proto';
 
 @Controller('auth')
@@ -24,6 +25,7 @@ export class AuthController implements OnModuleInit {
   }
 
   @Post('register')
+  @Idempotent()
   register(@Body() registerRequest: RegisterDto) {
     return this.iamServiceClient.register(registerRequest);
   }

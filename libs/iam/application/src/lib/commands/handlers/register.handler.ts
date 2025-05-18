@@ -16,6 +16,7 @@ import {
   Username,
 } from '@nz/iam-domain';
 import { GrpcAlreadyExistsException, GrpcUnknownException } from '@nz/shared-infrastructure';
+import { auth } from '@nz/shared-proto';
 import { DataSource } from 'typeorm';
 import { RegisterCommand } from '../impl';
 
@@ -29,7 +30,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
     @InjectUserContactRepository() private readonly userContactRepository: UserContactRepository,
   ) {}
 
-  async execute({ payload }: RegisterCommand): Promise<any> {
+  async execute({ payload }: RegisterCommand): Promise<auth.RegisterResponse> {
     const userIdVo = UniqueEntityId.generate();
     const emailVo = Email.create(payload.email);
     const usernameVo = Username.create(payload.username);
@@ -52,7 +53,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
       const userCredentialId = UniqueEntityId.generate();
       const userContact = UserContactEntity.register(userCredentialId.getValue(), userIdVo.getValue(), 'email', emailVo.getValue());
 
-      const user = await this.userRepository.save(newUser, queryRunner);
+      await this.userRepository.save(newUser, queryRunner);
 
       await this.userContactRepository.save(userContact, queryRunner);
       newUser.updatePrimaryContactId(userCredentialId.getValue());
@@ -60,7 +61,9 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
       await this.userCredentialRepository.save(userCredential, queryRunner);
 
       await queryRunner.commitTransaction();
-      return user;
+      return {
+        message: 'User registered successfully',
+      };
     } catch (error: unknown) {
       await queryRunner.rollbackTransaction();
       if (error instanceof RpcException) {

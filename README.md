@@ -6,13 +6,13 @@
 
 - [ ] **Liveness & Readiness**
 
-  - [ ] `GET /v1/health` — service up check
+  - [x] `GET /v1/health` — service up check
   - [ ] `GET /v1/ready` — dependencies ready
   - [ ] **Circuit Breaker Status** — include downstream dependencies health
 
 - [ ] **User Registration & Authentication**
 
-  - [ ] `POST /v1/auth/register` — supports **email**, **username** registrations
+  - [x] `POST /v1/auth/register` — supports **email**, **username** registrations
   - [ ] `POST /v1/auth/register/verify-email` — verify email during registration
   - [ ] `POST /v1/auth/register/verify-phone` — verify phone number during registration
   - [ ] `POST /v1/auth/login/email` — multi-factor support (SMS, TOTP, hardware keys)

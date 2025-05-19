@@ -7,7 +7,7 @@ export class UserMapper {
       id: user.id,
       email: Email.create(user.email),
       username: Username.create(user.username),
-      primaryContactId: user.primary_contact_id,
+      primaryContactId: user.primaryContactId,
 
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
@@ -19,7 +19,7 @@ export class UserMapper {
       id: user.id,
       email: user.email,
       username: user.username,
-      primary_contact_id: user.primaryContactId,
+      primaryContactId: user.primaryContactId,
 
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,

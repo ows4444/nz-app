@@ -10,14 +10,17 @@ import { IDEMPOTENT_KEY } from '../decorators';
 @Injectable()
 export class IdempotencyInterceptor implements NestInterceptor {
   private readonly logger = new Logger(IdempotencyInterceptor.name);
-  private readonly defaultTtl = 300;
+  private defaultTtl = 300;
 
   constructor(private readonly reflector: Reflector, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<unknown>> {
-    const isIdempotent = this.reflector.get(IDEMPOTENT_KEY, context.getHandler());
+    const [isIdempotent, ttl] = this.reflector.get(IDEMPOTENT_KEY, context.getHandler());
     if (!isIdempotent) {
       return next.handle();
+    }
+    if (ttl) {
+      this.defaultTtl = ttl;
     }
 
     const ctx = context.switchToHttp();
@@ -38,17 +41,14 @@ export class IdempotencyInterceptor implements NestInterceptor {
       idempotencyKey = createHash('sha256').update(keyBasis).digest('hex');
       response.setHeader('Idempotency-Key', idempotencyKey);
       response.setHeader('Idempotency-Key-TTL', this.defaultTtl.toString());
-      this.logger.log(`Generated new idempotencyKey=${idempotencyKey}`);
     } else {
       idempotencyKey = headerKey.trim();
       response.setHeader('Idempotency-Key', idempotencyKey);
       response.setHeader('Idempotency-Key-TTL', this.defaultTtl.toString());
-      this.logger.log(`Received idempotencyKey from header: ${idempotencyKey}`);
     }
     const existing = await this.cacheManager.get(idempotencyKey);
 
     if (existing) {
-      this.logger.log(`Idempotent replay detected for key=${idempotencyKey}`);
       const cachedClone = JSON.parse(JSON.stringify(existing));
       return of(cachedClone);
     }
@@ -64,7 +64,6 @@ export class IdempotencyInterceptor implements NestInterceptor {
             return;
           }
           await this.cacheManager.set(idempotencyKey, toCache, this.defaultTtl * 1000);
-          this.logger.log(`Saved response for idempotencyKey=${idempotencyKey}`);
         } catch (err: unknown) {
           if (err instanceof Error) {
             this.logger.error(`Failed to save idempotency response: ${err.message}`);

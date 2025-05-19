@@ -1,12 +1,10 @@
 import { codeFrameColumns } from '@babel/code-frame';
 import { Inject, Injectable, LogLevel, LoggerService as NestLogger } from '@nestjs/common';
-import fs from 'fs';
-
+import { EnvironmentType } from '@nz/const';
 import ErrorStackParser from 'error-stack-parser';
+import fs from 'fs';
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
-
-import { EnvironmentType } from '@nz/const';
 import { LOGGER_OPTIONS } from './logger.constants';
 import type { LoggerModuleOptions } from './logger.interfaces';
 import { MaskedData } from './logger.interfaces';

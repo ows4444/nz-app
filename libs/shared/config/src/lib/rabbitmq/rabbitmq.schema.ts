@@ -1,7 +1,6 @@
+import { parseBoolean } from '@nz/utils';
 import { Expose, Transform } from 'class-transformer';
 import { IsBoolean, IsString, ValidateIf } from 'class-validator';
-
-import { parseBoolean } from '@nz/utils';
 
 export class RabbitMQSchema {
   @Expose()

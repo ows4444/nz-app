@@ -1,5 +1,4 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger } from '@nestjs/common';
-
 import { GqlHttpExceptionFilter } from './gql-http-exception.filter';
 import { HttpExceptionFilter } from './http-exception.filter';
 

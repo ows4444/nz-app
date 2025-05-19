@@ -1,5 +1,4 @@
 import { WithCreated, WithUpdated } from '@nz/shared-infrastructure';
-
 import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 class UserCredential extends BaseEntity {

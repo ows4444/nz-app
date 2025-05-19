@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { iam } from '@nz/shared-proto';
+import { auth } from '@nz/shared-proto';
 
-export class LoginByEmailDto implements iam.LoginByEmailRequest {
+export class LoginByEmailDto implements auth.LoginByEmailRequest {
   @ApiProperty()
   email!: string;
 
@@ -9,7 +9,7 @@ export class LoginByEmailDto implements iam.LoginByEmailRequest {
   password!: string;
 }
 
-export class LoginByUsernameDto implements iam.LoginByUsernameRequest {
+export class LoginByUsernameDto implements auth.LoginByUsernameRequest {
   @ApiProperty()
   username!: string;
 
@@ -17,7 +17,7 @@ export class LoginByUsernameDto implements iam.LoginByUsernameRequest {
   password!: string;
 }
 
-export class RegisterDto implements iam.RegisterRequest {
+export class RegisterDto implements auth.RegisterRequest {
   @ApiProperty({ example: 'testuser' })
   username!: string;
 

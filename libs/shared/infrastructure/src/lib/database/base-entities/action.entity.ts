@@ -1,5 +1,4 @@
 import { BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
-
 import { StringColumn } from '../typeorm';
 
 export class AuditAction extends BaseEntity {

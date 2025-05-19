@@ -1,5 +1,4 @@
 import { DynamicModule, Module } from '@nestjs/common';
-
 import { LoggerCoreModule } from './logger-core.module';
 import { LoggerModuleAsyncOptions, LoggerModuleOptions } from './logger.interfaces';
 

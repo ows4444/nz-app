@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-
 import { CommandBus } from '@nestjs/cqrs';
 import { LoginByEmailDto, LoginByUsernameDto, RegisterDto } from '@nz/iam-presentation';
 import { LoginByEmailCommand, LoginByUsernameCommand, RegisterCommand } from '../commands';

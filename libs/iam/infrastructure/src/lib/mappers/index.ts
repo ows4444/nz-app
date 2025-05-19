@@ -1,1 +1,1 @@
-export * from './user.mapper';
+export * from './user-profile.mapper';

@@ -1,7 +1,6 @@
+import { parseBoolean } from '@nz/utils';
 import { Expose, Transform } from 'class-transformer';
 import { IsBoolean, IsEnum, IsNumber, IsString, ValidateIf } from 'class-validator';
-
-import { parseBoolean } from '@nz/utils';
 import { DatabaseType } from './typeorm.types';
 
 export class TypeOrmSchema {

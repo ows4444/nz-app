@@ -1,6 +1,5 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigModuleOptions, ConfigService } from '@nestjs/config';
-
 import { LoggerCoreModule } from '@nz/logger';
 import { typeOrmLoader } from './database/typeorm-loader';
 import { envLoader, getEnvFile } from './env/env-loader';

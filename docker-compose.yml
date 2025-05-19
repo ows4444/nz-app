@@ -32,6 +32,17 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     logging:
       driver: 'none'
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    logging:
+      driver: 'none'
 
 volumes:
   mysql-data:
+  redis-data:

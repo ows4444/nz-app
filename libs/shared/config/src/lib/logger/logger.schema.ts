@@ -1,7 +1,7 @@
+import { EnvironmentType, LogLevel } from '@nz/const';
 import { Expose, Transform } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
-import { EnvironmentType, LogLevel } from '@nz/const';
 export class LoggerEnvironmentSchema {
   @Expose()
   @IsEnum(EnvironmentType)

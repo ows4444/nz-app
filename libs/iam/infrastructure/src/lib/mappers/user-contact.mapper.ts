@@ -1,5 +1,5 @@
 import { UserContactEntity } from '@nz/iam-domain';
-import { UserEntityORM } from '../entities';
+import { UserProfileEntityORM } from '../entities';
 import { UserContactEntityORM } from '../entities/user-contact.entity';
 
 export class UserContactMapper {
@@ -19,7 +19,7 @@ export class UserContactMapper {
   static toPersistence(userContact: UserContactEntity): Partial<UserContactEntityORM> {
     return {
       id: userContact.id,
-      user: { id: userContact.userId } as unknown as UserEntityORM,
+      user: { id: userContact.userId } as unknown as UserProfileEntityORM,
       type: userContact.type,
       value: userContact.value,
       isVerified: userContact.isVerified,

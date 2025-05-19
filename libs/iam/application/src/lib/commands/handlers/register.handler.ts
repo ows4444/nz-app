@@ -3,17 +3,17 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RpcException } from '@nestjs/microservices';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { AuthEnvironment } from '@nz/config';
-import type { UserContactRepository, UserCredentialRepository, UserRepository } from '@nz/iam-domain';
+import type { UserContactRepository, UserCredentialRepository, UserProfileRepository } from '@nz/iam-domain';
 import {
   Email,
   InjectUserContactRepository,
   InjectUserCredentialRepository,
-  InjectUserRepository,
+  InjectUserProfileRepository,
   UniqueEntityId,
   UserContactEntity,
   UserCredentialEntity,
-  UserEntity,
   Username,
+  UserProfileEntity,
 } from '@nz/iam-domain';
 import { GrpcAlreadyExistsException, GrpcUnknownException } from '@nz/shared-infrastructure';
 import { auth } from '@nz/shared-proto';
@@ -25,7 +25,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
   constructor(
     private readonly configService: ConfigService,
     @InjectDataSource() private readonly dataSource: DataSource,
-    @InjectUserRepository() private readonly userRepository: UserRepository,
+    @InjectUserProfileRepository() private readonly userProfileRepository: UserProfileRepository,
     @InjectUserCredentialRepository() private readonly userCredentialRepository: UserCredentialRepository,
     @InjectUserContactRepository() private readonly userContactRepository: UserContactRepository,
   ) {}
@@ -42,10 +42,10 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
-      const existing = await this.userRepository.findOneByEmailOrUsername(emailVo, usernameVo);
+      const existing = await this.userProfileRepository.findOneByEmailOrUsername(emailVo, usernameVo);
       if (existing) throw new GrpcAlreadyExistsException('User already exists');
 
-      const newUser = UserEntity.register(userIdVo.getValue(), usernameVo.getValue(), emailVo.getValue());
+      const newUser = UserProfileEntity.register(userIdVo.getValue(), usernameVo.getValue(), emailVo.getValue());
 
       const pepper = peppers[defaultPepperVersion];
       const userCredential = UserCredentialEntity.createNew(userIdVo.getValue(), payload.password, pepper, 'bcrypt', defaultPepperVersion);
@@ -53,11 +53,11 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
       const userCredentialId = UniqueEntityId.generate();
       const userContact = UserContactEntity.register(userCredentialId.getValue(), userIdVo.getValue(), 'email', emailVo.getValue());
 
-      await this.userRepository.save(newUser, queryRunner);
+      await this.userProfileRepository.save(newUser, queryRunner);
 
       await this.userContactRepository.save(userContact, queryRunner);
       newUser.updatePrimaryContactId(userCredentialId.getValue());
-      await this.userRepository.save(newUser, queryRunner);
+      await this.userProfileRepository.save(newUser, queryRunner);
       await this.userCredentialRepository.save(userCredential, queryRunner);
 
       await queryRunner.commitTransaction();

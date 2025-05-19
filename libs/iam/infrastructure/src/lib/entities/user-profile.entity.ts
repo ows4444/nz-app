@@ -2,15 +2,30 @@ import { StringColumn, WithCreated, WithUpdated } from '@nz/shared-infrastructur
 import { BaseEntity, Column, Entity, Index, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserContactEntityORM } from './user-contact.entity';
 
-class User extends BaseEntity {
+class UserProfile extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true, unique: true })
   username!: string;
 
+  @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true })
+  firstName!: string;
+
+  @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true })
+  lastName!: string;
+
+  @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true })
+  displayName!: string;
+
+  @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true })
+  avatar!: string;
+
   @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true, unique: true })
   email!: string;
+
+  @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true })
+  locale!: string;
 
   @Column({ type: 'uuid', name: 'primary_contact_id', nullable: true })
   @Index()
@@ -29,5 +44,5 @@ class User extends BaseEntity {
   primaryContact!: UserContactEntityORM | null;
 }
 
-@Entity({ name: 'users' })
-export class UserEntityORM extends WithUpdated(WithCreated(User)) {}
+@Entity({ name: 'users_profile' })
+export class UserProfileEntityORM extends WithUpdated(WithCreated(UserProfile)) {}

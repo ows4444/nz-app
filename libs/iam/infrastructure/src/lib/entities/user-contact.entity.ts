@@ -1,6 +1,6 @@
 import { WithCreated, WithUpdated } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { UserEntityORM } from './user.entity';
+import { UserProfileEntityORM } from './user-profile.entity';
 
 class UserContact extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -15,16 +15,16 @@ class UserContact extends BaseEntity {
   @Column({ default: false })
   isVerified!: boolean;
 
-  @ManyToOne(() => UserEntityORM, (user: UserEntityORM) => user.contacts, { onDelete: 'CASCADE' })
+  @ManyToOne(() => UserProfileEntityORM, (user: UserProfileEntityORM) => user.contacts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
-  user!: UserEntityORM;
+  user!: UserProfileEntityORM;
 
-  @OneToOne(() => UserEntityORM, (user: UserEntityORM) => user.primaryContact, {
+  @OneToOne(() => UserProfileEntityORM, (user: UserProfileEntityORM) => user.primaryContact, {
     nullable: true,
     onDelete: 'SET NULL',
     eager: false,
   })
-  primaryForUser?: UserEntityORM;
+  primaryForUser?: UserProfileEntityORM;
 }
 
 @Entity({ name: 'user_contacts' })

@@ -13,6 +13,8 @@
 - [ ] **User Registration & Authentication**
 
   - [ ] `POST /v1/auth/register` — supports **email**, **username** registrations
+  - [ ] `POST /v1/auth/register/verify-email` — verify email during registration
+  - [ ] `POST /v1/auth/register/verify-phone` — verify phone number during registration
   - [ ] `POST /v1/auth/login/email` — multi-factor support (SMS, TOTP, hardware keys)
   - [ ] `POST /v1/auth/login/username` — optional SMS/OTP factor, risk-based step-up
   - [ ] `POST /v1/auth/logout` — blacklist tokens + notify audit stream
@@ -101,7 +103,7 @@
 
 - [x] **Table: `users_credentials`**
 
-  - id (PK), user_id (FK), password_hash, salt, algo, pepper_version, created_at, updated_at
+  - user_id (PK), password_hash, salt, algo, pepper_version, created_at, updated_at
 
 - [ ] **Table: `password_resets`**
 
@@ -133,7 +135,7 @@
 
 - [x] **Table: `users_profile`**
 
-  - user_id (PK), name, email (unique), phone, locale, avatar_url, metadata (JSON), created_at, updated_at
+  - user_id (PK), first_name,last_name, username, email(unique),  locale, avatar_url , created_at, updated_at
 
 - [ ] **Table: `user_preferences`**
 
@@ -141,7 +143,7 @@
 
 - [ ] **Table: `user_contacts`**
 
-  - user_id (FK), type (enum), value, verified_flag, verified_at, verification_method
+  - id (PK), user_id (FK), type (enum(email|phone)), value, verified_flag, verified_at
 
 ---
 

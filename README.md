@@ -145,6 +145,14 @@
 
   - id (PK), user_id (FK), type (enum(email|phone)), value, verified_flag, verified_at
 
+- [ ] **Table: `email_verifications`**
+
+  - id (PK), user_id (FK), contact_id, token_hash, expires_at, used_flag, requested_at, used_at, ip_address, user_agent, created_at,updated_at 
+  
+- [ ] **Table: `phone_verifications`**
+
+  - id (PK), user_id (FK), contact_id, code_hash, expires_at, used_flag, requested_at, used_at, ip_address, user_agent, created_at,updated_at
+
 ---
 
 ## 2. OAuth Service (`oauth-service`)

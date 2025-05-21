@@ -135,7 +135,7 @@
 
 - [x] **Table: `users_profile`**
 
-  - user_id (PK), first_name,last_name, username, email(unique),  locale, avatar_url , created_at, updated_at
+  - user_id (PK), first_name, last_name, username, email(unique),  locale, avatar_url , created_at, updated_at
 
 - [ ] **Table: `user_preferences`**
 
@@ -143,15 +143,11 @@
 
 - [ ] **Table: `user_contacts`**
 
-  - id (PK), user_id (FK), type (enum(email|phone)), value, verified_flag, verified_at
+  - id (PK), user_id (FK), type, value, verified_flag, verified_at,is_default
 
-- [ ] **Table: `email_verifications`**
-
-  - id (PK), user_id (FK), contact_id, token_hash, expires_at, used_flag, requested_at, used_at, ip_address, user_agent, created_at,updated_at 
+- [ ] **Table: `contact_verifications`**
   
-- [ ] **Table: `phone_verifications`**
-
-  - id (PK), user_id (FK), contact_id, code_hash, expires_at, used_flag, requested_at, used_at, ip_address, user_agent, created_at,updated_at
+  - id (PK), contact_id (FK), purpose, token_hash, code, expires_at, used_flag, requested_at, used_at, ip_address, user_agent, created_at,updated_at
 
 ---
 

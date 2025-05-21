@@ -10,6 +10,7 @@ export class UserContactMapper {
       type: userContact.type,
       value: userContact.value,
       isVerified: userContact.isVerified,
+      isDefault: userContact.isDefault,
 
       createdAt: userContact.createdAt,
       updatedAt: userContact.updatedAt,
@@ -23,6 +24,7 @@ export class UserContactMapper {
       type: userContact.type,
       value: userContact.value,
       isVerified: userContact.isVerified,
+      isDefault: userContact.isDefault,
 
       createdAt: userContact.createdAt,
       updatedAt: userContact.updatedAt,

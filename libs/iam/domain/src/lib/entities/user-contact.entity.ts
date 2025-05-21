@@ -4,6 +4,7 @@ export interface IUserContactProps {
   type: 'email' | 'phone';
   value: string;
   isVerified: boolean;
+  isDefault: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -14,6 +15,7 @@ export class UserContactEntity {
   private _type: 'email' | 'phone';
   private _value: string;
   private _isVerified: boolean;
+  private _isDefault: boolean;
 
   private _createdAt: Date;
   private _updatedAt: Date;
@@ -24,6 +26,7 @@ export class UserContactEntity {
     this._type = props.type;
     this._value = props.value;
     this._isVerified = props.isVerified;
+    this._isDefault = props.isDefault;
 
     this._createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
@@ -39,6 +42,7 @@ export class UserContactEntity {
       type,
       value,
       isVerified: false,
+      isDefault: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -66,6 +70,10 @@ export class UserContactEntity {
     return this._isVerified;
   }
 
+  get isDefault(): boolean {
+    return this._isDefault;
+  }
+
   get createdAt(): Date {
     return this._createdAt;
   }
@@ -83,6 +91,14 @@ export class UserContactEntity {
   public updateValue(newValue: string): void {
     this._value = newValue;
     this._isVerified = false;
+    this.touchUpdatedAt();
+  }
+  public setDefault(): void {
+    this._isDefault = true;
+    this.touchUpdatedAt();
+  }
+  public unsetDefault(): void {
+    this._isDefault = false;
     this.touchUpdatedAt();
   }
   public updateType(newType: 'email' | 'phone'): void {

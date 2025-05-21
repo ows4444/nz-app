@@ -1,4 +1,4 @@
-import { StringColumn, WithCreated, WithUpdated } from '@nz/shared-infrastructure';
+import { StringColumn, WithCreated, WithRevocation, WithSoftDelete, WithUpdated } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, Entity, Index, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserContactEntityORM } from './user-contact.entity';
 
@@ -34,6 +34,9 @@ class UserProfile extends BaseEntity {
   @OneToMany(() => UserContactEntityORM, (contact) => contact.user)
   contacts!: UserContactEntityORM[];
 
+  @Column({ type: 'bigint', unsigned: true })
+  status!: number;
+
   @OneToOne(() => UserContactEntityORM, (contact: UserContactEntityORM) => contact.primaryForUser, {
     nullable: true,
     onDelete: 'SET NULL',
@@ -45,4 +48,4 @@ class UserProfile extends BaseEntity {
 }
 
 @Entity({ name: 'users_profile' })
-export class UserProfileEntityORM extends WithUpdated(WithCreated(UserProfile)) {}
+export class UserProfileEntityORM extends WithSoftDelete(WithUpdated(WithCreated(WithRevocation(UserProfile)))) {}

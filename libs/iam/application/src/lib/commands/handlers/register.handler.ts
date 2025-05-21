@@ -56,8 +56,6 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
       await this.userProfileRepository.save(newUser, queryRunner);
 
       await this.userContactRepository.save(userContact, queryRunner);
-      newUser.updatePrimaryContactId(userCredentialId.getValue());
-      await this.userProfileRepository.save(newUser, queryRunner);
       await this.userCredentialRepository.save(userCredential, queryRunner);
 
       await queryRunner.commitTransaction();

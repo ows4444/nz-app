@@ -15,6 +15,9 @@ class UserContact extends BaseEntity {
   @Column({ default: false })
   isVerified!: boolean;
 
+  @Column({ default: false })
+  isDefault!: boolean;
+
   @ManyToOne(() => UserProfileEntityORM, (user: UserProfileEntityORM) => user.contacts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user!: UserProfileEntityORM;

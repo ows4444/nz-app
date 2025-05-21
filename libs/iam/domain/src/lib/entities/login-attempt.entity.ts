@@ -1,27 +1,32 @@
 export interface ILoginAttemptProps {
-  id: string;
+  id?: number;
   userId: string;
   ipAddress: string;
   userAgent: string;
   timestamp: Date;
   successFlag: boolean;
+  riskScore: number;
 }
 export class LoginAttemptEntity {
-  public readonly id: string;
+  public readonly id: number | undefined;
   private _userId: string;
   private _ipAddress: string;
   private _userAgent: string;
   private _timestamp: Date;
   private _successFlag: boolean;
+  private _riskScore: number;
   private constructor(props: ILoginAttemptProps) {
-    this.id = props.id;
+    if (props.id === undefined) {
+      this.id = props.id;
+    }
     this._userId = props.userId;
     this._ipAddress = props.ipAddress;
     this._userAgent = props.userAgent;
     this._timestamp = props.timestamp;
     this._successFlag = props.successFlag;
+    this._riskScore = props.riskScore;
   }
-  public static createNew(id: string, userId: string, ipAddress: string, userAgent: string, successFlag: boolean): LoginAttemptEntity {
+  public static createNew(id: number, userId: string, ipAddress: string, userAgent: string, successFlag: boolean, riskScore: number): LoginAttemptEntity {
     return new LoginAttemptEntity({
       id,
       userId,
@@ -29,6 +34,7 @@ export class LoginAttemptEntity {
       userAgent,
       timestamp: new Date(),
       successFlag,
+      riskScore,
     });
   }
   public static restore(props: ILoginAttemptProps): LoginAttemptEntity {
@@ -48,5 +54,9 @@ export class LoginAttemptEntity {
   }
   public get successFlag(): boolean {
     return this._successFlag;
+  }
+
+  public get riskScore(): number {
+    return this._riskScore;
   }
 }

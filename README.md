@@ -105,6 +105,22 @@
 
   - user_id (PK), password_hash, salt, algo, pepper_version, created_at, updated_at
 
+- [x] **Table: `users_profile`**
+
+  - user_id (PK), first_name, last_name, username,displayName, email(unique), locale, avatar_url, status, created_at, updated_at
+
+- [ ] **Table: `user_preferences`**
+
+  - user_id (FK), key, value, updated_at, source (UI/API/bulk)
+
+- [ ] **Table: `user_contacts`**
+
+  - id (PK), user_id (FK), type, value, verified_flag, verified_at,is_default
+
+- [ ] **Table: `contact_verifications`**
+  
+  - id (PK), contact_id (FK), purpose, token_hash, code, expires_at, used_flag, requested_at, used_at, ip_address, user_agent, created_at,updated_at
+
 - [ ] **Table: `password_resets`**
 
   - id (PK), user_id (FK), token, requested_at, expires_at, used_flag, ip_address
@@ -132,23 +148,7 @@
 - [ ] **Table: `openid_permissions`**
 
   - user_id (FK), client_id (FK), scopes (array), granted_at, expiration_policy
-
-- [x] **Table: `users_profile`**
-
-  - user_id (PK), first_name, last_name, username, email(unique),  locale, avatar_url , created_at, updated_at
-
-- [ ] **Table: `user_preferences`**
-
-  - user_id (FK), key, value, updated_at, source (UI/API/bulk)
-
-- [ ] **Table: `user_contacts`**
-
-  - id (PK), user_id (FK), type, value, verified_flag, verified_at,is_default
-
-- [ ] **Table: `contact_verifications`**
-  
-  - id (PK), contact_id (FK), purpose, token_hash, code, expires_at, used_flag, requested_at, used_at, ip_address, user_agent, created_at,updated_at
-
+ 
 ---
 
 ## 2. OAuth Service (`oauth-service`)

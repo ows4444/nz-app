@@ -15,12 +15,9 @@ export class IdempotencyInterceptor implements NestInterceptor {
   constructor(private readonly reflector: Reflector, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<unknown>> {
-    const [isIdempotent, ttl] = this.reflector.get(IDEMPOTENT_KEY, context.getHandler());
+    const isIdempotent = this.reflector.get(IDEMPOTENT_KEY, context.getHandler());
     if (!isIdempotent) {
       return next.handle();
-    }
-    if (ttl) {
-      this.defaultTtl = ttl;
     }
 
     const ctx = context.switchToHttp();

@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "../infrastructure"
+    },
+    {
       "path": "../../shared/proto"
     },
     {

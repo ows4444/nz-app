@@ -3,7 +3,7 @@ import { Bitwise, State } from '@nz/kernel';
 import { Email, Username } from '../value-objects';
 
 export interface IUserProfileProps {
-  id: string;
+  id?: string;
   username: Username;
   email: Email;
 
@@ -25,7 +25,7 @@ export interface IUserProfileProps {
 
 export class UserProfileEntity extends State.StatefulEntity<Status> {
   private static readonly ALLOWED_STATUSES = Status.PENDING | Status.ACTIVE | Status.INACTIVE | Status.SUSPENDED | Status.DELETED;
-  public readonly id: string;
+  public readonly id!: string;
   private _username: Username;
   private _email: Email;
   private _firstName: string;
@@ -46,7 +46,10 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
 
   private constructor(props: IUserProfileProps) {
     super(props.status ?? Status.PENDING, UserProfileEntity.validateTransition);
-    this.id = props.id;
+    if (props.id !== undefined) {
+      this.id = props.id;
+    }
+
     this._username = props.username;
     this._email = props.email;
     this._firstName = props.firstName;
@@ -69,11 +72,10 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
   /**
    * Factory to create a new pending user
    */
-  public static register(id: string, username: string, email: string, firstName = '', lastName = '', locale = 'EN_en'): UserProfileEntity {
+  public static register(username: Username, email: Email, firstName = '', lastName = '', locale = 'EN_en'): UserProfileEntity {
     return new UserProfileEntity({
-      id,
-      username: Username.create(username),
-      email: Email.create(email),
+      username,
+      email,
       firstName,
       lastName,
       status: Status.PENDING,

@@ -10,7 +10,7 @@ import { IDEMPOTENT_KEY } from '../decorators';
 @Injectable()
 export class IdempotencyInterceptor implements NestInterceptor {
   private readonly logger = new Logger(IdempotencyInterceptor.name);
-  private defaultTtl = 300;
+  private defaultTtl = 3;
 
   constructor(private readonly reflector: Reflector, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 

@@ -1,5 +1,5 @@
 export interface IUserContactProps {
-  id: string;
+  id?: number;
   userId: string;
   type: 'email' | 'phone';
   value: string;
@@ -10,7 +10,7 @@ export interface IUserContactProps {
 }
 
 export class UserContactEntity {
-  public readonly id: string;
+  public readonly id!: number;
   private _userId: string;
   private _type: 'email' | 'phone';
   private _value: string;
@@ -21,7 +21,10 @@ export class UserContactEntity {
   private _updatedAt: Date;
 
   private constructor(props: IUserContactProps) {
-    this.id = props.id;
+    if (props.id !== undefined) {
+      this.id = props.id;
+    }
+
     this._userId = props.userId;
     this._type = props.type;
     this._value = props.value;
@@ -35,9 +38,8 @@ export class UserContactEntity {
   /**
    * Factory to create a new pending user
    */
-  public static register(id: string, userId: string, type: 'email' | 'phone', value: string): UserContactEntity {
+  public static register(userId: string, type: 'email' | 'phone', value: string): UserContactEntity {
     return new UserContactEntity({
-      id,
       userId: userId,
       type,
       value,

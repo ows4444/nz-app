@@ -1,24 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { InjectDataSource } from '@nestjs/typeorm';
-import type { UserCredentialEntity, UserCredentialRepository } from '@nz/iam-domain';
-import { DataSource, QueryRunner } from 'typeorm';
+import { UserCredentialEntity } from '@nz/iam-domain';
+import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { UserCredentialEntityORM } from '../entities/user-credential.entity';
 import { UserCredentialMapper } from '../mappers/user-credential.mapper';
 
 @Injectable()
-export class TypeormUserCredentialRepository implements UserCredentialRepository {
-  constructor(@InjectDataSource() private readonly ds: DataSource) {}
-  private repo(qr?: QueryRunner) {
-    return qr ? qr.manager.getRepository(UserCredentialEntityORM) : this.ds.getRepository(UserCredentialEntityORM);
+export class TypeormUserCredentialRepository {
+  private repository: Repository<UserCredentialEntityORM>;
+
+  constructor(dataSource: DataSource) {
+    this.repository = dataSource.getRepository(UserCredentialEntityORM);
+  }
+
+  private getRepository(queryRunner?: QueryRunner): Repository<UserCredentialEntityORM> {
+    return queryRunner ? queryRunner.manager.getRepository(UserCredentialEntityORM) : this.repository;
+  }
+
+  async findOneById(id: string, qr?: QueryRunner): Promise<UserCredentialEntity | null> {
+    const orm = await this.getRepository(qr).findOne({ where: { id } });
+    return orm ? UserCredentialEntity.restore(orm) : null;
   }
 
   async save(userCredential: UserCredentialEntity, qr?: QueryRunner): Promise<UserCredentialEntity> {
-    const ormEntity = this.repo(qr).create(UserCredentialMapper.toPersistence(userCredential));
-    const saved = await this.repo(qr).save(ormEntity);
+    const orm = UserCredentialMapper.toPersistence(userCredential);
+    const saved = await this.getRepository(qr).save(orm);
     return UserCredentialMapper.toDomain(saved);
-  }
-  async findOneById(id: string, qr?: QueryRunner): Promise<UserCredentialEntity | null> {
-    const doc = await this.repo(qr).findOneOrFail({ where: { id } });
-    return doc ? UserCredentialMapper.toDomain(doc) : null;
   }
 }

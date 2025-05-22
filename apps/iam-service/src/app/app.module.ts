@@ -5,8 +5,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { authConfigLoader, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
 import { AuthService, IAMCommandHandlers } from '@nz/iam-application';
-import { USER_CONTACT_REPOSITORY, USER_CREDENTIAL_REPOSITORY, USER_PROFILE_REPOSITORY } from '@nz/iam-domain';
 import {
+  LoginAttemptEntityORM,
   TypeormUserContactRepository,
   TypeormUserCredentialRepository,
   TypeormUserProfileRepository,
@@ -25,7 +25,7 @@ import { HealthController } from './health.controller';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         ...configService.getOrThrow<TypeOrmEnvironment>('typeorm'),
-        entities: [UserProfileEntityORM, UserContactEntityORM, UserCredentialEntityORM],
+        entities: [UserProfileEntityORM, UserContactEntityORM, UserCredentialEntityORM, LoginAttemptEntityORM],
       }),
       imports: [ConfigModule],
     }),
@@ -43,18 +43,9 @@ import { HealthController } from './health.controller';
         provide: APP_FILTER,
         useClass: GrpcServerExceptionFilter,
       },
-      {
-        provide: USER_PROFILE_REPOSITORY,
-        useClass: TypeormUserProfileRepository,
-      },
-      {
-        provide: USER_CREDENTIAL_REPOSITORY,
-        useClass: TypeormUserCredentialRepository,
-      },
-      {
-        provide: USER_CONTACT_REPOSITORY,
-        useClass: TypeormUserContactRepository,
-      },
+      TypeormUserProfileRepository,
+      TypeormUserContactRepository,
+      TypeormUserCredentialRepository,
     ],
     IAMCommandHandlers,
   ),

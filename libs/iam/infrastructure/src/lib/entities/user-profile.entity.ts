@@ -1,6 +1,7 @@
 import { StringColumn, WithCreated, WithRevocation, WithSoftDelete, WithUpdated } from '@nz/shared-infrastructure';
-import { BaseEntity, Column, Entity, Index, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserContactEntityORM } from './user-contact.entity';
+import { UserCredentialEntityORM } from './user-credential.entity';
 
 class UserProfile extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -27,25 +28,15 @@ class UserProfile extends BaseEntity {
   @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true })
   locale!: string;
 
-  @Column({ type: 'uuid', name: 'primary_contact_id', nullable: true })
-  @Index()
-  primaryContactId!: string | null;
-
-  @OneToMany(() => UserContactEntityORM, (contact) => contact.user)
-  contacts!: UserContactEntityORM[];
-
   @Column({ type: 'bigint', unsigned: true })
   status!: number;
-
-  @OneToOne(() => UserContactEntityORM, (contact: UserContactEntityORM) => contact.primaryForUser, {
-    nullable: true,
-    onDelete: 'SET NULL',
-    cascade: ['insert', 'update'],
-    eager: false,
-  })
-  @JoinColumn({ name: 'primary_contact_id' })
-  primaryContact!: UserContactEntityORM | null;
 }
 
 @Entity({ name: 'users_profile' })
-export class UserProfileEntityORM extends WithSoftDelete(WithUpdated(WithCreated(WithRevocation(UserProfile)))) {}
+export class UserProfileEntityORM extends WithSoftDelete(WithUpdated(WithCreated(WithRevocation(UserProfile)))) {
+  @OneToMany(() => UserContactEntityORM, (contact: UserContactEntityORM) => contact.user)
+  contacts?: UserContactEntityORM[];
+
+  @OneToOne(() => UserCredentialEntityORM, (cred: UserCredentialEntityORM) => cred.user)
+  credentials?: UserCredentialEntityORM;
+}

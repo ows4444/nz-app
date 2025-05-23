@@ -39,7 +39,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
 
       const userCredential = UserCredentialEntity.createNew(newUser.id, payload.password, peppers[defaultPepperVersion], 'bcrypt', defaultPepperVersion);
 
-      const userContact = UserContactEntity.register(newUser.id, 'email', emailVo.getValue());
+      const userContact = UserContactEntity.createNew(newUser.id, 'email', emailVo.getValue());
 
       await this.userContactRepository.save(userContact, queryRunner);
       await this.userCredentialRepository.save(userCredential, queryRunner);

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserContactEntity } from '@nz/iam-domain';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { UserContactEntityORM } from '../entities';
-import { UserContactMapper } from '../mappers/user-contact.mapper';
+import { UserContactMapper } from '../mappers';
 
 @Injectable()
 export class TypeormUserContactRepository {

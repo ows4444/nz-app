@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Email, Username, UserProfileEntity } from '@nz/iam-domain';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
-import { UserProfileEntityORM } from '../entities/user-profile.entity';
-import { UserProfileMapper } from '../mappers/user-profile.mapper';
+import { UserProfileEntityORM } from '../entities';
+import { UserProfileMapper } from '../mappers';
 
 @Injectable()
 export class TypeormUserProfileRepository {

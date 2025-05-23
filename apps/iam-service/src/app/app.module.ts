@@ -7,6 +7,7 @@ import { authConfigLoader, SharedConfigModule, TypeOrmEnvironment } from '@nz/co
 import { AuthService, IAMCommandHandlers } from '@nz/iam-application';
 import {
   LoginAttemptEntityORM,
+  PasswordResetEntityORM,
   TypeormUserContactRepository,
   TypeormUserCredentialRepository,
   TypeormUserProfileRepository,
@@ -25,7 +26,7 @@ import { HealthController } from './health.controller';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         ...configService.getOrThrow<TypeOrmEnvironment>('typeorm'),
-        entities: [UserProfileEntityORM, UserContactEntityORM, UserCredentialEntityORM, LoginAttemptEntityORM],
+        entities: [UserProfileEntityORM, UserContactEntityORM, UserCredentialEntityORM, LoginAttemptEntityORM, PasswordResetEntityORM],
       }),
       imports: [ConfigModule],
     }),

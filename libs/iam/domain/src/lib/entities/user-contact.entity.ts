@@ -38,7 +38,7 @@ export class UserContactEntity {
   /**
    * Factory to create a new pending user
    */
-  public static register(userId: string, type: 'email' | 'phone', value: string): UserContactEntity {
+  public static createNew(userId: string, type: 'email' | 'phone', value: string): UserContactEntity {
     return new UserContactEntity({
       userId: userId,
       type,

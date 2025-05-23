@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { LoginAttemptEntity } from '@nz/iam-domain';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
-import { LoginAttemptEntityORM } from '../entities/login-attempt.entity';
-import { LoginAttemptMapper } from '../mappers/login-attempt.mapper';
+import { LoginAttemptEntityORM } from '../entities';
+import { LoginAttemptMapper } from '../mappers';
 
 @Injectable()
 export class TypeormLoginAttemptRepository {

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserCredentialEntity } from '@nz/iam-domain';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { UserCredentialEntityORM } from '../entities/user-credential.entity';
-import { UserCredentialMapper } from '../mappers/user-credential.mapper';
+import { UserCredentialMapper } from '../mappers';
 
 @Injectable()
 export class TypeormUserCredentialRepository {

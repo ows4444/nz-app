@@ -1,5 +1,5 @@
 import { Email, Username, UserProfileEntity } from '@nz/iam-domain';
-import { UserProfileEntityORM } from '../entities/user-profile.entity';
+import { UserProfileEntityORM } from '../entities';
 
 export class UserProfileMapper {
   static toDomain(user: UserProfileEntityORM): UserProfileEntity {

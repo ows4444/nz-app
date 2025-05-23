@@ -1,6 +1,5 @@
 import { UserContactEntity } from '@nz/iam-domain';
-import { UserProfileEntityORM } from '../entities';
-import { UserContactEntityORM } from '../entities/user-contact.entity';
+import { UserContactEntityORM, UserProfileEntityORM } from '../entities';
 
 export class UserContactMapper {
   static toDomain(userContact: UserContactEntityORM): UserContactEntity {

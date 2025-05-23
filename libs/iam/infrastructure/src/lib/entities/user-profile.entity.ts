@@ -37,6 +37,9 @@ export class UserProfileEntityORM extends WithSoftDelete(WithUpdated(WithCreated
   @OneToMany(() => UserContactEntityORM, (contact: UserContactEntityORM) => contact.user)
   contacts?: UserContactEntityORM[];
 
+  @OneToMany(() => UserCredentialEntityORM, (cred: UserCredentialEntityORM) => cred.user)
+  passwordResets?: UserCredentialEntityORM[];
+
   @OneToOne(() => UserCredentialEntityORM, (cred: UserCredentialEntityORM) => cred.user)
   credentials?: UserCredentialEntityORM;
 }

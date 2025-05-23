@@ -15,11 +15,13 @@ export class AuthController implements OnModuleInit {
   }
 
   @Post('login/email')
+  @Idempotent()
   authenticate(@Body() loginRequest: LoginByEmailDto) {
     return this.iamServiceClient.loginByEmail(loginRequest);
   }
 
   @Post('login/username')
+  @Idempotent()
   authenticateByUsername(@Body() loginRequest: LoginByUsernameDto) {
     return this.iamServiceClient.loginByUsername(loginRequest);
   }

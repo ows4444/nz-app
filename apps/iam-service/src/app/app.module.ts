@@ -8,6 +8,7 @@ import { AuthService, IAMCommandHandlers } from '@nz/iam-application';
 import {
   LoginAttemptEntityORM,
   PasswordResetEntityORM,
+  TypeormLoginAttemptRepository,
   TypeormUserContactRepository,
   TypeormUserCredentialRepository,
   TypeormUserProfileRepository,
@@ -47,6 +48,7 @@ import { HealthController } from './health.controller';
       TypeormUserProfileRepository,
       TypeormUserContactRepository,
       TypeormUserCredentialRepository,
+      TypeormLoginAttemptRepository,
     ],
     IAMCommandHandlers,
   ),

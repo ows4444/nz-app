@@ -8,7 +8,7 @@ export interface ILoginAttemptProps {
   riskScore: number;
 }
 export class LoginAttemptEntity {
-  public readonly id: number | undefined;
+  public readonly id!: number;
   private _userId: string;
   private _ipAddress: string;
   private _userAgent: string;
@@ -16,7 +16,7 @@ export class LoginAttemptEntity {
   private _successFlag: boolean;
   private _riskScore: number;
   private constructor(props: ILoginAttemptProps) {
-    if (props.id === undefined) {
+    if (props.id !== undefined) {
       this.id = props.id;
     }
     this._userId = props.userId;
@@ -26,9 +26,8 @@ export class LoginAttemptEntity {
     this._successFlag = props.successFlag;
     this._riskScore = props.riskScore;
   }
-  public static createNew(id: number, userId: string, ipAddress: string, userAgent: string, successFlag: boolean, riskScore: number): LoginAttemptEntity {
+  public static createNew(userId: string, ipAddress: string, userAgent: string, successFlag: boolean, riskScore: number): LoginAttemptEntity {
     return new LoginAttemptEntity({
-      id,
       userId,
       ipAddress,
       userAgent,

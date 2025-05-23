@@ -20,7 +20,7 @@ export class UserContactMapper {
   static toPersistence(userContact: UserContactEntity): Partial<UserContactEntityORM> {
     return {
       id: userContact.id,
-      user: { id: userContact.userId } as unknown as UserProfileEntityORM,
+      user: { id: userContact.userId } as UserProfileEntityORM,
       type: userContact.type,
       value: userContact.value,
       isVerified: userContact.isVerified,

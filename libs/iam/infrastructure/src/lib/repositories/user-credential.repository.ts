@@ -18,7 +18,7 @@ export class TypeormUserCredentialRepository {
 
   async findOneById(id: string, qr?: QueryRunner): Promise<UserCredentialEntity | null> {
     const orm = await this.getRepository(qr).findOne({ where: { id } });
-    return orm ? UserCredentialEntity.restore(orm) : null;
+    return orm ? UserCredentialMapper.toDomain(orm) : null;
   }
 
   async save(userCredential: UserCredentialEntity, qr?: QueryRunner): Promise<UserCredentialEntity> {

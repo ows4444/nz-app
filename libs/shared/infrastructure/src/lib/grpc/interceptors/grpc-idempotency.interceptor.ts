@@ -9,7 +9,7 @@ import { GRPC_IDEMPOTENT_KEY } from '../decorators';
 @Injectable()
 export class GrpcIdempotencyInterceptor implements NestInterceptor {
   private readonly logger = new Logger(GrpcIdempotencyInterceptor.name);
-  private defaultTtl = 3;
+  private defaultTtl = 5;
 
   constructor(private readonly reflector: Reflector, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<unknown>> {

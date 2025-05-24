@@ -421,30 +421,33 @@
 - [ ] **Scalability** — auto-scaling policies (HPA/VPA); partitioning; back-pressure handling
 - [ ] **Architecture Reviews** — regular reviews; DRIs; RFC process for changes
 
-| Service                             | Code Name         | Notes                                           |
-| ----------------------------------- | ----------------- | ----------------------------------------------- |
-| Authentication Service              | `auth-service`    | Login, MFA, risk engine, session revocation     |
-| OAuth2/OIDC Provider Service        | `oidc-provider`   | Tokens, discovery, PKCE, CIBA, device flow      |
-| Dedicated OAuth Service             | `oauth-service`   | OAuth 2.1, introspection, JWKS, key rotation    |
-| User Management Service             | `user-management` | CRUD, bulk, GraphQL, SCIM                       |
-| Role & Permission Service (RBAC)    | `rbac-service`    | RBAC CRUD, hierarchies, templates               |
-| Attribute Service (ABAC)            | `abac-service`    | ABAC attributes, values, associations           |
-| Policy Administration Service (PAP) | `policy-admin`    | Versioned policies, syntax validation, metadata |
-| Policy Decision Point (PDP)         | `pdp-engine`      | Eval, batch, explainable decisions, cache       |
-| Policy Enforcement Point (PEP)      | `pep-guard`       | Enforcement, metrics, auditing                  |
-| Access Control List Service (ACL)   | `acl-service`     | CRUD, filters, DSL                              |
-| Security Labeling Service (MAC)     | `mac-service`     | Labels, hierarchies, policy attach              |
-| Graph Enforcement Service (GBAC)    | `gbac-service`    | Graph-based checks, query DSL                   |
-| Device Management Service           | `device-manager`  | Idempotent CRUD, device trust, fingerprinting   |
-| Session & Token Service             | `session-service` | Sessions, policies, device binding              |
-| Audit & Logging Service             | `audit-logging`   | Structured logs, streams, alerts                |
+| Service                             | Code Name         | Database Tables                                                                                                                                                                        | Notes                                           |
+| ----------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| Authentication Service              | `auth-service`    | `users_credentials`, `user_password_history`                                                                                                                                           | Login, MFA, risk engine, session revocation     |
+| OAuth2/OIDC Provider Service        | `oidc-provider`   | `jwks`, `openid_scopes`, `pkce_challenges`                                                                                                                                             | Tokens, discovery, PKCE, CIBA, device flow      |
+| Dedicated OAuth Service             | `oauth-service`   | `oauth_clients`, `auth_codes`, `access_tokens`, `refresh_tokens`, `revocation_logs`, `jwks`, `openid_scopes`, `client_grant_types`, `pkce_challenges`, `device_codes`, `ciba_requests` | OAuth 2.1, introspection, JWKS, key rotation    |
+| User Management Service             | `user-management` | `users_profile`, `user_preferences`, `user_contacts`, `contact_verifications`, `password_resets`, `login_attempts`                                                                     | CRUD, bulk, GraphQL, SCIM                       |
+| Role & Permission Service (RBAC)    | `rbac-service`    | `roles`, `permissions`, `role_permissions`, `user_roles`                                                                                                                               | RBAC CRUD, hierarchies, templates               |
+| Attribute Service (ABAC)            | `abac-service`    | `attributes`, `attribute_values`, `subject_attributes`, `resource_attributes`                                                                                                          | ABAC attributes, values, associations           |
+| Policy Administration Service (PAP) | `policy-admin`    | `policies`, `policy_metadata`                                                                                                                                                          | Versioned policies, syntax validation, metadata |
+| Policy Decision Point (PDP)         | `pdp-engine`      | `pdp_cache`, `decision_logs`                                                                                                                                                           | Eval, batch, explainable decisions, cache       |
+| Policy Enforcement Point (PEP)      | `pep-guard`       | `pep_logs`                                                                                                                                                                             | Enforcement, metrics, auditing                  |
+| Access Control List Service (ACL)   | `acl-service`     | `acl_entries`, `acl_logs`                                                                                                                                                              | CRUD, filters, DSL                              |
+| Security Labeling Service (MAC)     | `mac-service`     | `security_labels`, `label_hierarchy`, `object_labels`                                                                                                                                  | Labels, hierarchies, policy attach              |
+| Graph Enforcement Service (GBAC)    | `gbac-service`    | `graph_nodes`, `graph_edges`                                                                                                                                                           | Graph-based checks, query DSL                   |
+| Device Management Service           | `device-manager`  | `devices`, `user_devices`                                                                                                                                                              | Idempotent CRUD, device trust, fingerprinting   |
+| Session & Token Service             | `session-service` | `device_sessions`, `session_policies`                                                                                                                                                  | Sessions, policies, device binding              |
+| Audit & Logging Service             | `audit-logging`   | `audit_records`, `log_streams`, `audit_alerts`, `audit_configs`                                                                                                                        | Structured logs, streams, alerts                |
 
-| Context                          | Combined Services                                                         | Suggested Code Name | Database Name      |
-| -------------------------------- | ------------------------------------------------------------------------- | ------------------- | ------------------ |
-| **Identity & Access Management** | `auth-service`, `user-management`                                         | `iam-service`       | `iam_db`           |
-| **OAuth Service**                | `oauth-service`, `oidc-provider`                                          | `oauth-context`     | `oauth_db`         |
-| **Authorization Core**           | `rbac-service`, `abac-service`, `policy-admin`, `pdp-engine`, `pep-guard` | `authz-core`        | `authz_core_db`    |
-| **Access Models**                | `acl-service`, `mac-service`, `gbac-service`                              | `access-models`     | `access_models_db` |
-| **Device & Session Management**  | `device-manager`, `session-service`                                       | `session-service`   | `session_db`       |
-| **Audit & Logging**              | `audit-logging`                                                           | `audit-service`     | `audit_db`         |
-| **Cross-Cutting Platform**       | API Gateway, Service Mesh, Observability, CI/CD, Secrets                  | `platform-infra`    | `infra_config_db`  |
+
+
+| Combined Service             | Code Name               | Constituent Services                                                      |
+| ---------------------------- | ----------------------- | ------------------------------------------------------------------------- |
+| **Identity & User Service**  | `identity-service`      | `auth-service`, `user-management`                                         |
+| **OAuth Service**            | `oauth-service`         | `oidc-provider`, `oauth-service`                                          |
+| **Authorization Service**    | `authorization-service` | `rbac-service`, `abac-service`, `policy-admin`, `pdp-engine`, `pep-guard` |
+| **Access Models Service**    | `access-models-service` | `acl-service`, `mac-service`, `gbac-service`                              |
+| **Session & Device Service** | `session-service`       | `device-manager`, `session-service`                                       |
+| **Audit Service**            | `audit-service`         | `audit-logging`                                                           |
+
+

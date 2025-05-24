@@ -5,6 +5,7 @@
 // source: auth.proto
 
 /* eslint-disable */
+import { Metadata } from '@grpc/grpc-js';
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
@@ -38,19 +39,19 @@ export interface RegisterResponse {
 export const AUTH_PACKAGE_NAME = 'auth';
 
 export interface AuthServiceClient {
-  loginByEmail(request: LoginByEmailRequest): Observable<LoginResponse>;
+  loginByEmail(request: LoginByEmailRequest, metadata?: Metadata): Observable<LoginResponse>;
 
-  loginByUsername(request: LoginByUsernameRequest): Observable<LoginResponse>;
+  loginByUsername(request: LoginByUsernameRequest, metadata?: Metadata): Observable<LoginResponse>;
 
-  register(request: RegisterRequest): Observable<RegisterResponse>;
+  register(request: RegisterRequest, metadata?: Metadata): Observable<RegisterResponse>;
 }
 
 export interface AuthServiceController {
-  loginByEmail(request: LoginByEmailRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
+  loginByEmail(request: LoginByEmailRequest, metadata?: Metadata): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
 
-  loginByUsername(request: LoginByUsernameRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
+  loginByUsername(request: LoginByUsernameRequest, metadata?: Metadata): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
 
-  register(request: RegisterRequest): Promise<RegisterResponse> | Observable<RegisterResponse> | RegisterResponse;
+  register(request: RegisterRequest, metadata?: Metadata): Promise<RegisterResponse> | Observable<RegisterResponse> | RegisterResponse;
 }
 
 export function AuthServiceControllerMethods() {

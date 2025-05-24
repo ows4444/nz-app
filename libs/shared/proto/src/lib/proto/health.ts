@@ -5,6 +5,7 @@
 // source: health.proto
 
 /* eslint-disable */
+import { Metadata } from '@grpc/grpc-js';
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
@@ -20,11 +21,11 @@ export interface HealthCheckResponse {
 export const HEALTH_PACKAGE_NAME = 'health';
 
 export interface HealthServiceClient {
-  check(request: HealthCheckRequest): Observable<HealthCheckResponse>;
+  check(request: HealthCheckRequest, metadata?: Metadata): Observable<HealthCheckResponse>;
 }
 
 export interface HealthServiceController {
-  check(request: HealthCheckRequest): Promise<HealthCheckResponse> | Observable<HealthCheckResponse> | HealthCheckResponse;
+  check(request: HealthCheckRequest, metadata?: Metadata): Promise<HealthCheckResponse> | Observable<HealthCheckResponse> | HealthCheckResponse;
 }
 
 export function HealthServiceControllerMethods() {

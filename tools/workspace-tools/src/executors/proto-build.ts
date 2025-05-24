@@ -50,7 +50,7 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
   // Run protoc for each entity
   for (const entity of entities) {
     const protoFileName = `${entity}.proto`;
-    const protocArgs = [`--ts_proto_out=${outDir}`, protoFileName, '--ts_proto_opt=nestJs=true'];
+    const protocArgs = [`--ts_proto_out=${outDir}`, protoFileName, '--ts_proto_opt=nestJs=true,addGrpcMetadata=true'];
 
     logger.info(`🚀 Generating types for ${protoFileName}...`);
 

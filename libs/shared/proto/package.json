@@ -36,6 +36,7 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@nestjs/microservices": "^11.1.0",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "@grpc/grpc-js": "^1.13.3"
   }
 }

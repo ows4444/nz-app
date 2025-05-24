@@ -1,1 +1,1 @@
-export * from './idempotent.decorator';
+export * from './rate-limit.decorator';

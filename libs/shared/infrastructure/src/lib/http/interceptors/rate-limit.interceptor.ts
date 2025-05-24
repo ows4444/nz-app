@@ -5,7 +5,7 @@ import { createHash } from 'crypto';
 import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { RATE_LIMIT_KEY, RateLimitOptions } from '../decorators/rate-limit.decorator';
+import { RATE_LIMIT_KEY, RateLimitOptions } from '../decorators';
 
 @Injectable()
 export class RateLimitInterceptor implements NestInterceptor {

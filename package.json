@@ -112,6 +112,14 @@
     "libs/iam/application",
     "libs/iam/infrastructure",
     "libs/iam/presentation",
-    "libs/shared/proto"
+    "libs/shared/proto",
+    "libs/auth-session/domain",
+    "libs/auth-session/application",
+    "libs/auth-session/infrastructure",
+    "libs/auth-session/presentation",
+    "libs/identity-device/domain",
+    "libs/identity-device/application",
+    "libs/identity-device/infrastructure",
+    "libs/identity-device/presentation"
   ]
 }

@@ -1,7 +1,7 @@
 import { Password } from '../value-objects';
 
 export interface IUserPasswordHistoryProps {
-  id?: string;
+  id?: number;
   userId: string;
   passwordHash: string;
   salt: string;
@@ -11,7 +11,7 @@ export interface IUserPasswordHistoryProps {
 }
 
 export class UserPasswordHistoryEntity {
-  public readonly id!: string;
+  public readonly id!: number;
   public readonly userId: string;
   private _passwordHash: string;
   private _password: Password;

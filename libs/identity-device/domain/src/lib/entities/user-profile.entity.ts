@@ -14,13 +14,13 @@ export interface IUserProfileProps {
 
   avatar: string;
   locale: string;
-  status?: Status;
+  status: Status;
   deletedAt?: Date;
   suspendedAt?: Date;
   suspendedUntil?: Date;
 
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class UserProfileEntity extends State.StatefulEntity<Status> {

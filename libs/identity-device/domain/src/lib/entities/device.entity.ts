@@ -5,7 +5,7 @@ export interface IDeviceProps {
   deviceId?: string;
   userId: string;
   deviceInfo: string;
-  lastSeen: Date;
+  lastSeenAt: Date;
   status: number;
   trustScore: number;
   createdAt: Date;
@@ -18,7 +18,7 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
   public readonly deviceId!: string;
   private _userId: string;
   private _deviceInfo: string;
-  private _lastSeen: Date;
+  private _lastSeenAt: Date;
   private _trustScore: number;
 
   private _createdAt: Date;
@@ -37,7 +37,7 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
 
     this._trustScore = props.trustScore;
 
-    this._lastSeen = props.lastSeen ?? new Date();
+    this._lastSeenAt = props.lastSeenAt ?? new Date();
     this._createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
     this.refreshStatusMessage();
@@ -47,7 +47,7 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
     return new DeviceEntity({
       userId: userId,
       deviceInfo: deviceInfo,
-      lastSeen: new Date(),
+      lastSeenAt: new Date(),
       status: Status.PENDING,
       trustScore: 100,
       createdAt: new Date(),
@@ -67,8 +67,8 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
   get deviceInfo(): string {
     return this._deviceInfo;
   }
-  get lastSeen(): Date {
-    return this._lastSeen;
+  get lastSeenAt(): Date {
+    return this._lastSeenAt;
   }
   get status(): Status {
     return this.getState();
@@ -110,8 +110,8 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
   /**
    * Update last seen timestamp
    */
-  public updateLastSeen(newLastSeen: Date): void {
-    this._lastSeen = newLastSeen;
+  public updateLastSeen(): void {
+    this._lastSeenAt = new Date();
     this.touchUpdatedAt();
   }
 

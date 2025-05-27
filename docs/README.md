@@ -54,11 +54,11 @@
   - `user_id` (FK), `key`, `value`, `updated_at`, `source` (UI/API/bulk)
 - [x] **Table: `user_contacts`**  
   - `id` (PK), `user_id` (FK), `type`, `value`, `verified_flag`, `verified_at`, `is_default`
-- [ ] **Table: `contact_verifications`**  
+- [x] **Table: `contact_verifications`**  
   - `id` (PK), `contact_id` (FK), `purpose`, `token_hash`, `code`, `expires_at`, `used_flag`, `requested_at`, `used_at`, `ip_address`, `user_agent`, `created_at`, `updated_at`
-- [ ] **Table: `devices`**  
+- [x] **Table: `devices`**  
   - `device_id` (PK), `user_id` (FK), `device_info` (JSON), `created_at`, `last_seen`, `status`, `trust_score`
-- [ ] **Table: `user_devices`**  
+- [x] **Table: `user_devices`**  
   - `user_id` (FK), `device_id` (FK), `is_active` (BOOLEAN NOT NULL DEFAULT FALSE), `linked_at` (TIMESTAMP)  
   - PRIMARY KEY(`user_id`, `device_id`),  
   - UNIQUE INDEX on (`device_id`) WHERE `is_active` = TRUE

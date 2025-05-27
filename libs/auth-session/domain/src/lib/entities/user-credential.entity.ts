@@ -6,8 +6,8 @@ export interface IUserCredentialProps {
   salt: string;
   algo: string;
   pepperVersion: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class UserCredentialEntity {
@@ -17,7 +17,7 @@ export class UserCredentialEntity {
   private _salt: string;
   private _algo: string;
   private _pepperVersion: string;
-  private _createdAt: Date;
+  public readonly createdAt: Date;
   private _updatedAt: Date;
 
   private constructor(props: IUserCredentialProps) {
@@ -33,7 +33,7 @@ export class UserCredentialEntity {
       algo: props.algo,
       pepperVersion: props.pepperVersion,
     });
-    this._createdAt = props.createdAt ?? new Date();
+    this.createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
   }
 
@@ -77,10 +77,6 @@ export class UserCredentialEntity {
 
   public get pepperVersion(): string {
     return this._pepperVersion;
-  }
-
-  public get createdAt(): Date {
-    return this._createdAt;
   }
 
   public get updatedAt(): Date {

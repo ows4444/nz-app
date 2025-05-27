@@ -1,11 +1,11 @@
 import { WithCreated } from '@nz/shared-infrastructure';
-import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 class UserPasswordHistory extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
   id!: number;
 
-  @PrimaryColumn({ type: 'uuid', length: 36 })
+  @Column({ type: 'uuid', length: 36 })
   userId!: string;
 
   @Column()

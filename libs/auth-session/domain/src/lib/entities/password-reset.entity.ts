@@ -6,17 +6,17 @@ export interface IPasswordResetProps {
 }
 export class PasswordResetEntity {
   public readonly id!: number;
-  private _userId: string;
-  private _token: string;
-  private _expiresAt: Date;
+  public readonly userId: string;
+  public readonly token: string;
+  public readonly expiresAt: Date;
 
   private constructor(props: IPasswordResetProps) {
     if (props.id !== undefined) {
       this.id = props.id;
     }
-    this._userId = props.userId;
-    this._token = props.token;
-    this._expiresAt = props.expiresAt;
+    this.userId = props.userId;
+    this.token = props.token;
+    this.expiresAt = props.expiresAt;
   }
 
   public static createNew(userId: string, token: string, expiresAt: Date): PasswordResetEntity {
@@ -29,19 +29,11 @@ export class PasswordResetEntity {
   public static restore(props: IPasswordResetProps): PasswordResetEntity {
     return new PasswordResetEntity(props);
   }
-  public get userId(): string {
-    return this._userId;
-  }
-  public get token(): string {
-    return this._token;
-  }
-  public get expiresAt(): Date {
-    return this._expiresAt;
-  }
+
   public isExpired(): boolean {
-    return this._expiresAt < new Date();
+    return this.expiresAt < new Date();
   }
   public isValid(token: string): boolean {
-    return this._token === token && !this.isExpired();
+    return this.token === token && !this.isExpired();
   }
 }

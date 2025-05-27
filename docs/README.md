@@ -6,9 +6,9 @@
   - `user_id` (PK), `password_hash`, `salt`, `algo`, `pepper_version`, `created_at`, `updated_at`
 - [x] **Table: `user_password_history`**  
   - `id` (PK), `user_id` (FK), `password_hash`, `salt`, `algo`, `pepper_version`, `created_at`
-- [ ] **Table: `device_sessions`**  
+- [x] **Table: `device_sessions`**  
   - `session_id` (PK), `device_id` (FK), `user_id` (FK), `active_flag`, `ip_address`, `started_at`, `last_seen_at`, `geo_location`
-- [ ] **Table: `session_policies`**  
+- [x] **Table: `session_policies`**  
   - `policy_id` (PK), `max_sessions`, `inactivity_timeout`, `created_at`
 - [x] **Table: `login_attempts`**  
   - `id` (PK), `user_id` (FK), `timestamp`, `success_flag`, `ip_address`, `user_agent`, `risk_score`

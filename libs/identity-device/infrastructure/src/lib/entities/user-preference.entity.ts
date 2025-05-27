@@ -1,8 +1,8 @@
 import { WithCreated, WithUpdated } from '@nz/shared-infrastructure';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 class UserPreference extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   userId!: string;
 
   @Column()

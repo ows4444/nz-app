@@ -11,13 +11,13 @@ export interface IUserContactProps {
 
 export class UserContactEntity {
   public readonly id!: number;
-  private _userId: string;
-  private _type: 'email' | 'phone';
-  private _value: string;
+  public readonly userId: string;
+  public readonly type: 'email' | 'phone';
+  public readonly value: string;
   private _isVerified: boolean;
   private _isDefault: boolean;
 
-  private _createdAt: Date;
+  public readonly createdAt: Date;
   private _updatedAt: Date;
 
   private constructor(props: IUserContactProps) {
@@ -25,13 +25,13 @@ export class UserContactEntity {
       this.id = props.id;
     }
 
-    this._userId = props.userId;
-    this._type = props.type;
-    this._value = props.value;
+    this.userId = props.userId;
+    this.type = props.type;
+    this.value = props.value;
     this._isVerified = props.isVerified;
     this._isDefault = props.isDefault;
 
-    this._createdAt = props.createdAt ?? new Date();
+    this.createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
   }
 
@@ -59,25 +59,12 @@ export class UserContactEntity {
 
   // ----------------- Getters -----------------
 
-  get userId(): string {
-    return this._userId;
-  }
-  get type(): 'email' | 'phone' {
-    return this._type;
-  }
-  get value(): string {
-    return this._value;
-  }
   get isVerified(): boolean {
     return this._isVerified;
   }
 
   get isDefault(): boolean {
     return this._isDefault;
-  }
-
-  get createdAt(): Date {
-    return this._createdAt;
   }
 
   get updatedAt(): Date {
@@ -90,22 +77,13 @@ export class UserContactEntity {
     this._isVerified = true;
     this.touchUpdatedAt();
   }
-  public updateValue(newValue: string): void {
-    this._value = newValue;
-    this._isVerified = false;
-    this.touchUpdatedAt();
-  }
+
   public setDefault(): void {
     this._isDefault = true;
     this.touchUpdatedAt();
   }
   public unsetDefault(): void {
     this._isDefault = false;
-    this.touchUpdatedAt();
-  }
-  public updateType(newType: 'email' | 'phone'): void {
-    this._type = newType;
-    this._isVerified = false;
     this.touchUpdatedAt();
   }
 

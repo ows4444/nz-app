@@ -32,7 +32,7 @@ export class ContactVerificationEntity {
   private _usedFlag: boolean;
   private _usedAt: Date;
 
-  private _createdAt: Date;
+  public readonly createdAt: Date;
   private _updatedAt: Date;
 
   private constructor(props: IContactVerificationProps) {
@@ -53,7 +53,7 @@ export class ContactVerificationEntity {
     this.ipAddress = props.ipAddress;
     this.userAgent = props.userAgent;
 
-    this._createdAt = props.createdAt ?? new Date();
+    this.createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
   }
 
@@ -86,10 +86,6 @@ export class ContactVerificationEntity {
 
   get usedAt(): Date {
     return this._usedAt;
-  }
-
-  get createdAt(): Date {
-    return this._createdAt;
   }
 
   get updatedAt(): Date {

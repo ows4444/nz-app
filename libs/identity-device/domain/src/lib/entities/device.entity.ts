@@ -21,7 +21,7 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
   private _lastSeenAt: Date;
   private _trustScore: number;
 
-  private _createdAt: Date;
+  public readonly createdAt: Date;
   private _updatedAt: Date;
 
   private _statusMessage = '';
@@ -38,7 +38,7 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
     this._trustScore = props.trustScore;
 
     this._lastSeenAt = props.lastSeenAt ?? new Date();
-    this._createdAt = props.createdAt ?? new Date();
+    this.createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
     this.refreshStatusMessage();
   }
@@ -79,10 +79,6 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
 
   get statusMessage(): string {
     return this._statusMessage;
-  }
-
-  get createdAt(): Date {
-    return this._createdAt;
   }
 
   get updatedAt(): Date {

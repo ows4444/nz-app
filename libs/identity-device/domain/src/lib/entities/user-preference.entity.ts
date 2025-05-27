@@ -9,22 +9,22 @@ export interface IUserPreferenceProps {
 
 export class UserPreferenceEntity {
   public readonly id!: number;
-  private _userId: string;
+  public readonly userId: string;
   private _key: string;
   private _value: string;
   private _source: string;
 
-  private _createdAt: Date;
+  public readonly createdAt: Date;
   private _updatedAt: Date;
 
   private constructor(props: IUserPreferenceProps) {
-    this._userId = props.userId;
+    this.userId = props.userId;
     this._key = props.key;
     this._value = props.value;
 
     this._source = props.source;
 
-    this._createdAt = props.createdAt ?? new Date();
+    this.createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
   }
 
@@ -45,9 +45,6 @@ export class UserPreferenceEntity {
 
   // ----------------- Getters -----------------
 
-  get userId(): string {
-    return this._userId;
-  }
   get key(): string {
     return this._key;
   }
@@ -57,10 +54,6 @@ export class UserPreferenceEntity {
 
   get value(): string {
     return this._value;
-  }
-
-  get createdAt(): Date {
-    return this._createdAt;
   }
 
   get updatedAt(): Date {

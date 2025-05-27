@@ -35,7 +35,7 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
   private _avatar: string;
   private _locale: string;
 
-  private _createdAt: Date;
+  public readonly createdAt: Date;
   private _updatedAt: Date;
 
   private _deletedAt?: Date;
@@ -58,7 +58,7 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
     this._avatar = props.avatar;
     this._locale = props.locale;
 
-    this._createdAt = props.createdAt ?? new Date();
+    this.createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
 
     this._deletedAt = props.deletedAt;
@@ -145,10 +145,6 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
 
   get suspendedUntil(): Date | undefined {
     return this._suspendedUntil;
-  }
-
-  get createdAt(): Date {
-    return this._createdAt;
   }
 
   get updatedAt(): Date {

@@ -1,8 +1,8 @@
 import { StringColumn, WithCreated } from '@nz/shared-infrastructure';
-import { BaseEntity, Column, Entity } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 class DeviceSession extends BaseEntity {
-  @Column({ type: 'uuid', length: 36, unique: true })
+  @PrimaryGeneratedColumn('uuid')
   sessionId!: string;
 
   @Column({ type: 'uuid', length: 36, unique: true })
@@ -19,6 +19,7 @@ class DeviceSession extends BaseEntity {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   startedAt!: Date;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   lastSeenAt!: Date;
 

@@ -2,6 +2,7 @@ import { Status } from '@nz/const';
 import { Bitwise, State } from '@nz/kernel';
 
 export interface IUserDeviceProps {
+  id?: string;
   userId: string;
   deviceId: string;
   status: number;
@@ -11,6 +12,7 @@ export interface IUserDeviceProps {
 export class UserDeviceEntity extends State.StatefulEntity<Status> {
   private static readonly ALLOWED_STATUSES = Status.PENDING | Status.ACTIVE | Status.INACTIVE | Status.DELETED;
 
+  public readonly id!: string;
   public readonly deviceId!: string;
   public readonly userId!: string;
   private _linkedAt: Date;
@@ -18,8 +20,8 @@ export class UserDeviceEntity extends State.StatefulEntity<Status> {
 
   private constructor(props: IUserDeviceProps) {
     super(props.status ?? Status.PENDING, UserDeviceEntity.validateTransition);
-    if (props.deviceId !== undefined) {
-      this.deviceId = props.deviceId;
+    if (props.id !== undefined) {
+      this.id = props.id;
     }
     this.userId = props.userId;
     this.deviceId = props.deviceId;

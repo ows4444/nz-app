@@ -86,7 +86,7 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
       const protoFileNameWithoutExt = protoFileName.replace('.proto', '');
       return `export * as ${protoFileNameWithoutExt} from './${projectType === 'library' ? 'lib/' : ''}${options.protoDir}/${protoFileNameWithoutExt}';`;
     })
-    .join('\n');
+    .join('\n\n');
   try {
     await fs.writeFile(indexFilePath, indexFileContent, { encoding: 'utf-8' });
     logger.info(`✔️ Created index.ts file at ${indexFilePath}`);

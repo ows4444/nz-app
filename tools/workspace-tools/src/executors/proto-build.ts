@@ -84,7 +84,10 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
     .map((entity) => {
       const protoFileName = `${entity}.proto`;
       const protoFileNameWithoutExt = protoFileName.replace('.proto', '');
-      return `export * as ${protoFileNameWithoutExt} from './${projectType === 'library' ? 'lib/' : ''}${options.protoDir}/${protoFileNameWithoutExt}';`;
+
+      return `export * as ${protoFileNameWithoutExt.replace(/-([a-z])/g, (_, char) => char.toUpperCase())} from './${projectType === 'library' ? 'lib/' : ''}${
+        options.protoDir
+      }/${protoFileNameWithoutExt}';`;
     })
     .join('\n');
   try {

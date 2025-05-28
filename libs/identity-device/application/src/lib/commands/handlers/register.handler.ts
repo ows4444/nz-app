@@ -4,7 +4,7 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { Email, UserContactEntity, Username, UserProfileEntity } from '@nz/identity-device-domain';
 import { TypeormUserContactRepository, TypeormUserProfileRepository } from '@nz/identity-device-infrastructure';
 import { GrpcAlreadyExistsException, GrpcUnknownException } from '@nz/shared-infrastructure';
-import { identity } from '@nz/shared-proto';
+import { identityDevice } from '@nz/shared-proto';
 import { DataSource } from 'typeorm';
 import { RegisterCommand } from '../impl';
 
@@ -17,7 +17,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
     private readonly userContactRepository: TypeormUserContactRepository,
   ) {}
 
-  async execute({ payload }: RegisterCommand): Promise<identity.RegisterResponse> {
+  async execute({ payload }: RegisterCommand): Promise<identityDevice.RegisterResponse> {
     const emailVo = Email.create(payload.email);
     const usernameVo = Username.create(payload.username);
 

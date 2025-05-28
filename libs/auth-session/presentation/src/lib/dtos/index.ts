@@ -16,14 +16,3 @@ export class LoginByUsernameDto implements auth.LoginByUsernameRequest {
   @ApiProperty({ example: 'password' })
   password!: string;
 }
-
-export class RegisterDto implements auth.RegisterRequest {
-  @ApiProperty({ example: 'testuser' })
-  username!: string;
-
-  @ApiProperty({ example: 'email@Email.com' })
-  email!: string;
-
-  @ApiProperty({ example: 'password' })
-  password!: string;
-}

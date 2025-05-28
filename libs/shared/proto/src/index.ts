@@ -1,3 +1,3 @@
-export * as auth from './lib/proto/auth';
+export * as authSession from './lib/proto/auth-session';
 export * as health from './lib/proto/health';
-export * as identity from './lib/proto/identity';
+export * as identityDevice from './lib/proto/identity-device';

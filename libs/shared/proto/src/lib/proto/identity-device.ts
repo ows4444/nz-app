@@ -2,14 +2,14 @@
 // versions:
 //   protoc-gen-ts_proto  v2.7.0
 //   protoc               v3.20.3
-// source: identity.proto
+// source: identity-device.proto
 
 /* eslint-disable */
 import { Metadata } from '@grpc/grpc-js';
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
-export const protobufPackage = 'identity';
+export const protobufPackage = 'identityDevice';
 
 export interface RegisterRequest {
   email: string;
@@ -21,7 +21,7 @@ export interface RegisterResponse {
   message: string;
 }
 
-export const IDENTITY_PACKAGE_NAME = 'identity';
+export const IDENTITY_DEVICE_PACKAGE_NAME = 'identityDevice';
 
 export interface IdentityServiceClient {
   register(request: RegisterRequest, metadata?: Metadata): Observable<RegisterResponse>;

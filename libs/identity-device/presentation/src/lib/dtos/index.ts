@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { identity } from '@nz/shared-proto';
+import { identityDevice } from '@nz/shared-proto';
 
-export class RegisterDto implements identity.RegisterRequest {
+export class RegisterDto implements identityDevice.RegisterRequest {
   @ApiProperty({ example: 'testuser' })
   username!: string;
 

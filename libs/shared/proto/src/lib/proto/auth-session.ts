@@ -2,14 +2,14 @@
 // versions:
 //   protoc-gen-ts_proto  v2.7.0
 //   protoc               v3.20.3
-// source: auth.proto
+// source: auth-session.proto
 
 /* eslint-disable */
 import { Metadata } from '@grpc/grpc-js';
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
-export const protobufPackage = 'auth';
+export const protobufPackage = 'authSession';
 
 export interface LoginByEmailRequest {
   email: string;
@@ -26,7 +26,7 @@ export interface LoginResponse {
   message: string;
 }
 
-export const AUTH_PACKAGE_NAME = 'auth';
+export const AUTH_SESSION_PACKAGE_NAME = 'authSession';
 
 export interface AuthServiceClient {
   loginByEmail(request: LoginByEmailRequest, metadata?: Metadata): Observable<LoginResponse>;

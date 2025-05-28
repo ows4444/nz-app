@@ -1,16 +1,16 @@
 import { Body, Controller, Inject, OnModuleInit, Post } from '@nestjs/common';
 import type { ClientGrpc } from '@nestjs/microservices';
-import { LoginByEmailDto, LoginByUsernameDto, RegisterDto } from '@nz/iam-presentation';
-import { auth } from '@nz/shared-proto';
+import { LoginByEmailDto, LoginByUsernameDto } from '@nz/auth-session-presentation';
+import { authSession } from '@nz/shared-proto';
 
 @Controller('auth')
 export class AuthController implements OnModuleInit {
-  private iamServiceClient!: auth.AuthServiceClient;
+  private iamServiceClient!: authSession.AuthServiceClient;
 
-  constructor(@Inject(auth.protobufPackage) private readonly grpcClient: ClientGrpc) {}
+  constructor(@Inject(authSession.protobufPackage) private readonly grpcClient: ClientGrpc) {}
 
   onModuleInit() {
-    this.iamServiceClient = this.grpcClient.getService<auth.AuthServiceClient>(auth.AUTH_SERVICE_NAME);
+    this.iamServiceClient = this.grpcClient.getService<authSession.AuthServiceClient>(authSession.AUTH_SERVICE_NAME);
   }
 
   @Post('login/email')
@@ -21,10 +21,5 @@ export class AuthController implements OnModuleInit {
   @Post('login/username')
   authenticateByUsername(@Body() loginRequest: LoginByUsernameDto) {
     return this.iamServiceClient.loginByUsername(loginRequest);
-  }
-
-  @Post('register')
-  register(@Body() registerRequest: RegisterDto) {
-    return this.iamServiceClient.register(registerRequest);
   }
 }

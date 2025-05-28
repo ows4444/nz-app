@@ -40,7 +40,7 @@ async function Bootstrap() {
 
   await app.listen();
 
-  logger.log(`🚀 Identity-Device Service is running...  on Grpc Channel ${config.getOrThrow<Environment>('env').url}`);
+  logger.log(`🚀 Identity-Device Service is running. on Grpc ${config.getOrThrow<Environment>('env').url}`);
 }
 
 Bootstrap();

@@ -22,8 +22,7 @@ import {
 } from '@nz/identity-device-infrastructure';
 import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import Keyv from 'keyv';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -47,9 +46,8 @@ import { AppService } from './app.service';
       expandVariables: true,
     }),
   ],
-  controllers: [AppController],
+  controllers: [HealthController],
   providers: [
-    AppService,
     {
       provide: APP_INTERCEPTOR,
       useClass: GrpcIdempotencyInterceptor,

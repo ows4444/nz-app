@@ -23,6 +23,7 @@ import {
 import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import Keyv from 'keyv';
 import { HealthController } from './health.controller';
+import { IdentityController } from './identity.controller';
 
 @Module({
   imports: [
@@ -46,7 +47,7 @@ import { HealthController } from './health.controller';
       expandVariables: true,
     }),
   ],
-  controllers: [HealthController],
+  controllers: [HealthController, IdentityController],
   providers: [
     {
       provide: APP_INTERCEPTOR,

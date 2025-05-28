@@ -21,6 +21,7 @@ import {
 import { authConfigLoader, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
 import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import Keyv from 'keyv';
+import { AuthController } from './auth.controller';
 import { HealthController } from './health.controller';
 @Module({
   imports: [
@@ -45,7 +46,7 @@ import { HealthController } from './health.controller';
       load: [authConfigLoader],
     }),
   ],
-  controllers: [HealthController],
+  controllers: [HealthController, AuthController],
   providers: [
     {
       provide: APP_INTERCEPTOR,

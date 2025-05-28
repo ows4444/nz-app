@@ -31,12 +31,6 @@
       "path": "./tools/workspace-tools"
     },
     {
-      "path": "./apps/iam-service-e2e"
-    },
-    {
-      "path": "./apps/iam-service"
-    },
-    {
       "path": "./libs/shared/proto"
     },
     {
@@ -68,6 +62,12 @@
     },
     {
       "path": "./apps/identity-device-service"
+    },
+    {
+      "path": "./apps/auth-session-service-e2e"
+    },
+    {
+      "path": "./apps/auth-session-service"
     }
   ]
 }

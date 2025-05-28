@@ -22,7 +22,8 @@
         "options": {
           "entity": [
             "auth",
-            "health"
+            "health",
+            "identity"
           ]
         }
       }

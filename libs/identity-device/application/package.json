@@ -22,6 +22,16 @@
     "name": "identity-device-application"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@nestjs/cqrs": "^11.0.3",
+    "@nestjs/microservices": "^11.1.0",
+    "@nestjs/typeorm": "^11.0.0",
+    "@nz/identity-device-domain": "0.0.1",
+    "@nz/identity-device-infrastructure": "0.0.1",
+    "@nz/shared-infrastructure": "0.0.1",
+    "@nz/shared-proto": "0.0.1",
+    "typeorm": "^0.3.22",
+    "@nz/identity-device-presentation": "0.0.1",
+    "@nestjs/common": "^11.0.0"
   }
 }

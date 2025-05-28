@@ -4,7 +4,7 @@ import { RegisterDto } from '@nz/identity-device-presentation';
 import { identityDevice } from '@nz/shared-proto';
 
 @Controller('identity')
-export class AuthController implements OnModuleInit {
+export class IdentityController implements OnModuleInit {
   private identityServiceClient!: identityDevice.IdentityServiceClient;
 
   constructor(@Inject(identityDevice.protobufPackage) private readonly grpcClient: ClientGrpc) {}

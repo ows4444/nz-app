@@ -6,7 +6,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
-import { IdentityDeviceCommandHandlers } from '@nz/identity-device-application';
+import { IdentityDeviceCommandHandlers, IdentityService } from '@nz/identity-device-application';
 import {
   ContactVerificationEntityORM,
   DeviceEntityORM,
@@ -51,6 +51,7 @@ import { IdentityController } from './identity.controller';
   controllers: [HealthController, IdentityController],
   providers: ([] as Provider[]).concat(
     [
+      IdentityService,
       {
         provide: APP_INTERCEPTOR,
         useClass: GrpcIdempotencyInterceptor,

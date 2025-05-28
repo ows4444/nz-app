@@ -4,6 +4,21 @@
   "include": [],
   "references": [
     {
+      "path": "../presentation"
+    },
+    {
+      "path": "../../shared/proto"
+    },
+    {
+      "path": "../../shared/infrastructure"
+    },
+    {
+      "path": "../infrastructure"
+    },
+    {
+      "path": "../domain"
+    },
+    {
       "path": "./tsconfig.lib.json"
     },
     {

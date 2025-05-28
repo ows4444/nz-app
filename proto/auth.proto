@@ -5,7 +5,6 @@ package auth;
 service AuthService {
   rpc LoginByEmail (LoginByEmailRequest) returns (LoginResponse);
   rpc LoginByUsername (LoginByUsernameRequest) returns (LoginResponse);
-  rpc Register (RegisterRequest) returns (RegisterResponse);
 }
 
 message LoginByEmailRequest {
@@ -21,14 +20,4 @@ message LoginByUsernameRequest {
 message LoginResponse {
   string token = 1;
   string message = 2;
-}
-
-message RegisterRequest {
-  string email = 1;
-  string username = 2;
-  string password = 3;
-}
-
-message RegisterResponse {
-  string message = 1;
 }

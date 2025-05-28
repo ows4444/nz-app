@@ -5,7 +5,7 @@ import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Environment } from '@nz/config';
 import { EnvironmentType } from '@nz/const';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
-import { health, identity } from '@nz/shared-proto';
+import { health, identityDevice } from '@nz/shared-proto';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
 
@@ -15,8 +15,8 @@ async function Bootstrap() {
     useFactory: (configService: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
-        package: [identity.IDENTITY_PACKAGE_NAME, health.HEALTH_PACKAGE_NAME],
-        protoPath: [join(__dirname, 'assets', 'identity.proto'), join(__dirname, 'assets', 'health.proto')],
+        package: [identityDevice.IDENTITY_DEVICE_PACKAGE_NAME, health.HEALTH_PACKAGE_NAME],
+        protoPath: [join(__dirname, 'assets', 'identity-device.proto'), join(__dirname, 'assets', 'health.proto')],
         url: configService.getOrThrow<Environment>('env').url,
       },
     }),

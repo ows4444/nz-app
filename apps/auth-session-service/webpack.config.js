@@ -14,7 +14,7 @@ module.exports = {
       assets: [
         './src/assets',
         {
-          glob: '**/{auth,health}.proto',
+          glob: '**/{auth-session,health}.proto',
           input: 'proto',
           output: 'assets',
         },

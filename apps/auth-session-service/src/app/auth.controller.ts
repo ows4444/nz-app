@@ -1,18 +1,18 @@
 import { Metadata } from '@grpc/grpc-js';
 import { Controller } from '@nestjs/common';
 import { GrpcIdempotent } from '@nz/shared-infrastructure';
-import { auth } from '@nz/shared-proto';
+import { authSession } from '@nz/shared-proto';
 import { Observable } from 'rxjs';
 
 @Controller('auth')
-@auth.AuthServiceControllerMethods()
-export class AuthController implements auth.AuthServiceController {
+@authSession.AuthServiceControllerMethods()
+export class AuthController implements authSession.AuthServiceController {
   @GrpcIdempotent()
-  loginByEmail(request: auth.LoginByEmailRequest, metadata?: Metadata): Promise<auth.LoginResponse> | Observable<auth.LoginResponse> | auth.LoginResponse {
+  loginByEmail(request: authSession.LoginByEmailRequest, metadata?: Metadata): Promise<authSession.LoginResponse> | Observable<authSession.LoginResponse> | authSession.LoginResponse {
     throw new Error('Method not implemented.');
   }
   @GrpcIdempotent()
-  loginByUsername(request: auth.LoginByUsernameRequest, metadata?: Metadata): Promise<auth.LoginResponse> | Observable<auth.LoginResponse> | auth.LoginResponse {
+  loginByUsername(request: authSession.LoginByUsernameRequest, metadata?: Metadata): Promise<authSession.LoginResponse> | Observable<authSession.LoginResponse> | authSession.LoginResponse {
     throw new Error('Method not implemented.');
   }
 }

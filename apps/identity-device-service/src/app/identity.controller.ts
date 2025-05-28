@@ -1,14 +1,14 @@
 import { Metadata } from '@grpc/grpc-js';
 import { Controller } from '@nestjs/common';
 import { GrpcIdempotent } from '@nz/shared-infrastructure';
-import { identity } from '@nz/shared-proto';
+import { identityDevice } from '@nz/shared-proto';
 import { Observable } from 'rxjs';
 
 @Controller('identity')
-@identity.IdentityServiceControllerMethods()
-export class IdentityController implements identity.IdentityServiceController {
+@identityDevice.IdentityServiceControllerMethods()
+export class IdentityController implements identityDevice.IdentityServiceController {
   @GrpcIdempotent()
-  register(request: identity.RegisterRequest, metadata?: Metadata): Promise<identity.RegisterResponse> | Observable<identity.RegisterResponse> | identity.RegisterResponse {
+  register(request: identityDevice.RegisterRequest, metadata?: Metadata): Promise<identityDevice.RegisterResponse> | Observable<identityDevice.RegisterResponse> | identityDevice.RegisterResponse {
     throw new Error('Method not implemented.');
   }
 }

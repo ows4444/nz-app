@@ -2,7 +2,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
-import { Environment } from '@nz/config';
+import { Environment, ENVIRONMENT_ENV } from '@nz/config';
 import { EnvironmentType } from '@nz/const';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
 import { authSession, health } from '@nz/shared-proto';
@@ -17,7 +17,7 @@ async function Bootstrap() {
       options: {
         package: [authSession.AUTH_SESSION_PACKAGE_NAME, health.HEALTH_PACKAGE_NAME],
         protoPath: [join(__dirname, 'assets', 'auth-session.proto'), join(__dirname, 'assets', 'health.proto')],
-        url: configService.getOrThrow<Environment>('env').url,
+        url: configService.getOrThrow<Environment>(ENVIRONMENT_ENV).url,
       },
     }),
 
@@ -40,7 +40,7 @@ async function Bootstrap() {
 
   await app.listen();
 
-  logger.log(`🚀 Auth-Session Service is running. on Grpc ${config.getOrThrow<Environment>('env').url}`);
+  logger.log(`🚀 Auth-Session Service is running. on Grpc ${config.getOrThrow<Environment>(ENVIRONMENT_ENV).url}`);
 }
 
 Bootstrap();

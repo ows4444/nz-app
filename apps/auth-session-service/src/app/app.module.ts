@@ -18,7 +18,7 @@ import {
   UserCredentialEntityORM,
   UserPasswordHistoryEntityORM,
 } from '@nz/auth-session-infrastructure';
-import { authConfigLoader, SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
+import { authConfigLoader, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
 import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import Keyv from 'keyv';
 import { AuthController } from './auth.controller';
@@ -30,7 +30,7 @@ import { HealthController } from './health.controller';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        ...configService.getOrThrow<TypeOrmEnvironment>('typeorm'),
+        ...configService.getOrThrow<TypeOrmEnvironment>(TYPEORM_ENV),
         entities: [DeviceSessionEntityORM, LoginAttemptEntityORM, PasswordResetEntityORM, SessionPolicyEntityORM, UserCredentialEntityORM, UserPasswordHistoryEntityORM],
       }),
       imports: [ConfigModule],

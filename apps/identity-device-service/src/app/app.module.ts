@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SharedConfigModule, TypeOrmEnvironment } from '@nz/config';
+import { SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
 import { IdentityDeviceCommandHandlers, IdentityService } from '@nz/identity-device-application';
 import {
   ContactVerificationEntityORM,
@@ -32,7 +32,7 @@ import { IdentityController } from './identity.controller';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        ...configService.getOrThrow<TypeOrmEnvironment>('typeorm'),
+        ...configService.getOrThrow<TypeOrmEnvironment>(TYPEORM_ENV),
         entities: [DeviceEntityORM, UserContactEntityORM, UserDeviceEntityORM, ContactVerificationEntityORM, UserPreferenceEntityORM, UserProfileEntityORM],
       }),
       imports: [ConfigModule],

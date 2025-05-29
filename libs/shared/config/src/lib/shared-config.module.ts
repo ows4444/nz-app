@@ -1,12 +1,12 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigModuleOptions, ConfigService } from '@nestjs/config';
 import { LoggerCoreModule } from '@nz/logger';
-import { typeOrmLoader } from './database/typeorm-loader';
-import { envLoader, getEnvFile } from './env/env-loader';
-import { loggerLoader } from './logger/logger-loader';
+import { typeOrmLoader } from './database/typeorm.loader';
+import { envLoader, getEnvFile } from './env/env.loader';
+import { loggerLoader } from './logger/logger.loader';
 import { LoggerEnvironment } from './logger/logger.types';
 import { rabbitMQLoader } from './rabbitmq';
-import { swaggerEnvLoader } from './swagger/swagger-loader';
+import { swaggerEnvLoader } from './swagger/swagger.loader';
 
 @Global()
 @Module({

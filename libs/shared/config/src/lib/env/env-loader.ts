@@ -19,10 +19,12 @@ export function getEnvFile(envFilePath: string | string[] | undefined): string[]
 
   const envFileName = envFiles.get(nodeEnv as EnvironmentType) ?? '.env';
 
-  if (!envFilePath) return [envFileName];
-  return Array.from(Array.isArray(envFilePath) ? envFilePath.map((p) => path.join('apps', p, envFileName)) : envFilePath ? [path.join('apps', envFilePath, envFileName)] : [envFileName]).concat(
-    envFileName,
-  );
+  return envFilePath
+    ? [envFilePath]
+        .flat()
+        .map((p) => path.join('apps', p.split(path.sep)[p.split(path.sep).indexOf('apps') + 1], envFileName))
+        .concat(envFileName)
+    : [envFileName];
 }
 
 export const envLoader = registerAs('env', (): Environment => {

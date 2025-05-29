@@ -1,7 +1,7 @@
 import { INestApplication, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Environment, ENVIRONMENT_ENV, SwaggerEnvironment, TYPEORM_ENV } from '@nz/config';
+import { Environment, ENVIRONMENT_ENV, SWAGGER_ENV, SwaggerEnvironment } from '@nz/config';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -10,7 +10,7 @@ export function BootstrapSwagger(app: INestApplication): void {
 
   const logger = new Logger(BootstrapSwagger.name);
   const { isProduction, host, port } = configService.getOrThrow<Environment>(ENVIRONMENT_ENV);
-  const { title, description, generateOpenApiSpec, url = 'api-docs', version = '1.0' } = configService.getOrThrow<SwaggerEnvironment>(TYPEORM_ENV);
+  const { title, description, generateOpenApiSpec, url = 'api-docs', version = '1.0' } = configService.getOrThrow<SwaggerEnvironment>(SWAGGER_ENV);
 
   if (!isProduction) {
     const config = new DocumentBuilder()

@@ -2,9 +2,9 @@ import { registerAs } from '@nestjs/config';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import { LoggerEnvironmentSchema } from './logger.schema';
-import { LoggerEnvironment } from './logger.types';
+import { LOGGER_ENV, LoggerEnvironment } from './logger.types';
 
-export const loggerLoader = registerAs('logger', (): LoggerEnvironment => {
+export const loggerLoader = registerAs(LOGGER_ENV, (): LoggerEnvironment => {
   const config = plainToInstance(LoggerEnvironmentSchema, process.env, {
     enableImplicitConversion: true,
     excludeExtraneousValues: true,

@@ -3,9 +3,9 @@ import { parseBoolean } from '@nz/utils';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import { TypeOrmSchema } from './typeorm.schema';
-import { TypeOrmEnvironment } from './typeorm.types';
+import { TYPEORM_ENV, TypeOrmEnvironment } from './typeorm.types';
 
-export const typeOrmLoader = registerAs('typeorm', (): TypeOrmEnvironment => {
+export const typeOrmLoader = registerAs(TYPEORM_ENV, (): TypeOrmEnvironment => {
   const config = plainToInstance(TypeOrmSchema, process.env, {
     enableImplicitConversion: true,
     excludeExtraneousValues: true,

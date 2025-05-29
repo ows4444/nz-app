@@ -3,9 +3,9 @@ import { parseBoolean } from '@nz/utils';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import { RabbitMQSchema } from './rabbitmq.schema';
-import { RabbitMQEnvironment } from './rabbitmq.types';
+import { RABBITMQ_ENV, RabbitMQEnvironment } from './rabbitmq.types';
 
-export const rabbitMQLoader = registerAs('rabbitmq', (): RabbitMQEnvironment => {
+export const rabbitMQLoader = registerAs(RABBITMQ_ENV, (): RabbitMQEnvironment => {
   const config = plainToInstance(RabbitMQSchema, process.env, {
     enableImplicitConversion: true,
     excludeExtraneousValues: true,

@@ -5,7 +5,7 @@ import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import path from 'path';
 import { EnvironmentSchema } from './env.schema';
-import { Environment } from './env.types';
+import { Environment, ENVIRONMENT_ENV } from './env.types';
 
 export function getEnvFile(envFilePath: string | string[] | undefined): string[] {
   const nodeEnv = process.env.NODE_ENV ?? EnvironmentType.Development;
@@ -27,7 +27,7 @@ export function getEnvFile(envFilePath: string | string[] | undefined): string[]
     : [envFileName];
 }
 
-export const envLoader = registerAs('env', (): Environment => {
+export const envLoader = registerAs(ENVIRONMENT_ENV, (): Environment => {
   const config = plainToInstance(EnvironmentSchema, process.env, {
     enableImplicitConversion: true,
     excludeExtraneousValues: true,

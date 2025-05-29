@@ -1,5 +1,6 @@
 import { EnvironmentType } from '@nz/const';
 
+export const ENVIRONMENT_ENV = 'ENVIRONMENT_ENV';
 export interface Environment {
   environment: EnvironmentType;
   isProduction: boolean;

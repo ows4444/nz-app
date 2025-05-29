@@ -2,10 +2,11 @@ import { registerAs } from '@nestjs/config';
 import { parseBoolean } from '@nz/utils';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
+import { TYPEORM_ENV } from '../database';
 import { SwaggerEnvironmentSchema } from './swagger.schema';
 import { SwaggerEnvironment } from './swagger.types';
 
-export const swaggerEnvLoader = registerAs('swagger', (): SwaggerEnvironment => {
+export const swaggerEnvLoader = registerAs(TYPEORM_ENV, (): SwaggerEnvironment => {
   const config = plainToInstance(SwaggerEnvironmentSchema, process.env, {
     enableImplicitConversion: true,
     excludeExtraneousValues: true,

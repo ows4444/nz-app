@@ -44,6 +44,7 @@ const protoPath = (name: string) => join(__dirname, 'assets', `${name.replace(/(
     SharedConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
+      envFilePath: [__dirname],
     }),
   ],
   controllers: [HealthController, AuthController, IdentityController],

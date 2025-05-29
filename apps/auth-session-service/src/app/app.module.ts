@@ -23,6 +23,7 @@ import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter } from '@nz/share
 import Keyv from 'keyv';
 import { AuthController } from './auth.controller';
 import { HealthController } from './health.controller';
+
 @Module({
   imports: [
     CqrsModule.forRoot(),
@@ -43,6 +44,7 @@ import { HealthController } from './health.controller';
     SharedConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
+      envFilePath: [__dirname],
       load: [authConfigLoader],
     }),
   ],

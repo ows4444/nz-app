@@ -46,6 +46,7 @@ import { IdentityController } from './identity.controller';
     SharedConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
+      envFilePath: [__dirname],
     }),
   ],
   controllers: [HealthController, IdentityController],

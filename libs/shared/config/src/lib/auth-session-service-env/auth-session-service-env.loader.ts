@@ -4,7 +4,7 @@ import { validateSync } from 'class-validator';
 import { AuthSessionServiceEnvironmentSchema } from './auth-session-service-env.schema';
 import { AUTH_SESSION_SERVICE_ENV, AuthSessionServiceEnvironment } from './auth-session-service-env.types';
 
-export const authServiceEnvLoader = registerAs(AUTH_SESSION_SERVICE_ENV, (): AuthSessionServiceEnvironment => {
+export const authSessionServiceEnvLoader = registerAs(AUTH_SESSION_SERVICE_ENV, (): AuthSessionServiceEnvironment => {
   const config = plainToInstance(AuthSessionServiceEnvironmentSchema, process.env, {
     enableImplicitConversion: true,
     excludeExtraneousValues: true,

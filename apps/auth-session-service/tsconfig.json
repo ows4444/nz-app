@@ -4,13 +4,13 @@
   "include": [],
   "references": [
     {
-      "path": "../../libs/shared/proto"
-    },
-    {
       "path": "../../libs/shared/logger"
     },
     {
       "path": "../../libs/shared/const"
+    },
+    {
+      "path": "../../libs/shared/proto"
     },
     {
       "path": "../../libs/shared/infrastructure"
@@ -20,6 +20,9 @@
     },
     {
       "path": "../../libs/auth-session/infrastructure"
+    },
+    {
+      "path": "../../libs/auth-session/application"
     },
     {
       "path": "./tsconfig.app.json"

@@ -1,10 +1,11 @@
 import KeyvRedis from '@keyv/redis';
 import { CacheModule } from '@nestjs/cache-manager';
-import { Module } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthService, AuthSessionCommandHandlers } from '@nz/auth-session-application';
 import {
   DeviceSessionEntityORM,
   LoginAttemptEntityORM,
@@ -49,20 +50,24 @@ import { HealthController } from './health.controller';
     }),
   ],
   controllers: [HealthController, AuthController],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: GrpcIdempotencyInterceptor,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: GrpcServerExceptionFilter,
-    },
-    TypeormDeviceSessionRepository,
-    TypeormLoginAttemptRepository,
-    TypeormPasswordResetRepository,
-    TypeormUserCredentialRepository,
-    TypeormUserPasswordHistoryRepository,
-  ],
+  providers: ([] as Provider[]).concat(
+    [
+      AuthService,
+      {
+        provide: APP_INTERCEPTOR,
+        useClass: GrpcIdempotencyInterceptor,
+      },
+      {
+        provide: APP_FILTER,
+        useClass: GrpcServerExceptionFilter,
+      },
+      TypeormDeviceSessionRepository,
+      TypeormLoginAttemptRepository,
+      TypeormPasswordResetRepository,
+      TypeormUserCredentialRepository,
+      TypeormUserPasswordHistoryRepository,
+    ],
+    AuthSessionCommandHandlers,
+  ),
 })
 export class AppModule {}

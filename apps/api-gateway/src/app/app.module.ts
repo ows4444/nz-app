@@ -6,8 +6,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import {
   AUTH_SESSION_SERVICE_ENV,
-  authServiceEnvLoader,
   AuthSessionServiceEnvironment,
+  authSessionServiceEnvLoader,
   IDENTITY_DEVICE_SERVICE_ENV,
   IdentityDeviceServiceEnvironment,
   identityDeviceServiceEnvLoader,
@@ -64,7 +64,7 @@ const protoPath = (name: string) => join(__dirname, 'assets', `${name.replace(/(
       isGlobal: true,
       expandVariables: true,
       envFilePath: [__dirname],
-      load: [authServiceEnvLoader, identityDeviceServiceEnvLoader],
+      load: [authSessionServiceEnvLoader, identityDeviceServiceEnvLoader],
     }),
   ],
   controllers: [HealthController, AuthController, IdentityController],

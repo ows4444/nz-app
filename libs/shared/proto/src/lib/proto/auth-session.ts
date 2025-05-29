@@ -26,23 +26,38 @@ export interface LoginResponse {
   message: string;
 }
 
+export interface RegisterCredentialRequest {
+  userId: string;
+  password: string;
+}
+
+export interface RegisterCredentialResponse {
+  message: string;
+  success: boolean;
+  passwordHash: string;
+}
+
 export const AUTH_SESSION_PACKAGE_NAME = 'authSession';
 
 export interface AuthServiceClient {
   loginByEmail(request: LoginByEmailRequest, metadata?: Metadata): Observable<LoginResponse>;
 
   loginByUsername(request: LoginByUsernameRequest, metadata?: Metadata): Observable<LoginResponse>;
+
+  registerCredential(request: RegisterCredentialRequest, metadata?: Metadata): Observable<RegisterCredentialResponse>;
 }
 
 export interface AuthServiceController {
   loginByEmail(request: LoginByEmailRequest, metadata?: Metadata): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
 
   loginByUsername(request: LoginByUsernameRequest, metadata?: Metadata): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
+
+  registerCredential(request: RegisterCredentialRequest, metadata?: Metadata): Promise<RegisterCredentialResponse> | Observable<RegisterCredentialResponse> | RegisterCredentialResponse;
 }
 
 export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['loginByEmail', 'loginByUsername'];
+    const grpcMethods: string[] = ['loginByEmail', 'loginByUsername', 'registerCredential'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod('AuthService', method)(constructor.prototype[method], method, descriptor);

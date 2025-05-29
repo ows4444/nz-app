@@ -16,7 +16,7 @@ async function Bootstrap() {
       transport: Transport.GRPC,
       options: {
         package: [identityDevice.IDENTITY_DEVICE_PACKAGE_NAME, health.HEALTH_PACKAGE_NAME],
-        protoPath: [join(__dirname, 'assets', 'identity-device.proto'), join(__dirname, 'assets', 'health.proto')],
+        protoPath: [join(__dirname, 'assets', 'identity-device.proto'), join(__dirname, 'assets', 'auth-session.proto'), join(__dirname, 'assets', 'health.proto')],
         url: configService.getOrThrow<Environment>(ENVIRONMENT_ENV).url,
       },
     }),

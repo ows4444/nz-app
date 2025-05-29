@@ -13,13 +13,13 @@
   "exclude": ["out-tsc", "dist", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts", "eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
   "references": [
     {
-      "path": "../../libs/shared/proto/tsconfig.lib.json"
-    },
-    {
       "path": "../../libs/shared/logger/tsconfig.lib.json"
     },
     {
       "path": "../../libs/shared/const/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/shared/proto/tsconfig.lib.json"
     },
     {
       "path": "../../libs/shared/infrastructure/tsconfig.lib.json"
@@ -29,6 +29,9 @@
     },
     {
       "path": "../../libs/auth-session/infrastructure/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/auth-session/application/tsconfig.lib.json"
     }
   ]
 }

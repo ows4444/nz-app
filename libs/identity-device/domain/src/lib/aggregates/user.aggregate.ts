@@ -1,10 +1,20 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { UserProfileEntity } from '../entities/user-profile.entity';
+import { CreateUserCredentialEvent } from '../events';
 
 export class UserAggregate extends AggregateRoot {
-  public id: string;
-  constructor(private user: UserProfileEntity) {
+  private readonly userProfileEntity: UserProfileEntity;
+
+  constructor(userEntity: UserProfileEntity) {
     super();
-    this.id = this.user.id;
+    this.userProfileEntity = userEntity;
+  }
+
+  get id(): string {
+    return this.userProfileEntity.id;
+  }
+
+  createUserCredential(password: string, lang: string) {
+    this.apply(new CreateUserCredentialEvent(this.id, password, lang));
   }
 }

@@ -7,7 +7,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AUTH_SESSION_SERVICE_ENV, AuthSessionServiceEnvironment, authSessionServiceEnvLoader, Environment, ENVIRONMENT_ENV, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
-import { IdentityDeviceCommandHandlers, IdentityService } from '@nz/identity-device-application';
+import { IdentityDeviceApplicationEventHandlers, IdentityDeviceCommandHandlers, IdentityService } from '@nz/identity-device-application';
 import {
   ContactVerificationEntityORM,
   DeviceEntityORM,
@@ -29,6 +29,7 @@ import { GrpcMetadataResolver, I18nModule } from 'nestjs-i18n';
 import path from 'path';
 import { HealthController } from './health.controller';
 import { IdentityController } from './identity.controller';
+
 const protoPath = (name: string) => path.join(__dirname, 'assets', `${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}.proto`);
 
 @Module({
@@ -111,6 +112,7 @@ const protoPath = (name: string) => path.join(__dirname, 'assets', `${name.repla
       TypeormUserProfileRepository,
     ],
     IdentityDeviceCommandHandlers,
+    IdentityDeviceApplicationEventHandlers,
   ),
 })
 export class AppModule {}

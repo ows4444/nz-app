@@ -11,6 +11,8 @@ message RegisterRequest {
     string email = 1;
     string username = 2;
     string password = 3;
+    string firstName = 4;
+    string lastName = 5;
 }
 message RegisterResponse {
     string message = 1;

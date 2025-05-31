@@ -28,8 +28,8 @@ export function BootstrapSwagger(app: INestApplication): void {
         required: false,
         schema: {
           type: 'string',
-          enum: ['en', 'ur'],
-          default: 'en',
+          enum: ['en_US', 'ur_PK'],
+          default: 'en_US',
         },
       })
       .build();

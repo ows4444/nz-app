@@ -35,11 +35,10 @@ import { HealthController } from './health.controller';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const isProd = configService.getOrThrow<Environment>(ENVIRONMENT_ENV).isProduction;
-        const loaderPath = path.join(__dirname, isProd ? 'assets/i18n' : 'i18n');
         const baseConfig = {
           fallbackLanguage: 'en',
           loaderOptions: {
-            path: loaderPath,
+            path: path.join(__dirname, 'assets/i18n'),
             watch: true,
           },
         };

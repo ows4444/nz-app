@@ -18,7 +18,7 @@ import {
 import { RateLimitInterceptor } from '@nz/shared-infrastructure';
 import { authSession, health, identityDevice } from '@nz/shared-proto';
 import Keyv from 'keyv';
-import { AcceptLanguageResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
+import { AcceptLanguageResolver, I18nModule, I18nOptionsWithoutResolvers, QueryResolver } from 'nestjs-i18n';
 import path, { join } from 'path';
 import { AuthController } from './auth.controller';
 import { HealthController } from './health.controller';
@@ -60,13 +60,12 @@ const protoPath = (name: string) => join(__dirname, 'assets', `${name.replace(/(
     I18nModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
+      useFactory: (configService: ConfigService): I18nOptionsWithoutResolvers => {
         const isProd = configService.getOrThrow<Environment>(ENVIRONMENT_ENV).isProduction;
-        const loaderPath = path.join(__dirname, isProd ? 'assets/i18n' : 'i18n');
         const baseConfig = {
           fallbackLanguage: 'en',
           loaderOptions: {
-            path: loaderPath,
+            path: path.join(__dirname, 'assets/i18n'),
             watch: true,
           },
         };

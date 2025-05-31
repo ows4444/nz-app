@@ -1,0 +1,28 @@
+{
+  "name": "@nz/shared-i18n",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "nx": {
+    "tags": [
+      "type:shared",
+      "scope:i18n"
+    ],
+    "name": "shared-i18n"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "nestjs-i18n": "^10.5.1"
+  }
+}

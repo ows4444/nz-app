@@ -11,20 +11,28 @@ export function getEnvFile(envFilePath: string | string[] | undefined): string[]
   const nodeEnv = process.env.NODE_ENV ?? EnvironmentType.Development;
 
   const envFiles = new Map<EnvironmentType, string>([
-    [EnvironmentType.Development, '.env'],
-    [EnvironmentType.Test, '.env.test'],
-    [EnvironmentType.Staging, '.env.staging'],
-    [EnvironmentType.Production, '.env.prod'],
+    [EnvironmentType.Development, '.env.development'],
+    [EnvironmentType.Production, '.env.production'],
   ]);
 
-  const envFileName = envFiles.get(nodeEnv as EnvironmentType) ?? '.env';
+  const envFileNames = [envFiles.get(nodeEnv as EnvironmentType), '.env'].filter((envFile): envFile is string => envFile !== undefined);
 
-  return envFilePath
-    ? [envFilePath]
-        .flat()
-        .map((p) => path.join('apps', p.split(path.sep)[p.split(path.sep).indexOf('apps') + 1], envFileName))
-        .concat(envFileName)
-    : [envFileName];
+  const envFilePathStr = Array.isArray(envFilePath) ? envFilePath[0] : envFilePath;
+
+  return sortEnvFiles(
+    envFilePathStr ? [...envFileNames.map((name) => path.join('apps', envFilePathStr.split(path.sep)[envFilePathStr.split(path.sep).indexOf('apps') + 1], name)), ...envFileNames] : envFileNames,
+  );
+}
+
+export function sortEnvFiles(files: string[]): string[] {
+  return files.sort((a, b) => {
+    const aSegments = a.split(path.sep).length;
+    const bSegments = b.split(path.sep).length;
+    if (aSegments !== bSegments) {
+      return bSegments - aSegments;
+    }
+    return b.length - a.length;
+  });
 }
 
 export const envLoader = registerAs(ENVIRONMENT_ENV, (): Environment => {

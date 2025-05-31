@@ -8,8 +8,8 @@ export type I18nTranslations = {
     "error": {
         "USER_ALREADY_EXISTS": string;
     };
-    "test": {
-        "HELLO": string;
+    "message": {
+        "USER_REGISTRATION_SUCCESS": string;
     };
 };
 /* prettier-ignore */

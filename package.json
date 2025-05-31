@@ -121,6 +121,7 @@
     "libs/identity-device/domain",
     "libs/identity-device/application",
     "libs/identity-device/infrastructure",
-    "libs/identity-device/presentation"
+    "libs/identity-device/presentation",
+    "libs/shared/i18n"
   ]
 }

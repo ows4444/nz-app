@@ -5,12 +5,13 @@ import { RpcException } from '@nestjs/microservices';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { Email, UserContactEntity, Username, UserProfileEntity } from '@nz/identity-device-domain';
 import { TypeormUserContactRepository, TypeormUserProfileRepository } from '@nz/identity-device-infrastructure';
+import { I18nTranslations } from '@nz/shared-i18n';
 import { GrpcAlreadyExistsException, GrpcUnknownException } from '@nz/shared-infrastructure';
 import { authSession, identityDevice } from '@nz/shared-proto';
+import { I18nService } from 'nestjs-i18n';
 import { lastValueFrom } from 'rxjs';
 import { DataSource } from 'typeorm';
 import { RegisterCommand } from '../impl';
-
 @CommandHandler(RegisterCommand)
 export class RegisterHandler implements ICommandHandler<RegisterCommand> {
   private authSessionServiceClient!: authSession.AuthServiceClient;
@@ -20,6 +21,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
     @InjectDataSource() private readonly dataSource: DataSource,
     private readonly userProfileRepository: TypeormUserProfileRepository,
     private readonly userContactRepository: TypeormUserContactRepository,
+    private readonly i18n: I18nService<I18nTranslations>,
   ) {}
 
   onModuleInit() {
@@ -37,7 +39,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
     try {
       const existing = await this.userProfileRepository.findOneByEmailOrUsername(emailVo, usernameVo);
 
-      if (existing) throw new GrpcAlreadyExistsException('User already exists');
+      if (existing) throw new GrpcAlreadyExistsException(this.i18n.translate('error.USER_ALREADY_EXISTS'));
 
       const newUser = await this.userProfileRepository.save(UserProfileEntity.register(usernameVo, emailVo), queryRunner);
 
@@ -48,7 +50,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
 
       await queryRunner.commitTransaction();
       return {
-        message: 'User registered successfully',
+        message: this.i18n.translate('message.USER_REGISTRATION_SUCCESS'),
       };
     } catch (error: unknown) {
       await queryRunner.rollbackTransaction();

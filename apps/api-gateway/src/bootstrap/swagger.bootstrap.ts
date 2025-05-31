@@ -22,6 +22,16 @@ export function BootstrapSwagger(app: INestApplication): void {
         scheme: 'bearer',
         bearerFormat: 'JWT',
       })
+      .addGlobalParameters({
+        name: 'Accept-Language',
+        in: 'header',
+        required: false,
+        schema: {
+          type: 'string',
+          enum: ['en', 'ur'],
+          default: 'en',
+        },
+      })
       .build();
 
     const document = SwaggerModule.createDocument(app, config, {

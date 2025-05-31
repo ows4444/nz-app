@@ -11,6 +11,6 @@ export class IdentityController implements identityDevice.IdentityServiceControl
   constructor(private readonly identityService: IdentityService) {}
   @GrpcIdempotent()
   register(request: identityDevice.RegisterRequest, metadata?: Metadata): Promise<identityDevice.RegisterResponse> | Observable<identityDevice.RegisterResponse> | identityDevice.RegisterResponse {
-    return this.identityService.register(request);
+    return this.identityService.register(request, metadata);
   }
 }

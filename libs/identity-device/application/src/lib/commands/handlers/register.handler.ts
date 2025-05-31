@@ -19,16 +19,18 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
   constructor(
     @Inject(authSession.protobufPackage) private readonly grpcClient: ClientGrpc,
     @InjectDataSource() private readonly dataSource: DataSource,
+    private readonly i18n: I18nService<I18nTranslations>,
     private readonly userProfileRepository: TypeormUserProfileRepository,
     private readonly userContactRepository: TypeormUserContactRepository,
-    private readonly i18n: I18nService<I18nTranslations>,
   ) {}
 
   onModuleInit() {
     this.authSessionServiceClient = this.grpcClient.getService<authSession.AuthServiceClient>(authSession.AUTH_SERVICE_NAME);
   }
 
-  async execute({ payload }: RegisterCommand): Promise<identityDevice.RegisterResponse> {
+  async execute({ payload, lang }: RegisterCommand): Promise<identityDevice.RegisterResponse> {
+    console.log('RegisterHandler.execute', payload, lang);
+
     const emailVo = Email.create(payload.email);
     const usernameVo = Username.create(payload.username);
 
@@ -39,7 +41,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
     try {
       const existing = await this.userProfileRepository.findOneByEmailOrUsername(emailVo, usernameVo);
 
-      if (existing) throw new GrpcAlreadyExistsException(this.i18n.translate('error.USER_ALREADY_EXISTS'));
+      if (existing) throw new GrpcAlreadyExistsException(this.i18n.translate('error.USER_ALREADY_EXISTS', { lang }));
 
       const newUser = await this.userProfileRepository.save(UserProfileEntity.register(usernameVo, emailVo), queryRunner);
 
@@ -50,7 +52,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
 
       await queryRunner.commitTransaction();
       return {
-        message: this.i18n.translate('message.USER_REGISTRATION_SUCCESS'),
+        message: this.i18n.translate('message.USER_REGISTRATION_SUCCESS', { lang }),
       };
     } catch (error: unknown) {
       await queryRunner.rollbackTransaction();

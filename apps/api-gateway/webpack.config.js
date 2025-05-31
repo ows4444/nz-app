@@ -18,6 +18,11 @@ module.exports = {
           input: 'proto',
           output: 'assets',
         },
+        {
+          glob: '**/*.json',
+          input: 'i18n',
+          output: 'assets/i18n',
+        },
       ],
       optimization: false,
       outputHashing: 'none',

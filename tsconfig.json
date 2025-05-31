@@ -68,6 +68,9 @@
     },
     {
       "path": "./apps/auth-session-service"
+    },
+    {
+      "path": "./libs/shared/i18n"
     }
   ]
 }

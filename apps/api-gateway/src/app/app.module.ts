@@ -73,7 +73,7 @@ const protoPath = (name: string) => join(__dirname, 'assets', `${name.replace(/(
           ? baseConfig
           : {
               ...baseConfig,
-              typesOutputPath: path.join('i18n/i18n.generated.ts'),
+              typesOutputPath: path.join('libs/shared/i18n/src/lib/shared-i18n.ts'),
             };
       },
       resolvers: [AcceptLanguageResolver, { use: QueryResolver, options: ['lang', 'locale'] }],

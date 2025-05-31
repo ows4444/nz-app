@@ -19,15 +19,39 @@ import {
   UserCredentialEntityORM,
   UserPasswordHistoryEntityORM,
 } from '@nz/auth-session-infrastructure';
-import { authConfigLoader, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
+import { authConfigLoader, Environment, ENVIRONMENT_ENV, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
 import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
 import Keyv from 'keyv';
+import { GrpcMetadataResolver, I18nModule } from 'nestjs-i18n';
+import path from 'path';
 import { AuthController } from './auth.controller';
 import { HealthController } from './health.controller';
 
 @Module({
   imports: [
     CqrsModule.forRoot(),
+    I18nModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const isProd = configService.getOrThrow<Environment>(ENVIRONMENT_ENV).isProduction;
+        const loaderPath = path.join(__dirname, isProd ? 'assets/i18n' : 'i18n');
+        const baseConfig = {
+          fallbackLanguage: 'en',
+          loaderOptions: {
+            path: loaderPath,
+            watch: true,
+          },
+        };
+        return isProd
+          ? baseConfig
+          : {
+              ...baseConfig,
+              typesOutputPath: path.join('i18n/i18n.generated.ts'),
+            };
+      },
+      resolvers: [GrpcMetadataResolver],
+    }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({

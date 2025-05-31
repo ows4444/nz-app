@@ -8,6 +8,8 @@ import {
   AUTH_SESSION_SERVICE_ENV,
   AuthSessionServiceEnvironment,
   authSessionServiceEnvLoader,
+  Environment,
+  ENVIRONMENT_ENV,
   IDENTITY_DEVICE_SERVICE_ENV,
   IdentityDeviceServiceEnvironment,
   identityDeviceServiceEnvLoader,
@@ -16,7 +18,8 @@ import {
 import { RateLimitInterceptor } from '@nz/shared-infrastructure';
 import { authSession, health, identityDevice } from '@nz/shared-proto';
 import Keyv from 'keyv';
-import { join } from 'path';
+import { AcceptLanguageResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
+import path, { join } from 'path';
 import { AuthController } from './auth.controller';
 import { HealthController } from './health.controller';
 import { IdentityController } from './identity.controller';
@@ -54,6 +57,28 @@ const protoPath = (name: string) => join(__dirname, 'assets', `${name.replace(/(
         inject: [ConfigService],
       },
     ]),
+    I18nModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const isProd = configService.getOrThrow<Environment>(ENVIRONMENT_ENV).isProduction;
+        const loaderPath = path.join(__dirname, isProd ? 'assets/i18n' : 'i18n');
+        const baseConfig = {
+          fallbackLanguage: 'en',
+          loaderOptions: {
+            path: loaderPath,
+            watch: true,
+          },
+        };
+        return isProd
+          ? baseConfig
+          : {
+              ...baseConfig,
+              typesOutputPath: path.join('i18n/i18n.generated.ts'),
+            };
+      },
+      resolvers: [AcceptLanguageResolver, { use: QueryResolver, options: ['lang', 'locale'] }],
+    }),
     CacheModule.registerAsync({
       useFactory: async () => ({
         stores: [new Keyv({ store: new KeyvRedis('redis://localhost:6379') })],

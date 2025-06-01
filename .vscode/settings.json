@@ -1,5 +1,6 @@
 {
   "cSpell.words": ["dtos", "ianvs", "nodenext", "protoc", "swcrc", "uuidv"],
+  "cSpell.ignorePaths": ["package-lock.json", "node_modules", "vscode-extension", ".git/{info,lfs,logs,refs,objects}/**", ".git/{index,*refs,*HEAD}", ".vscode", ".vscode-insiders", "i18n/**"],
   "files.autoSave": "off",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
@@ -35,8 +36,8 @@
     "**/.hg": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    ".vscode": true,
     ".yarn*": true,
+    ".vscode": true,
     ".nx": true,
     ".husky": true,
     "apps/**/*-e2e": true,

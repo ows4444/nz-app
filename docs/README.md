@@ -55,7 +55,7 @@
 - [x] **Table: `contact_verifications`**
   - `id` (PK), `contact_id` (FK), `purpose`, `token_hash`, `code`, `expires_at`, `used_flag`, `requested_at`, `used_at`, `ip_address`, `user_agent`, `created_at`, `updated_at`
 - [x] **Table: `devices`**
-  - `device_id` (PK), `user_id` (FK), `device_info` (JSON), `created_at`, `last_seen`, `status`, `trust_score`
+  - `id` (PK), `device_id` (PK), `device_info` (JSON), `created_at`, `last_seen`, `status`, `trust_score`
 - [x] **Table: `user_devices`**
   - `user_id` (FK), `device_id` (FK), `is_active` (BOOLEAN NOT NULL DEFAULT FALSE), `linked_at` (TIMESTAMP)
   - PRIMARY KEY(`user_id`, `device_id`),

@@ -54,7 +54,7 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
 
     logger.info(`🚀 Generating types for ${protoFileName}...`);
 
-    const result = spawnSync('npx', ['protoc', ...protocArgs], {
+    const result = spawnSync('protoc', protocArgs, {
       cwd: protoDirAbs,
       stdio: 'inherit',
       shell: process.platform === 'win32',
@@ -98,7 +98,7 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
     return { success: false };
   }
 
-  const prettierResult = spawnSync('npx', ['prettier', ...prettierArgs], {
+  const prettierResult = spawnSync('prettier', prettierArgs, {
     cwd: outDir,
     stdio: 'inherit',
     shell: process.platform === 'win32',

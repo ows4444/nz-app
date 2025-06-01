@@ -4,9 +4,9 @@ import { DeviceEntityORM } from '../entities';
 export class DeviceMapper {
   static toDomain(userContact: DeviceEntityORM): DeviceEntity {
     return DeviceEntity.restore({
-      deviceInfo: userContact.deviceInfo,
+      id: userContact.id,
       deviceId: userContact.deviceId,
-      userId: userContact.userId,
+      deviceInfo: userContact.deviceInfo,
       lastSeenAt: userContact.lastSeenAt,
       status: userContact.status,
       trustScore: userContact.trustScore,
@@ -18,9 +18,9 @@ export class DeviceMapper {
 
   static toPersistence(userContact: DeviceEntity): Partial<DeviceEntityORM> {
     return {
-      deviceInfo: userContact.deviceInfo,
+      id: userContact.id,
       deviceId: userContact.deviceId,
-      userId: userContact.userId,
+      deviceInfo: userContact.deviceInfo,
       lastSeenAt: userContact.lastSeenAt,
       status: userContact.status,
       trustScore: userContact.trustScore,

@@ -1,12 +1,12 @@
 import { WithCreated, WithLastSeen, WithUpdated } from '@nz/shared-infrastructure';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 class Device extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  deviceId!: string;
+  id!: string;
 
-  @Column({ type: 'uuid', length: 36 })
-  userId!: string;
+  @PrimaryColumn()
+  deviceId!: string;
 
   @Column()
   deviceInfo!: string;

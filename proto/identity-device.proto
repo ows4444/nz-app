@@ -13,6 +13,8 @@ message RegisterRequest {
     string password = 3;
     string firstName = 4;
     string lastName = 5;
+    string deviceId = 6;
+    string deviceInfo = 7;
 }
 message RegisterResponse {
     string message = 1;

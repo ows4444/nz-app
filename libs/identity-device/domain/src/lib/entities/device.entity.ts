@@ -2,8 +2,8 @@ import { Status } from '@nz/const';
 import { Bitwise, State } from '@nz/kernel';
 
 export interface IDeviceProps {
-  deviceId?: string;
-  userId: string;
+  id?: string;
+  deviceId: string;
   deviceInfo: string;
   lastSeenAt: Date;
   status: number;
@@ -15,9 +15,10 @@ export interface IDeviceProps {
 export class DeviceEntity extends State.StatefulEntity<Status> {
   private static readonly ALLOWED_STATUSES = Status.PENDING | Status.ACTIVE | Status.INACTIVE | Status.DELETED;
 
-  public readonly deviceId!: string;
-  private _userId: string;
-  private _deviceInfo: string;
+  public readonly id!: string;
+  public readonly deviceId: string;
+  public readonly deviceInfo: string;
+
   private _lastSeenAt: Date;
   private _trustScore: number;
 
@@ -28,12 +29,11 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
 
   private constructor(props: IDeviceProps) {
     super(props.status ?? Status.PENDING, DeviceEntity.validateTransition);
-    if (props.deviceId !== undefined) {
-      this.deviceId = props.deviceId;
+    if (props.id !== undefined) {
+      this.id = props.id;
     }
-
-    this._userId = props.userId;
-    this._deviceInfo = props.deviceInfo;
+    this.deviceId = props.deviceId;
+    this.deviceInfo = props.deviceInfo;
 
     this._trustScore = props.trustScore;
 
@@ -43,10 +43,10 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
     this.refreshStatusMessage();
   }
 
-  public static createNew(userId: string, deviceInfo: string): DeviceEntity {
+  public static createNew(deviceId: string, deviceInfo: string): DeviceEntity {
     return new DeviceEntity({
-      userId: userId,
-      deviceInfo: deviceInfo,
+      deviceId,
+      deviceInfo,
       lastSeenAt: new Date(),
       status: Status.PENDING,
       trustScore: 100,
@@ -61,12 +61,6 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
 
   // ----------------- Getters -----------------
 
-  get userId(): string {
-    return this._userId;
-  }
-  get deviceInfo(): string {
-    return this._deviceInfo;
-  }
   get lastSeenAt(): Date {
     return this._lastSeenAt;
   }
@@ -94,14 +88,6 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
   }
 
   // --------------- Business Methods ---------------
-
-  /**
-   * Update device information
-   */
-  public updateDeviceInfo(newDeviceInfo: string): void {
-    this._deviceInfo = newDeviceInfo;
-    this.touchUpdatedAt();
-  }
 
   /**
    * Update last seen timestamp

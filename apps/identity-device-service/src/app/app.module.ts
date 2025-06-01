@@ -7,7 +7,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AUTH_SESSION_SERVICE_ENV, AuthSessionServiceEnvironment, authSessionServiceEnvLoader, Environment, ENVIRONMENT_ENV, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
-import { IdentityDeviceApplicationEventHandlers, IdentityDeviceCommandHandlers, IdentityService } from '@nz/identity-device-application';
+import { IdentityDeviceCommandHandlers, IdentityDeviceEventHandlers, IdentityService } from '@nz/identity-device-application';
 import {
   ContactVerificationEntityORM,
   DeviceEntityORM,
@@ -112,7 +112,7 @@ const protoPath = (name: string) => path.join(__dirname, 'assets', `${name.repla
       TypeormUserProfileRepository,
     ],
     IdentityDeviceCommandHandlers,
-    IdentityDeviceApplicationEventHandlers,
+    IdentityDeviceEventHandlers,
   ),
 })
 export class AppModule {}

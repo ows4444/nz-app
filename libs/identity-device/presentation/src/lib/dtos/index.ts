@@ -16,4 +16,10 @@ export class RegisterDto implements identityDevice.RegisterRequest {
 
   @ApiProperty({ example: 'password' })
   password!: string;
+
+  @ApiProperty({ example: '12345-67890-abcde-00000' })
+  deviceId!: string;
+
+  @ApiProperty({ example: '{"ABCD":"XYZ"}' })
+  deviceInfo!: string;
 }

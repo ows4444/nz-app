@@ -1,3 +1,4 @@
+import { AssignDeviceToUserEventHandler } from './assign-device-to-user.handler';
 import { CreateUserCredentialEventHandler } from './create-user-credential.handler';
 
-export const IdentityDeviceApplicationEventHandlers = [CreateUserCredentialEventHandler];
+export const IdentityDeviceEventHandlers = [CreateUserCredentialEventHandler, AssignDeviceToUserEventHandler];

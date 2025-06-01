@@ -21,4 +21,9 @@ export class TypeormDeviceRepository {
     const saved = await this.getRepository(qr).save(orm);
     return DeviceMapper.toDomain(saved);
   }
+
+  async findOneByDeviceId(deviceId: string, qr?: QueryRunner): Promise<DeviceEntity | null> {
+    const orm = await this.getRepository(qr).findOne({ where: { deviceId } });
+    return orm ? DeviceMapper.toDomain(orm) : null;
+  }
 }

@@ -30,10 +30,12 @@ export class UserDeviceEntity extends State.StatefulEntity<Status> {
     this.refreshStatusMessage();
   }
 
-  public static createNew(userId: string, deviceInfo: string): UserDeviceEntity {
+  public static createNew(userId: string, deviceId: string): UserDeviceEntity {
     return new UserDeviceEntity({
       userId: userId,
-      deviceId: deviceInfo,
+
+      deviceId: deviceId,
+
       linkedAt: new Date(),
       status: Status.PENDING,
     });

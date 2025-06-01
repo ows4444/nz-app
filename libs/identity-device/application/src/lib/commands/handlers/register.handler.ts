@@ -38,6 +38,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
       );
 
       newUser.createUserCredential(payload.password, lang);
+      newUser.assignDevice(payload.deviceId, payload.deviceInfo);
 
       const userContact = UserContactEntity.createNew(newUser.id, 'email', emailVo.getValue());
 

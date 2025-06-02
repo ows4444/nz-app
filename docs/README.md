@@ -24,7 +24,7 @@ This document outlines the database schemas for a distributed Identity and Acces
     `INDEX(user_id, changed_at)`
   - **Note:** Retain only the last N entries per user via a time-based purge job.
 
-- [ ] **Table: `password_resets` (recovery tokens)**
+- [x] **Table: `password_resets` (recovery tokens)**
   - `reset_id` (PK), `user_id` (NOT NULL), <!-- references `users.user_id`, but no cross-DB FK -->
   - `token_hash` (UNIQUE, NOT NULL), `token_type` (‘email’, ‘sms’), `requested_at` (NOT NULL), `expires_at` (NOT NULL), `used_flag` (DEFAULT FALSE), `used_at`, `ip_address`, `user_agent`, `attempts_count` (DEFAULT 0),
     `INDEX(token_hash), INDEX(user_id, expires_at)`

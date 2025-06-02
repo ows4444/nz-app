@@ -6,8 +6,15 @@ export class PasswordResetMapper {
     return PasswordResetEntity.restore({
       id: passwordReset.id,
       userId: passwordReset.userId,
-      token: passwordReset.token,
-      expiresAt: passwordReset.expiresAt ?? new Date(0),
+      tokenHash: passwordReset.tokenHash,
+      tokenType: passwordReset.tokenType,
+      expiresAt: passwordReset.expiresAt,
+      requestedAt: passwordReset.requestedAt,
+      ipAddress: passwordReset.ipAddress,
+      userAgent: passwordReset.userAgent,
+      usedFlag: passwordReset.usedFlag,
+      usedAt: passwordReset.usedAt,
+      attemptsCount: passwordReset.attemptsCount,
     });
   }
 
@@ -15,8 +22,15 @@ export class PasswordResetMapper {
     return {
       id: passwordReset.id,
       userId: passwordReset.userId,
-      token: passwordReset.token,
+      tokenHash: passwordReset.tokenHash,
+      tokenType: passwordReset.tokenType,
       expiresAt: passwordReset.expiresAt,
+      requestedAt: passwordReset.requestedAt,
+      ipAddress: passwordReset.ipAddress,
+      userAgent: passwordReset.userAgent,
+      usedFlag: passwordReset.usedFlag,
+      usedAt: passwordReset.usedAt,
+      attemptsCount: passwordReset.attemptsCount,
     };
   }
 }

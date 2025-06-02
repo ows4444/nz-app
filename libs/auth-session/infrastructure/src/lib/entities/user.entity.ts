@@ -1,5 +1,6 @@
 import { StringColumn } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { PasswordResetEntityORM } from './password-reset.entity';
 import { UserCredentialEntityORM } from './user-credential.entity';
 import { UserPasswordHistoryEntityORM } from './user-password-history.entity';
 
@@ -57,4 +58,7 @@ export class UserEntityORM extends User {
 
   @OneToMany(() => UserPasswordHistoryEntityORM, (history: UserPasswordHistoryEntityORM) => history.user)
   passwordHistory!: UserPasswordHistoryEntityORM[];
+
+  @OneToMany(() => PasswordResetEntityORM, (reset: PasswordResetEntityORM) => reset.user)
+  passwordResets!: PasswordResetEntityORM[];
 }

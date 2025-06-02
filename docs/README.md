@@ -18,7 +18,7 @@ This document outlines the database schemas for a distributed Identity and Acces
   - `password_hash` (NOT NULL), `salt` (NOT NULL), `hash_algo` (NOT NULL), `pepper_version`, `last_password_changed_at`, `password_expires_at`, `created_at`, `updated_at`
   - **Note:** Enforce ON DELETE CASCADE via application logic for `user_id` to remove stale credentials.
 
-- [ ] **Table: `user_password_history` (password reuse prevention)**
+- [x] **Table: `user_password_history` (password reuse prevention)**
   - `history_id` (PK), `user_id` (NOT NULL), <!-- references `users.user_id`, but no cross-DB FK -->
   - `password_hash` (NOT NULL), `salt` (NOT NULL), `hash_algo` (NOT NULL), `pepper_version`, `changed_at` (NOT NULL),
     `INDEX(user_id, changed_at)`

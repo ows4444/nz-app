@@ -5,9 +5,9 @@ export interface IUserPasswordHistoryProps {
   userId: string;
   passwordHash: string;
   salt: string;
-  algo: string;
+  hashAlgo: string;
   pepperVersion: string;
-  createdAt: Date;
+  changedAt: Date;
 }
 
 export class UserPasswordHistoryEntity {
@@ -17,10 +17,10 @@ export class UserPasswordHistoryEntity {
   public readonly passwordHash: string;
   public readonly password: Password;
   public readonly salt: string;
-  public readonly algo: string;
+  public readonly hashAlgo: string;
   public readonly pepperVersion: string;
 
-  public readonly createdAt: Date;
+  public readonly changedAt: Date;
 
   private constructor(props: IUserPasswordHistoryProps) {
     if (props.id !== undefined) {
@@ -29,16 +29,16 @@ export class UserPasswordHistoryEntity {
     this.userId = props.userId;
     this.passwordHash = props.passwordHash;
     this.salt = props.salt;
-    this.algo = props.algo;
+    this.hashAlgo = props.hashAlgo;
     this.pepperVersion = props.pepperVersion;
 
     this.password = Password.fromStorage({
       passwordHash: props.passwordHash,
       salt: props.salt,
-      algo: props.algo,
+      algo: props.hashAlgo,
       pepperVersion: props.pepperVersion,
     });
-    this.createdAt = props.createdAt ?? new Date();
+    this.changedAt = props.changedAt ?? new Date();
   }
 
   public static createNew(userId: string, password: string, pepper: string, algo: string, pepperVersion: string): UserPasswordHistoryEntity {
@@ -47,9 +47,9 @@ export class UserPasswordHistoryEntity {
       userId,
       passwordHash: PasswordVO.props.passwordHash,
       salt: PasswordVO.props.salt,
-      algo: PasswordVO.props.algo,
+      hashAlgo: PasswordVO.props.algo,
       pepperVersion: PasswordVO.props.pepperVersion,
-      createdAt: new Date(),
+      changedAt: new Date(),
     });
   }
 

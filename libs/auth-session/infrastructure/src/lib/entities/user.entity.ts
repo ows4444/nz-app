@@ -1,6 +1,7 @@
 import { StringColumn } from '@nz/shared-infrastructure';
-import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { UserCredentialEntityORM } from './user-credential.entity';
+import { UserPasswordHistoryEntityORM } from './user-password-history.entity';
 
 class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'user_id' })
@@ -53,4 +54,7 @@ class User extends BaseEntity {
 export class UserEntityORM extends User {
   @OneToOne(() => UserCredentialEntityORM, (credential: UserCredentialEntityORM) => credential.user)
   credential!: UserCredentialEntityORM;
+
+  @OneToMany(() => UserPasswordHistoryEntityORM, (history: UserPasswordHistoryEntityORM) => history.user)
+  passwordHistory!: UserPasswordHistoryEntityORM[];
 }

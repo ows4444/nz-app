@@ -6,11 +6,11 @@ export class UserPasswordHistoryMapper {
     return UserPasswordHistoryEntity.restore({
       id: UserPasswordHistory.id,
       userId: UserPasswordHistory.userId,
-      algo: UserPasswordHistory.algo,
+      hashAlgo: UserPasswordHistory.hashAlgo,
       passwordHash: UserPasswordHistory.passwordHash,
       pepperVersion: UserPasswordHistory.pepperVersion,
       salt: UserPasswordHistory.salt,
-      createdAt: UserPasswordHistory.createdAt,
+      changedAt: UserPasswordHistory.changedAt,
     });
   }
 
@@ -18,11 +18,11 @@ export class UserPasswordHistoryMapper {
     return {
       id: UserPasswordHistory.id,
       userId: UserPasswordHistory.userId,
-      algo: UserPasswordHistory.algo,
+      hashAlgo: UserPasswordHistory.hashAlgo,
       passwordHash: UserPasswordHistory.passwordHash,
       pepperVersion: UserPasswordHistory.pepperVersion,
       salt: UserPasswordHistory.salt,
-      createdAt: UserPasswordHistory.createdAt,
+      changedAt: UserPasswordHistory.changedAt,
     };
   }
 }

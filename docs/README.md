@@ -9,8 +9,8 @@ This document outlines the database schemas for a distributed Identity and Acces
 ## Priority: CRITICAL - Core dependency for all other services
 
 ### Core User Identity
-- [ ] **Table: `users` (core user entity)**
-  - `user_id` (PK), `email` (UNIQUE, NOT NULL), `username` (UNIQUE, NOT NULL), `first_name`, `last_name`, `display_name`, `locale`, `status`, `email_verified_at`, `phone_verified_at`, `mfa_enabled`, `created_at`, `updated_at`, `deleted_at`
+- [x] **Table: `users` (core user entity)**
+  - `user_id` (PK), `email` (UNIQUE, NOT NULL), `username` (UNIQUE, NOT NULL), `first_name`, `last_name`, `display_name`, `avatar`, `locale`, `status`, `email_verified_at`, `phone_verified_at`, `mfa_enabled`, `created_at`, `updated_at`, `deleted_at`
 
 ### Authentication Credentials
 - [ ] **Table: `user_credentials` (passwords, hashes)**

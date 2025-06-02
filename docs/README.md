@@ -13,9 +13,9 @@ This document outlines the database schemas for a distributed Identity and Acces
   - `user_id` (PK), `email` (UNIQUE, NOT NULL), `username` (UNIQUE, NOT NULL), `first_name`, `last_name`, `display_name`, `avatar`, `locale`, `status`, `email_verified_at`, `phone_verified_at`, `mfa_enabled`, `created_at`, `updated_at`, `deleted_at`
 
 ### Authentication Credentials
-- [ ] **Table: `user_credentials` (passwords, hashes)**
+- [x] **Table: `user_credentials` (passwords, hashes)**
   - `user_id` (PK, NOT NULL), <!-- references `users.user_id`, but no cross-DB FK -->
-  - `password_hash` (NOT NULL), `salt` (NOT NULL), `hash_algo` (NOT NULL), `pepper_version`, `last_password_change`, `password_expires_at`, `created_at`, `updated_at`
+  - `password_hash` (NOT NULL), `salt` (NOT NULL), `hash_algo` (NOT NULL), `pepper_version`, `last_password_changed_at`, `password_expires_at`, `created_at`, `updated_at`
   - **Note:** Enforce ON DELETE CASCADE via application logic for `user_id` to remove stale credentials.
 
 - [ ] **Table: `user_password_history` (password reuse prevention)**

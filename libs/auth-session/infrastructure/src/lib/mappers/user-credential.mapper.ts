@@ -5,7 +5,9 @@ export class UserCredentialMapper {
   static toDomain(userCredential: UserCredentialEntityORM): UserCredentialEntity {
     return UserCredentialEntity.restore({
       userId: userCredential.userId,
-      algo: userCredential.algo,
+      hashAlgo: userCredential.hashAlgo,
+      lastPasswordChangedAt: userCredential.lastPasswordChangedAt,
+      passwordExpiresAt: userCredential.passwordExpiresAt,
       passwordHash: userCredential.passwordHash,
       pepperVersion: userCredential.pepperVersion,
       salt: userCredential.salt,
@@ -17,7 +19,9 @@ export class UserCredentialMapper {
   static toPersistence(userCredential: UserCredentialEntity): Partial<UserCredentialEntityORM> {
     return {
       userId: userCredential.userId,
-      algo: userCredential.algo,
+      hashAlgo: userCredential.hashAlgo,
+      lastPasswordChangedAt: userCredential.lastPasswordChangedAt,
+      passwordExpiresAt: userCredential.passwordExpiresAt,
       passwordHash: userCredential.passwordHash,
       pepperVersion: userCredential.pepperVersion,
       salt: userCredential.salt,

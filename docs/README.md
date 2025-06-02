@@ -14,26 +14,22 @@ This document outlines the database schemas for a distributed Identity and Acces
 
 ### Authentication Credentials
 - [x] **Table: `user_credentials` (passwords, hashes)**
-  - `user_id` (PK, NOT NULL), <!-- references `users.user_id`, but no cross-DB FK -->
-  - `password_hash` (NOT NULL), `salt` (NOT NULL), `hash_algo` (NOT NULL), `pepper_version`, `last_password_changed_at`, `password_expires_at`, `created_at`, `updated_at`
+  - `user_id` (PK, FK → users.user_id), `password_hash` (NOT NULL), `salt` (NOT NULL), `hash_algo` (NOT NULL), `pepper_version`, `last_password_changed_at`, `password_expires_at`, `created_at`, `updated_at`
   - **Note:** Enforce ON DELETE CASCADE via application logic for `user_id` to remove stale credentials.
 
 - [x] **Table: `user_password_history` (password reuse prevention)**
-  - `history_id` (PK), `user_id` (NOT NULL), <!-- references `users.user_id`, but no cross-DB FK -->
-  - `password_hash` (NOT NULL), `salt` (NOT NULL), `hash_algo` (NOT NULL), `pepper_version`, `changed_at` (NOT NULL),
+  - `history_id` (PK), `user_id` (FK → users.user_id), `password_hash` (NOT NULL), `salt` (NOT NULL), `hash_algo` (NOT NULL), `pepper_version`, `changed_at` (NOT NULL),
     `INDEX(user_id, changed_at)`
   - **Note:** Retain only the last N entries per user via a time-based purge job.
 
 - [x] **Table: `password_resets` (recovery tokens)**
-  - `reset_id` (PK), `user_id` (NOT NULL), <!-- references `users.user_id`, but no cross-DB FK -->
-  - `token_hash` (UNIQUE, NOT NULL), `token_type` (‘email’, ‘sms’), `requested_at` (NOT NULL), `expires_at` (NOT NULL), `used_flag` (DEFAULT FALSE), `used_at`, `ip_address`, `user_agent`, `attempts_count` (DEFAULT 0),
+  - `reset_id` (PK), `user_id` (FK → users.user_id), `token_hash` (UNIQUE, NOT NULL), `token_type` (‘email’, ‘sms’), `requested_at` (NOT NULL), `expires_at` (NOT NULL), `used_flag` (DEFAULT FALSE), `used_at`, `ip_address`, `user_agent`, `attempts_count` (DEFAULT 0),
     `INDEX(token_hash), INDEX(user_id, expires_at)`
   - **Note:** TTL index on `expires_at` for automatic cleanup.
 
 ### Session Management
 - [ ] **Table: `user_sessions` (active sessions)**
-  - `session_id` (PK), `user_id` (NOT NULL), <!-- references `users.user_id`, but no cross-DB FK -->
-  - `tenant_id` (NOT NULL), `device_fingerprint`, `session_token_hash` (UNIQUE, NOT NULL), `ip_address`, `user_agent`, `started_at` (NOT NULL), `last_activity_at`, `expires_at` (NOT NULL), `terminated_at`, `termination_reason`, `is_active` (BOOLEAN, DEFAULT TRUE),
+  - `session_id` (PK), `user_id` (FK → users.user_id), `tenant_id` (NOT NULL), `device_fingerprint`, `session_token_hash` (UNIQUE, NOT NULL), `ip_address`, `user_agent`, `started_at` (NOT NULL), `last_activity_at`, `expires_at` (NOT NULL), `terminated_at`, `termination_reason`, `is_active` (BOOLEAN, DEFAULT TRUE),
     `INDEX(user_id, is_active), INDEX(session_token_hash)`
   - **Note:** Soft-delete pattern: set `is_active = FALSE` instead of physical deletion.
 
@@ -43,8 +39,7 @@ This document outlines the database schemas for a distributed Identity and Acces
 
 ### Authentication Monitoring
 - [ ] **Table: `login_attempts` (brute force protection)**
-  - `attempt_id` (PK), `user_id` (nullable), <!-- references `users.user_id`, but no cross-DB FK -->
-  - `email_attempted`, `timestamp` (NOT NULL), `success_flag` (BOOLEAN), `failure_reason`, `ip_address`, `user_agent`, `risk_score` (FLOAT), `location_data` (JSON), `device_fingerprint`,
+  - `attempt_id` (PK), `user_id` (FK → users.user_id), `email_attempted`, `timestamp` (NOT NULL), `success_flag` (BOOLEAN), `failure_reason`, `ip_address`, `user_agent`, `risk_score` (FLOAT), `location_data` (JSON), `device_fingerprint`,
     `INDEX(user_id, timestamp), INDEX(ip_address, timestamp)`
 
 ---

@@ -7,17 +7,17 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthService, AuthSessionCommandHandlers } from '@nz/auth-session-application';
 import {
-  DeviceSessionEntityORM,
   LoginAttemptEntityORM,
   PasswordResetEntityORM,
   SessionPolicyEntityORM,
-  TypeormDeviceSessionRepository,
   TypeormLoginAttemptRepository,
   TypeormPasswordResetRepository,
   TypeormUserCredentialRepository,
   TypeormUserPasswordHistoryRepository,
+  TypeormUserSessionRepository,
   UserCredentialEntityORM,
   UserPasswordHistoryEntityORM,
+  UserSessionEntityORM,
 } from '@nz/auth-session-infrastructure';
 import { authConfigLoader, Environment, ENVIRONMENT_ENV, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
 import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
@@ -55,7 +55,7 @@ import { HealthController } from './health.controller';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         ...configService.getOrThrow<TypeOrmEnvironment>(TYPEORM_ENV),
-        entities: [DeviceSessionEntityORM, LoginAttemptEntityORM, PasswordResetEntityORM, SessionPolicyEntityORM, UserCredentialEntityORM, UserPasswordHistoryEntityORM],
+        entities: [UserSessionEntityORM, LoginAttemptEntityORM, PasswordResetEntityORM, SessionPolicyEntityORM, UserCredentialEntityORM, UserPasswordHistoryEntityORM],
       }),
       imports: [ConfigModule],
     }),
@@ -84,7 +84,7 @@ import { HealthController } from './health.controller';
         provide: APP_FILTER,
         useClass: GrpcServerExceptionFilter,
       },
-      TypeormDeviceSessionRepository,
+      TypeormUserSessionRepository,
       TypeormLoginAttemptRepository,
       TypeormPasswordResetRepository,
       TypeormUserCredentialRepository,

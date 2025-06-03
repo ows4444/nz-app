@@ -4,19 +4,31 @@ import { SessionPolicyEntityORM } from '../entities';
 export class SessionPolicyMapper {
   static toDomain(loginAttempt: SessionPolicyEntityORM): SessionPolicyEntity {
     return SessionPolicyEntity.restore({
-      policyId: loginAttempt.policyId,
-      inactivityTimeout: loginAttempt.inactivityTimeout,
-      maxSessions: loginAttempt.maxSessions,
+      id: loginAttempt.id,
+      tenantId: loginAttempt.tenantId,
+      maxConcurrentSessions: loginAttempt.maxConcurrentSessions,
+      inactivityTimeoutMinutes: loginAttempt.inactivityTimeoutMinutes,
+      absoluteTimeoutHours: loginAttempt.absoluteTimeoutHours,
+      requireMFA: loginAttempt.requireMFA,
+      allowedIpRanges: loginAttempt.allowedIpRanges,
+      deviceTrustRequired: loginAttempt.deviceTrustRequired,
       createdAt: loginAttempt.createdAt,
+      updatedAt: loginAttempt.updatedAt,
     });
   }
 
   static toPersistence(loginAttempt: SessionPolicyEntity): Partial<SessionPolicyEntityORM> {
     return {
-      policyId: loginAttempt.policyId,
-      inactivityTimeout: loginAttempt.inactivityTimeout,
-      maxSessions: loginAttempt.maxSessions,
+      id: loginAttempt.id,
+      tenantId: loginAttempt.tenantId,
+      maxConcurrentSessions: loginAttempt.maxConcurrentSessions,
+      inactivityTimeoutMinutes: loginAttempt.inactivityTimeoutMinutes,
+      absoluteTimeoutHours: loginAttempt.absoluteTimeoutHours,
+      requireMFA: loginAttempt.requireMFA,
+      allowedIpRanges: loginAttempt.allowedIpRanges,
+      deviceTrustRequired: loginAttempt.deviceTrustRequired,
       createdAt: loginAttempt.createdAt,
+      updatedAt: loginAttempt.updatedAt,
     };
   }
 }

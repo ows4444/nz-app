@@ -4,6 +4,12 @@
   "include": [],
   "references": [
     {
+      "path": "../../shared/kernel"
+    },
+    {
+      "path": "../../shared/const"
+    },
+    {
       "path": "./tsconfig.lib.json"
     },
     {

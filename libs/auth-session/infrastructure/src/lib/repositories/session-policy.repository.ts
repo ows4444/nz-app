@@ -16,8 +16,8 @@ export class TypeormSessionPolicyRepository {
     return queryRunner ? queryRunner.manager.getRepository(SessionPolicyEntityORM) : this.repository;
   }
 
-  async findOneByPolicyId(policyId: string, qr?: QueryRunner): Promise<SessionPolicyEntity | null> {
-    const orm = await this.getRepository(qr).findOne({ where: { policyId } });
+  async findOneByPolicyId(id: string, qr?: QueryRunner): Promise<SessionPolicyEntity | null> {
+    const orm = await this.getRepository(qr).findOne({ where: { id } });
     return orm ? SessionPolicyMapper.toDomain(orm) : null;
   }
 

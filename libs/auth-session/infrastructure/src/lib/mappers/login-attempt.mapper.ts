@@ -6,11 +6,15 @@ export class LoginAttemptMapper {
     return LoginAttemptEntity.restore({
       id: loginAttempt.id,
       userId: loginAttempt.userId,
+      emailAttempted: loginAttempt.emailAttempted,
+      timestamp: loginAttempt.timestamp,
+      successFlag: loginAttempt.successFlag,
+      failureReason: loginAttempt.failureReason,
       ipAddress: loginAttempt.ipAddress,
       userAgent: loginAttempt.userAgent,
       riskScore: loginAttempt.riskScore,
-      successFlag: loginAttempt.successFlag,
-      timestamp: loginAttempt.createdAt,
+      locationData: loginAttempt.locationData,
+      deviceFingerprint: loginAttempt.deviceFingerprint,
     });
   }
 
@@ -18,11 +22,15 @@ export class LoginAttemptMapper {
     return {
       id: loginAttempt.id,
       userId: loginAttempt.userId,
+      emailAttempted: loginAttempt.emailAttempted,
+      timestamp: loginAttempt.timestamp,
+      successFlag: loginAttempt.successFlag,
+      failureReason: loginAttempt.failureReason,
       ipAddress: loginAttempt.ipAddress,
       userAgent: loginAttempt.userAgent,
       riskScore: loginAttempt.riskScore,
-      successFlag: loginAttempt.successFlag,
-      createdAt: loginAttempt.timestamp,
+      locationData: loginAttempt.locationData,
+      deviceFingerprint: loginAttempt.deviceFingerprint,
     };
   }
 }

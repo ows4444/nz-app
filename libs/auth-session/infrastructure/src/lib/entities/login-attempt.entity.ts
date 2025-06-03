@@ -1,25 +1,42 @@
-import { StringColumn, WithCreated } from '@nz/shared-infrastructure';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { StringColumn } from '@nz/shared-infrastructure';
+import { BaseEntity, Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 class LoginAttempt extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
+  @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true, name: 'attempt_id' })
   id!: number;
 
-  @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true })
-  ipAddress!: string;
+  @Column({ type: 'uuid', length: 36, name: 'user_id' })
+  userId!: string;
 
-  @StringColumn({ length: 32, nullable: false, lowercase: true, trim: true })
-  userAgent!: string;
+  @StringColumn({ length: 256, nullable: true, lowercase: true, trim: true, name: 'email_attempted' })
+  emailAttempted?: string;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  timestamp!: Date;
+
+  @Column({ type: 'boolean', default: false, name: 'success_flag' })
   successFlag!: boolean;
 
-  @Column({ type: 'smallint', unsigned: true })
+  @StringColumn({ length: 256, nullable: true, trim: true, name: 'failure_reason' })
+  failureReason?: string;
+
+  @StringColumn({ length: 256, nullable: true, trim: true, name: 'ip_address' })
+  ipAddress!: string;
+
+  @StringColumn({ length: 256, nullable: true, trim: true, name: 'user_agent' })
+  userAgent!: string;
+
+  @Column({ type: 'smallint', unsigned: true, default: 0, name: 'risk_score' })
   riskScore!: number;
 
-  @Column({ type: 'uuid', length: 36 })
-  userId!: string;
+  @StringColumn({ length: 512, nullable: true, trim: true, name: 'location_data' })
+  locationData?: string;
+
+  @StringColumn({ length: 512, nullable: true, trim: true, name: 'device_fingerprint' })
+  deviceFingerprint?: string;
 }
 
+@Index('IDX_USER_ID', ['userId', 'timestamp'])
+@Index('IDX_USER_ID', ['ipAddress', 'timestamp'])
 @Entity({ name: 'login_attempts' })
-export class LoginAttemptEntityORM extends WithCreated(LoginAttempt) {}
+export class LoginAttemptEntityORM extends LoginAttempt {}

@@ -1,12 +1,11 @@
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { CallHandler, ExecutionContext, HttpException, HttpStatus, Inject, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import type { Cache } from 'cache-manager';
 import { createHash } from 'crypto';
 import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { RATE_LIMIT_KEY, RateLimitOptions } from '../decorators/rate-limit.decorator';
+import { RATE_LIMIT_KEY, RateLimitOptions } from '../decorators';
 
 @Injectable()
 export class RateLimitInterceptor implements NestInterceptor {

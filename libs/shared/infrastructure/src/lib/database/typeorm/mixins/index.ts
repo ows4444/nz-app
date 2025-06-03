@@ -15,12 +15,28 @@ export interface IWithUpdated {
   updatedAt: Date;
 }
 
+export interface IWithLastSeen {
+  lastSeenAt: Date;
+}
+
+export interface IWithLinked {
+  linkedAt: Date;
+}
+
+export interface IWithRequested {
+  requestedAt: Date;
+}
+
+export interface IWithUsed {
+  usedAt: Date;
+}
+
 export interface IWithSoftDelete {
   deletedAt: Date | undefined;
 }
 
 export interface IWithExpiration {
-  expiresAt: Date | undefined;
+  expiresAt: Date;
 }
 
 export interface IWithRevocation {
@@ -50,6 +66,54 @@ export function WithUpdated<TBase extends Constructor>(Base: TBase): MixinReturn
     updatedAt!: Date;
   }
   return UpdatedMixin as unknown as MixinReturn<TBase, IWithUpdated>;
+}
+
+export function WithLastSeen<TBase extends Constructor>(Base: TBase): MixinReturn<TBase, IWithLastSeen> {
+  class LastSeenMixin extends Base {
+    @Column({
+      type: 'timestamp',
+      precision: 6,
+      default: () => 'CURRENT_TIMESTAMP(6)',
+    })
+    lastSeenAt!: Date;
+  }
+  return LastSeenMixin as unknown as MixinReturn<TBase, IWithLastSeen>;
+}
+
+export function WithLinked<TBase extends Constructor>(Base: TBase): MixinReturn<TBase, IWithLinked> {
+  class LinkedMixin extends Base {
+    @Column({
+      type: 'timestamp',
+      precision: 6,
+      default: () => 'CURRENT_TIMESTAMP(6)',
+    })
+    linkedAt!: Date;
+  }
+  return LinkedMixin as unknown as MixinReturn<TBase, IWithLinked>;
+}
+
+export function WithRequested<TBase extends Constructor>(Base: TBase): MixinReturn<TBase, IWithRequested> {
+  class RequestedMixin extends Base {
+    @Column({
+      type: 'timestamp',
+      precision: 6,
+      default: () => 'CURRENT_TIMESTAMP(6)',
+    })
+    requestedAt!: Date;
+  }
+  return RequestedMixin as unknown as MixinReturn<TBase, IWithRequested>;
+}
+
+export function WithUsed<TBase extends Constructor>(Base: TBase): MixinReturn<TBase, IWithUsed> {
+  class UsedMixin extends Base {
+    @Column({
+      type: 'timestamp',
+      precision: 6,
+      nullable: true,
+    })
+    usedAt!: Date | undefined;
+  }
+  return UsedMixin as unknown as MixinReturn<TBase, IWithUsed>;
 }
 
 export function WithSoftDelete<TBase extends Constructor>(Base: TBase): MixinReturn<TBase, IWithSoftDelete> {

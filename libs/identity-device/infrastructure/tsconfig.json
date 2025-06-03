@@ -1,0 +1,19 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../domain"
+    },
+    {
+      "path": "../../shared/infrastructure"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../../libs/shared/logger"
+    },
+    {
+      "path": "../../libs/shared/const"
+    },
+    {
+      "path": "../../libs/shared/proto"
+    },
+    {
+      "path": "../../libs/shared/infrastructure"
+    },
+    {
+      "path": "../../libs/identity-device/infrastructure"
+    },
+    {
+      "path": "../../libs/identity-device/application"
+    },
+    {
+      "path": "../../libs/shared/config"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

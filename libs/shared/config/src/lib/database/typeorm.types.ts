@@ -1,3 +1,5 @@
+export const TYPEORM_ENV = 'TYPEORM_ENV';
+
 export enum DatabaseType {
   MYSQL = 'mysql',
   POSTGRES = 'postgres',

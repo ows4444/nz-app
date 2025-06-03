@@ -50,11 +50,11 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
   // Run protoc for each entity
   for (const entity of entities) {
     const protoFileName = `${entity}.proto`;
-    const protocArgs = [`--ts_proto_out=${outDir}`, protoFileName, '--ts_proto_opt=nestJs=true'];
+    const protocArgs = [`--ts_proto_out=${outDir}`, protoFileName, '--ts_proto_opt=nestJs=true,addGrpcMetadata=true'];
 
     logger.info(`🚀 Generating types for ${protoFileName}...`);
 
-    const result = spawnSync('npx', ['protoc', ...protocArgs], {
+    const result = spawnSync('protoc', protocArgs, {
       cwd: protoDirAbs,
       stdio: 'inherit',
       shell: process.platform === 'win32',
@@ -84,18 +84,21 @@ const runExecutor: PromiseExecutor<ProtoBuildExecutorSchema> = async (options: P
     .map((entity) => {
       const protoFileName = `${entity}.proto`;
       const protoFileNameWithoutExt = protoFileName.replace('.proto', '');
-      return `export * as ${protoFileNameWithoutExt} from './${projectType === 'library' ? 'lib/' : ''}${options.protoDir}/${protoFileNameWithoutExt}';`;
+
+      return `export * as ${protoFileNameWithoutExt.replace(/-([a-z])/g, (_, char) => char.toUpperCase())} from './${projectType === 'library' ? 'lib/' : ''}${
+        options.protoDir
+      }/${protoFileNameWithoutExt}';`;
     })
     .join('\n');
   try {
-    await fs.writeFile(indexFilePath, indexFileContent, { encoding: 'utf-8' });
+    await fs.writeFile(indexFilePath, `${indexFileContent}\n`, { encoding: 'utf-8' });
     logger.info(`✔️ Created index.ts file at ${indexFilePath}`);
   } catch (err: any) {
     logger.error(`⛔️ Error writing index.ts file: ${err.message}`);
     return { success: false };
   }
 
-  const prettierResult = spawnSync('npx', ['prettier', ...prettierArgs], {
+  const prettierResult = spawnSync('prettier', prettierArgs, {
     cwd: outDir,
     stdio: 'inherit',
     shell: process.platform === 'win32',

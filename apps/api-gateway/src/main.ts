@@ -2,7 +2,7 @@ import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { Environment } from '@nz/config';
+import { Environment, ENVIRONMENT_ENV } from '@nz/config';
 import { EnvironmentType } from '@nz/const';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
 import { GrpcToHttpInterceptor } from '@nz/shared-infrastructure';
@@ -22,7 +22,7 @@ async function Bootstrap() {
 
   app.flushLogs();
   const configService = app.get(ConfigService);
-  const { port, host, corsOrigins = ['*'] } = configService.getOrThrow<Environment>('env');
+  const { port, host, corsOrigins = ['*'] } = configService.getOrThrow<Environment>(ENVIRONMENT_ENV);
 
   const globalPrefix = configService.get<string>('API_PREFIX') || 'api';
 

@@ -13,7 +13,7 @@ export default [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   {
-    ignores: ['**/dist', '**/out-tsc'],
+    ignores: ['**/dist', '**/out-tsc', 'i18n/**'],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],

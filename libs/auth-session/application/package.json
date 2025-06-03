@@ -1,0 +1,39 @@
+{
+  "name": "@nz/auth-session-application",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "nx": {
+    "tags": [
+      "type:application",
+      "scope:auth-session"
+    ],
+    "name": "auth-session-application"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/cqrs": "^11.0.3",
+    "@nestjs/microservices": "^11.1.0",
+    "@nestjs/typeorm": "^11.0.0",
+    "@nz/auth-session-domain": "0.0.1",
+    "@nz/auth-session-infrastructure": "0.0.1",
+    "@nz/config": "0.0.1",
+    "@nz/shared-infrastructure": "0.0.1",
+    "@nz/shared-proto": "0.0.1",
+    "typeorm": "^0.3.22",
+    "@nz/auth-session-presentation": "0.0.1",
+    "@nestjs/common": "^11.0.0"
+  }
+}

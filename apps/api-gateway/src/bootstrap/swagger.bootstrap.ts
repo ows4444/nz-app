@@ -1,7 +1,7 @@
 import { INestApplication, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Environment, SwaggerEnvironment } from '@nz/config';
+import { Environment, ENVIRONMENT_ENV, SWAGGER_ENV, SwaggerEnvironment } from '@nz/config';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -9,8 +9,8 @@ export function BootstrapSwagger(app: INestApplication): void {
   const configService = app.get(ConfigService);
 
   const logger = new Logger(BootstrapSwagger.name);
-  const { isProduction, host, port } = configService.getOrThrow<Environment>('env');
-  const { title, description, generateOpenApiSpec, url = 'api-docs', version = '1.0' } = configService.getOrThrow<SwaggerEnvironment>('swagger');
+  const { isProduction, host, port } = configService.getOrThrow<Environment>(ENVIRONMENT_ENV);
+  const { title, description, generateOpenApiSpec, url = 'api-docs', version = '1.0' } = configService.getOrThrow<SwaggerEnvironment>(SWAGGER_ENV);
 
   if (!isProduction) {
     const config = new DocumentBuilder()
@@ -21,6 +21,16 @@ export function BootstrapSwagger(app: INestApplication): void {
         type: 'http',
         scheme: 'bearer',
         bearerFormat: 'JWT',
+      })
+      .addGlobalParameters({
+        name: 'Accept-Language',
+        in: 'header',
+        required: false,
+        schema: {
+          type: 'string',
+          enum: ['en_US', 'ur_PK'],
+          default: 'en_US',
+        },
       })
       .build();
 

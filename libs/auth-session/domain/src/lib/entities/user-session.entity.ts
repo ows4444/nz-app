@@ -1,7 +1,7 @@
 export interface IUserSessionProps {
   id?: string;
   userId: string;
-  tenantId: string;
+  tenantId?: string;
   deviceFingerprint: string;
   sessionTokenHash: string;
   ipAddress: string;
@@ -16,7 +16,7 @@ export interface IUserSessionProps {
 export class UserSessionEntity {
   public readonly id!: string;
   public readonly userId: string;
-  public readonly tenantId: string;
+  public readonly tenantId?: string;
   public readonly deviceFingerprint: string;
   public readonly sessionTokenHash: string;
   public readonly userAgent: string;
@@ -45,7 +45,7 @@ export class UserSessionEntity {
     this._terminationReason = props.terminationReason;
     this._isActive = props.isActive;
   }
-  public static createNew(userId: string, tenantId: string, deviceFingerprint: string, sessionTokenHash: string, ipAddress: string, userAgent: string, expiresAt: Date): UserSessionEntity {
+  public static createNew(userId: string, deviceFingerprint: string, sessionTokenHash: string, ipAddress: string, userAgent: string, expiresAt: Date, tenantId?: string): UserSessionEntity {
     return new UserSessionEntity({
       userId,
       tenantId,

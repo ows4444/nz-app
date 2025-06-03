@@ -12,8 +12,9 @@ export interface IUserProps {
 
   displayName: string;
 
-  avatar: string;
+  avatarUrl: string;
   locale: string;
+  timezone: string;
   status: Status;
 
   mfaEnabled: boolean;
@@ -35,8 +36,9 @@ export class UserEntity extends State.StatefulEntity<Status> {
   private _lastName: string;
 
   private _displayName: string;
-  private _avatar: string;
+  private _avatarUrl: string;
   private _locale: string;
+  private _timezone: string;
 
   private _mfaEnabled: boolean;
   private _emailVerifiedAt!: Date;
@@ -60,8 +62,9 @@ export class UserEntity extends State.StatefulEntity<Status> {
     this._firstName = props.firstName;
     this._lastName = props.lastName;
     this._displayName = props.displayName;
-    this._avatar = props.avatar;
+    this._avatarUrl = props.avatarUrl;
     this._locale = props.locale;
+    this._timezone = props.timezone;
 
     this.createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
@@ -83,7 +86,7 @@ export class UserEntity extends State.StatefulEntity<Status> {
   /**
    * Factory to create a new pending user
    */
-  public static register(username: Username, email: Email, firstName = '', lastName = '', locale = 'EN_en', mfaEnabled = false): UserEntity {
+  public static register(username: Username, email: Email, firstName: string, lastName: string, avatarUrl: string, locale = 'EN_en', mfaEnabled = false, timezone = 'UTC'): UserEntity {
     return new UserEntity({
       username,
       email,
@@ -91,8 +94,9 @@ export class UserEntity extends State.StatefulEntity<Status> {
       lastName,
       status: Status.PENDING,
       displayName: [firstName, lastName].filter(Boolean).join(' '),
-      avatar: '',
+      avatarUrl,
       locale,
+      timezone,
       mfaEnabled,
       phoneVerifiedAt: undefined,
       emailVerifiedAt: undefined,
@@ -130,12 +134,16 @@ export class UserEntity extends State.StatefulEntity<Status> {
     return `${this._firstName} ${this._lastName}`;
   }
 
-  get avatar(): string {
-    return this._avatar;
+  get avatarUrl(): string {
+    return this._avatarUrl;
   }
 
   get locale(): string {
     return this._locale;
+  }
+
+  get timezone(): string {
+    return this._timezone;
   }
 
   get status(): Status {
@@ -279,8 +287,8 @@ export class UserEntity extends State.StatefulEntity<Status> {
   /**
    * Update avatar
    */
-  public updateAvatar(newAvatar: string): void {
-    this._avatar = newAvatar;
+  public updateAvatar(avatarUrl: string): void {
+    this._avatarUrl = avatarUrl;
     this.touchUpdatedAt();
   }
 

@@ -6,6 +6,7 @@ export class LoginAttemptMapper {
     return LoginAttemptEntity.restore({
       id: loginAttempt.id,
       userId: loginAttempt.userId,
+      tenantId: loginAttempt.tenantId,
       emailAttempted: loginAttempt.emailAttempted,
       timestamp: loginAttempt.timestamp,
       successFlag: loginAttempt.successFlag,
@@ -22,6 +23,7 @@ export class LoginAttemptMapper {
     return {
       id: loginAttempt.id,
       userId: loginAttempt.userId,
+      tenantId: loginAttempt.tenantId,
       emailAttempted: loginAttempt.emailAttempted,
       timestamp: loginAttempt.timestamp,
       successFlag: loginAttempt.successFlag,

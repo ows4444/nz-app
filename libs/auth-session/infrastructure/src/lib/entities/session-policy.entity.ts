@@ -4,8 +4,8 @@ class SessionPolicy extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'policy_id' })
   id!: string;
 
-  @Column({ type: 'uuid', length: 36, name: 'tenant_id' })
-  tenantId!: string;
+  @Column({ type: 'uuid', nullable: true, length: 36, name: 'tenant_id' })
+  tenantId?: string;
 
   @Column({ type: 'int', unsigned: true, name: 'max_concurrent_sessions' })
   maxConcurrentSessions!: number;

@@ -8,6 +8,9 @@ class LoginAttempt extends BaseEntity {
   @Column({ type: 'uuid', length: 36, name: 'user_id' })
   userId!: string;
 
+  @Column({ type: 'uuid', length: 36, nullable: true, name: 'tenant_id' })
+  tenantId?: string;
+
   @StringColumn({ length: 256, nullable: true, lowercase: true, trim: true, name: 'email_attempted' })
   emailAttempted?: string;
 
@@ -36,7 +39,7 @@ class LoginAttempt extends BaseEntity {
   deviceFingerprint?: string;
 }
 
-@Index('IDX_USER_ID', ['userId', 'timestamp'])
-@Index('IDX_USER_ID', ['ipAddress', 'timestamp'])
+@Index('IDX_LOGIN_ATTEMPT_USER_ID_TIMESTAMP', ['userId', 'timestamp'])
+@Index('IDX_LOGIN_ATTEMPT_IP_ADDRESS_TIMESTAMP', ['ipAddress', 'timestamp'])
 @Entity({ name: 'login_attempts' })
 export class LoginAttemptEntityORM extends LoginAttempt {}

@@ -1,6 +1,6 @@
 export interface ISessionPolicyProps {
   id?: string;
-  tenantId: string;
+  tenantId?: string;
   maxConcurrentSessions: number;
   inactivityTimeoutMinutes: number;
   absoluteTimeoutHours: number;
@@ -12,7 +12,7 @@ export interface ISessionPolicyProps {
 }
 export class SessionPolicyEntity {
   public readonly id!: string;
-  public readonly tenantId: string;
+  public readonly tenantId?: string;
 
   private _maxConcurrentSessions: number;
   private _inactivityTimeoutMinutes: number;
@@ -41,13 +41,13 @@ export class SessionPolicyEntity {
     this._updatedAt = props.updatedAt;
   }
   public static createNew(
-    tenantId: string,
     maxConcurrentSessions: number,
     inactivityTimeoutMinutes: number,
     absoluteTimeoutHours: number,
     requireMFA: boolean,
     allowedIpRanges: string[],
     deviceTrustRequired: boolean,
+    tenantId?: string,
   ): SessionPolicyEntity {
     return new SessionPolicyEntity({
       tenantId,

@@ -8,8 +8,8 @@ class UserSession extends BaseEntity {
   @Column({ type: 'uuid', length: 36, name: 'user_id' })
   userId!: string;
 
-  @Column({ type: 'uuid', length: 36, name: 'tenant_id' })
-  tenantId!: string;
+  @Column({ type: 'uuid', length: 36, nullable: true, name: 'tenant_id' })
+  tenantId?: string;
 
   @StringColumn({ length: 256, nullable: false, trim: true, name: 'device_fingerprint' })
   deviceFingerprint!: string;

@@ -23,11 +23,14 @@ class User extends BaseEntity {
   @StringColumn({ length: 32, nullable: false, trim: true, name: 'display_name' })
   displayName!: string;
 
-  @StringColumn({ length: 32, nullable: false, trim: true })
-  avatar!: string;
+  @StringColumn({ length: 32, nullable: false, trim: true, name: 'avatar_url' })
+  avatarUrl!: string;
 
   @StringColumn({ length: 32, nullable: false, trim: true })
   locale!: string;
+
+  @StringColumn({ length: 32, nullable: false, trim: true })
+  timezone!: string;
 
   @Column({ type: 'bigint', unsigned: true })
   status!: number;

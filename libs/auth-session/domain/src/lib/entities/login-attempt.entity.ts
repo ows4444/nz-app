@@ -2,6 +2,7 @@ export interface ILoginAttemptProps {
   id?: number;
   userId: string;
   emailAttempted?: string;
+  tenantId?: string;
   timestamp: Date;
   successFlag: boolean;
   failureReason?: string;
@@ -15,6 +16,7 @@ export class LoginAttemptEntity {
   public readonly id!: number;
   public readonly userId: string;
   public readonly emailAttempted?: string;
+  public readonly tenantId?: string;
   public readonly timestamp: Date;
   public readonly successFlag: boolean;
   public readonly failureReason?: string;
@@ -46,6 +48,7 @@ export class LoginAttemptEntity {
     }
 
     this.userId = props.userId;
+    this.tenantId = props.tenantId;
     this.ipAddress = props.ipAddress;
     this.userAgent = props.userAgent;
     this.timestamp = props.timestamp;
@@ -58,6 +61,7 @@ export class LoginAttemptEntity {
     userAgent: string,
     successFlag: boolean,
     riskScore: number,
+    tenantId?: string,
     deviceFingerprint?: string,
     emailAttempted?: string,
     failureReason?: string,
@@ -69,6 +73,7 @@ export class LoginAttemptEntity {
       userAgent,
       timestamp: new Date(),
       successFlag,
+      tenantId,
       riskScore,
       deviceFingerprint,
       emailAttempted,

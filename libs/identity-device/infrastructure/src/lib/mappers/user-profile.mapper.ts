@@ -2,41 +2,41 @@ import { UserProfileEntity } from '@nz/identity-device-domain';
 import { UserProfileEntityORM } from '../entities';
 
 export class UserProfileMapper {
-  static toDomain(user: UserProfileEntityORM): UserProfileEntity {
+  static toDomain(userProfile: UserProfileEntityORM): UserProfileEntity {
     return UserProfileEntity.restore({
-      id: user.id,
-      tenantId: user.tenantId,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      displayName: user.displayName,
-      locale: user.locale,
-      timezone: user.timezone,
-      avatarUrl: user.avatarUrl,
-      bio: user.bio,
-      status: user.status,
-      profileVisibility: user.profileVisibility,
-      lastLoginAt: user.lastLoginAt,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      id: userProfile.id,
+      tenantId: userProfile.tenantId,
+      firstName: userProfile.firstName,
+      lastName: userProfile.lastName,
+      displayName: userProfile.displayName,
+      locale: userProfile.locale,
+      timezone: userProfile.timezone,
+      avatarUrl: userProfile.avatarUrl,
+      bio: userProfile.bio,
+      status: userProfile.status,
+      profileVisibility: userProfile.profileVisibility,
+      lastLoginAt: userProfile.lastLoginAt,
+      createdAt: userProfile.createdAt,
+      updatedAt: userProfile.updatedAt,
     });
   }
 
-  static toPersistence(user: UserProfileEntity): Partial<UserProfileEntityORM> {
+  static toPersistence(userProfile: UserProfileEntity): Partial<UserProfileEntityORM> {
     return {
-      id: user.id,
-      tenantId: user.tenantId,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      displayName: user.displayName,
-      locale: user.locale,
-      timezone: user.timezone,
-      avatarUrl: user.avatarUrl,
-      bio: user.bio,
-      status: user.status,
-      profileVisibility: user.profileVisibility,
-      lastLoginAt: user.lastLoginAt,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      id: userProfile.id,
+      tenantId: userProfile.tenantId,
+      firstName: userProfile.firstName,
+      lastName: userProfile.lastName,
+      displayName: userProfile.displayName,
+      locale: userProfile.locale,
+      timezone: userProfile.timezone,
+      avatarUrl: userProfile.avatarUrl,
+      bio: userProfile.bio,
+      status: userProfile.status,
+      profileVisibility: userProfile.profileVisibility,
+      lastLoginAt: userProfile.lastLoginAt,
+      createdAt: userProfile.createdAt,
+      updatedAt: userProfile.updatedAt,
     };
   }
 }

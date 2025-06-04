@@ -16,8 +16,8 @@ export class TypeormDeviceSessionRepository {
     return queryRunner ? queryRunner.manager.getRepository(DeviceSessionEntityORM) : this.repository;
   }
 
-  async save(userContact: DeviceSessionEntity, qr?: QueryRunner): Promise<DeviceSessionEntity> {
-    const orm = DeviceSessionMapper.toPersistence(userContact);
+  async save(deviceSession: DeviceSessionEntity, qr?: QueryRunner): Promise<DeviceSessionEntity> {
+    const orm = DeviceSessionMapper.toPersistence(deviceSession);
     const saved = await this.getRepository(qr).save(orm);
     return DeviceSessionMapper.toDomain(saved);
   }

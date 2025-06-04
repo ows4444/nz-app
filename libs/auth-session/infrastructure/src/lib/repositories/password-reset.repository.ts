@@ -16,8 +16,8 @@ export class TypeormPasswordResetRepository {
     return queryRunner ? queryRunner.manager.getRepository(PasswordResetEntityORM) : this.repository;
   }
 
-  async save(PasswordReset: PasswordResetEntity, qr?: QueryRunner): Promise<PasswordResetEntity> {
-    const orm = PasswordResetMapper.toPersistence(PasswordReset);
+  async save(passwordReset: PasswordResetEntity, qr?: QueryRunner): Promise<PasswordResetEntity> {
+    const orm = PasswordResetMapper.toPersistence(passwordReset);
     const saved = await this.getRepository(qr).save(orm);
     return PasswordResetMapper.toDomain(saved);
   }

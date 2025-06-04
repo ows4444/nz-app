@@ -1,4 +1,3 @@
-import { WithCreated, WithExpiration, WithRequested, WithUpdated, WithUsed } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 class ContactVerification extends BaseEntity {
@@ -46,4 +45,4 @@ class ContactVerification extends BaseEntity {
 }
 
 @Entity({ name: 'contact_verifications' })
-export class ContactVerificationEntityORM extends WithRequested(WithUsed(WithExpiration(WithUpdated(WithCreated(ContactVerification))))) {}
+export class ContactVerificationEntityORM extends ContactVerification {}

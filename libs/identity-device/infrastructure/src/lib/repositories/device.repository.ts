@@ -16,14 +16,14 @@ export class TypeormDeviceRepository {
     return queryRunner ? queryRunner.manager.getRepository(DeviceEntityORM) : this.repository;
   }
 
-  async save(userContact: DeviceEntity, qr?: QueryRunner): Promise<DeviceEntity> {
-    const orm = DeviceMapper.toPersistence(userContact);
+  async save(device: DeviceEntity, qr?: QueryRunner): Promise<DeviceEntity> {
+    const orm = DeviceMapper.toPersistence(device);
     const saved = await this.getRepository(qr).save(orm);
     return DeviceMapper.toDomain(saved);
   }
 
-  async findOneByDeviceId(deviceId: string, qr?: QueryRunner): Promise<DeviceEntity | null> {
-    const orm = await this.getRepository(qr).findOne({ where: { deviceId } });
+  async findOneById(id: string, qr?: QueryRunner): Promise<DeviceEntity | null> {
+    const orm = await this.getRepository(qr).findOne({ where: { id } });
     return orm ? DeviceMapper.toDomain(orm) : null;
   }
 }

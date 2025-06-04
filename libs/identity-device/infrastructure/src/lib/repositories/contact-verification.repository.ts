@@ -16,8 +16,8 @@ export class TypeormContactVerificationRepository {
     return queryRunner ? queryRunner.manager.getRepository(ContactVerificationEntityORM) : this.repository;
   }
 
-  async save(userContact: ContactVerificationEntity, qr?: QueryRunner): Promise<ContactVerificationEntity> {
-    const orm = ContactVerificationMapper.toPersistence(userContact);
+  async save(contactVerification: ContactVerificationEntity, qr?: QueryRunner): Promise<ContactVerificationEntity> {
+    const orm = ContactVerificationMapper.toPersistence(contactVerification);
     const saved = await this.getRepository(qr).save(orm);
     return ContactVerificationMapper.toDomain(saved);
   }

@@ -20,8 +20,8 @@ export class TypeormUserProfileRepository {
     return orm ? UserProfileMapper.toDomain(orm) : null;
   }
 
-  async save(user: UserProfileEntity, qr?: QueryRunner): Promise<UserProfileEntity> {
-    const orm = UserProfileMapper.toPersistence(user);
+  async save(userProfile: UserProfileEntity, qr?: QueryRunner): Promise<UserProfileEntity> {
+    const orm = UserProfileMapper.toPersistence(userProfile);
     const saved = await this.getRepository(qr).save(orm);
     return UserProfileMapper.toDomain(saved);
   }

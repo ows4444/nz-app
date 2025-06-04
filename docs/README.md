@@ -68,10 +68,10 @@ This document outlines the database schemas for a distributed Identity and Acces
 - [x] **Table: `device_sessions` (device-specific sessions)**
   - `session_id` (PK), `device_id` (FK → `devices.device_id`), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `active_flag` (BOOLEAN, DEFAULT TRUE), `ip_address`, `started_at` (NOT NULL), `last_seen_at`, `geo_location` (GEOGRAPHY or JSON), `city`, `country`, `session_duration_minutes`, `INDEX(device_id, user_id), INDEX(user_id, active_flag)`
 
-- [ ] **Table: `device_trust_events` (risk assessment)**
+- [x] **Table: `device_trust_events` (risk assessment)**
   - `event_id` (PK), `device_id` (FK → `devices.device_id`), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `event_type` (‘trusted’, ‘untrusted’, ‘blocked’, ‘flagged’, ‘verified’), `reason`, `created_by` (FK → `auth-session-db.users.user_id`), `created_at`, `metadata_json` (JSON), `INDEX(device_id), INDEX(user_id)`
 
-- [ ] **Table: `device_trust_scores` (risk assessment)**
+- [x] **Table: `device_trust_scores` (risk assessment)**
   - `score_id` (PK), `device_id` (FK → `devices.device_id`), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `trust_score` (INT, 0–100), `risk_level` (‘low’, ‘medium’, ‘high’, ‘critical’), `calculation_method` (VARCHAR), `contributing_factors_json` (JSON), `last_calculated_at`, `expires_at`, `created_at`, `updated_at`, `INDEX(device_id), INDEX(user_id)`
 
 ---

@@ -2,37 +2,37 @@ import { DeviceSessionEntity } from '@nz/identity-device-domain';
 import { DeviceSessionEntityORM } from '../entities';
 
 export class DeviceSessionMapper {
-  static toDomain(userContact: DeviceSessionEntityORM): DeviceSessionEntity {
+  static toDomain(deviceSession: DeviceSessionEntityORM): DeviceSessionEntity {
     return DeviceSessionEntity.restore({
-      id: userContact.id,
-      deviceId: userContact.deviceId,
-      userId: userContact.userId,
-      tenantId: userContact.tenantId,
-      activeFlag: userContact.activeFlag,
-      ipAddress: userContact.ipAddress,
-      startedAt: userContact.startedAt,
-      lastSeenAt: userContact.lastSeenAt,
-      geoLocation: userContact.geoLocation,
-      city: userContact.city,
-      country: userContact.country,
-      sessionDurationMinutes: userContact.sessionDurationMinutes,
+      id: deviceSession.id,
+      deviceId: deviceSession.deviceId,
+      userId: deviceSession.userId,
+      tenantId: deviceSession.tenantId,
+      activeFlag: deviceSession.activeFlag,
+      ipAddress: deviceSession.ipAddress,
+      startedAt: deviceSession.startedAt,
+      lastSeenAt: deviceSession.lastSeenAt,
+      geoLocation: deviceSession.geoLocation,
+      city: deviceSession.city,
+      country: deviceSession.country,
+      sessionDurationMinutes: deviceSession.sessionDurationMinutes,
     });
   }
 
-  static toPersistence(userContact: DeviceSessionEntity): Partial<DeviceSessionEntityORM> {
+  static toPersistence(deviceSession: DeviceSessionEntity): Partial<DeviceSessionEntityORM> {
     return {
-      id: userContact.id,
-      deviceId: userContact.deviceId,
-      userId: userContact.userId,
-      tenantId: userContact.tenantId,
-      activeFlag: userContact.activeFlag,
-      ipAddress: userContact.ipAddress,
-      startedAt: userContact.startedAt,
-      lastSeenAt: userContact.lastSeenAt,
-      geoLocation: userContact.geoLocation,
-      city: userContact.city,
-      country: userContact.country,
-      sessionDurationMinutes: userContact.sessionDurationMinutes,
+      id: deviceSession.id,
+      deviceId: deviceSession.deviceId,
+      userId: deviceSession.userId,
+      tenantId: deviceSession.tenantId,
+      activeFlag: deviceSession.activeFlag,
+      ipAddress: deviceSession.ipAddress,
+      startedAt: deviceSession.startedAt,
+      lastSeenAt: deviceSession.lastSeenAt,
+      geoLocation: deviceSession.geoLocation,
+      city: deviceSession.city,
+      country: deviceSession.country,
+      sessionDurationMinutes: deviceSession.sessionDurationMinutes,
     };
   }
 }

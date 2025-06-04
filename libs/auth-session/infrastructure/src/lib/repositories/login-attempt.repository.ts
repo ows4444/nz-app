@@ -26,8 +26,8 @@ export class TypeormLoginAttemptRepository {
     return orm ? LoginAttemptMapper.toDomain(orm) : null;
   }
 
-  async save(LoginAttempt: LoginAttemptEntity, qr?: QueryRunner): Promise<LoginAttemptEntity> {
-    const orm = LoginAttemptMapper.toPersistence(LoginAttempt);
+  async save(loginAttempt: LoginAttemptEntity, qr?: QueryRunner): Promise<LoginAttemptEntity> {
+    const orm = LoginAttemptMapper.toPersistence(loginAttempt);
     const saved = await this.getRepository(qr).save(orm);
     return LoginAttemptMapper.toDomain(saved);
   }

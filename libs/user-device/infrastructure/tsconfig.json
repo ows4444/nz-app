@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "../domain"
+    },
+    {
       "path": "../../shared/infrastructure"
     },
     {

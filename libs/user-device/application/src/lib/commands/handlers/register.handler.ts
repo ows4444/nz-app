@@ -1,11 +1,11 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { RpcException } from '@nestjs/microservices';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { Email, UserAggregate, UserContactEntity, Username, UserProfileEntity } from '@nz/identity-device-domain';
-import { TypeormUserContactRepository, TypeormUserProfileRepository } from '@nz/identity-device-infrastructure';
 import { I18nTranslations } from '@nz/shared-i18n';
 import { GrpcAlreadyExistsException, GrpcUnknownException } from '@nz/shared-infrastructure';
-import { identityDevice } from '@nz/shared-proto';
+import { userDevice } from '@nz/shared-proto';
+import { Email, UserAggregate, UserContactEntity, Username, UserProfileEntity } from '@nz/user-device-domain';
+import { TypeormUserContactRepository, TypeormUserProfileRepository } from '@nz/user-device-infrastructure';
 import { I18nService } from 'nestjs-i18n';
 import { DataSource } from 'typeorm';
 import { RegisterCommand } from '../impl';
@@ -20,7 +20,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
     private readonly userContactRepository: TypeormUserContactRepository,
   ) {}
 
-  async execute({ payload, lang }: RegisterCommand): Promise<identityDevice.RegisterResponse> {
+  async execute({ payload, lang }: RegisterCommand): Promise<userDevice.RegisterResponse> {
     const emailVo = Email.create(payload.email);
     const usernameVo = Username.create(payload.username);
 

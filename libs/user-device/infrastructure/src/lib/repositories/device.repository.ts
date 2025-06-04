@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DeviceEntity } from '@nz/identity-device-domain';
+import { DeviceEntity } from '@nz/user-device-domain';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { DeviceEntityORM } from '../entities';
 import { DeviceMapper } from '../mappers';

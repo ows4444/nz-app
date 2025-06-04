@@ -1,4 +1,4 @@
-import { ContactVerificationEntity } from '@nz/identity-device-domain';
+import { ContactVerificationEntity } from '@nz/user-device-domain';
 import { ContactVerificationEntityORM } from '../entities';
 
 export class ContactVerificationMapper {

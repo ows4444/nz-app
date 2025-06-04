@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserProfileEntity } from '@nz/identity-device-domain';
+import { UserProfileEntity } from '@nz/user-device-domain';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { UserProfileEntityORM } from '../entities';
 import { UserProfileMapper } from '../mappers';

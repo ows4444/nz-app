@@ -4,6 +4,15 @@
   "include": [],
   "references": [
     {
+      "path": "../presentation"
+    },
+    {
+      "path": "../infrastructure"
+    },
+    {
+      "path": "../domain"
+    },
+    {
       "path": "../../shared/proto"
     },
     {

@@ -1,9 +1,9 @@
 {
-  "name": "@nz/identity-device-service",
+  "name": "@nz/user-device-service",
   "version": "0.0.1",
   "private": true,
   "nx": {
-    "name": "identity-device-service",
+    "name": "user-device-service",
     "targets": {
       "build": {
         "executor": "nx:run-commands",
@@ -22,21 +22,22 @@
         }
       },
       "serve": {
+        "continuous": true,
         "executor": "@nx/js:node",
         "defaultConfiguration": "development",
         "dependsOn": [
           "build"
         ],
         "options": {
-          "buildTarget": "identity-device-service:build",
+          "buildTarget": "user-device-service:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "identity-device-service:build:development"
+            "buildTarget": "user-device-service:build:development"
           },
           "production": {
-            "buildTarget": "identity-device-service:build:production"
+            "buildTarget": "user-device-service:build:production"
           }
         }
       },
@@ -48,7 +49,7 @@
     },
     "tags": [
       "type:service",
-      "scope:identity-device"
+      "scope:user-device"
     ]
   }
 }

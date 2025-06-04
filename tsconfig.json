@@ -46,12 +46,6 @@
       "path": "./libs/auth-session/domain"
     },
     {
-      "path": "./apps/identity-device-service-e2e"
-    },
-    {
-      "path": "./apps/identity-device-service"
-    },
-    {
       "path": "./apps/auth-session-service-e2e"
     },
     {
@@ -71,6 +65,12 @@
     },
     {
       "path": "./libs/user-device/domain"
+    },
+    {
+      "path": "./apps/user-device-service-e2e"
+    },
+    {
+      "path": "./apps/user-device-service"
     }
   ]
 }

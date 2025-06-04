@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ContactVerificationEntity } from '@nz/identity-device-domain';
+import { ContactVerificationEntity } from '@nz/user-device-domain';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { ContactVerificationEntityORM } from '../entities';
 import { ContactVerificationMapper } from '../mappers';

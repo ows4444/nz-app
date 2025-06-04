@@ -1,1 +1,1 @@
-export const IdentityDeviceQueryHandlers = [];
+export const UserDeviceQueryHandlers = [];

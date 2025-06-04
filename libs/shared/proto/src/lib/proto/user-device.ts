@@ -2,14 +2,14 @@
 // versions:
 //   protoc-gen-ts_proto  v2.7.2
 //   protoc               v5.29.3
-// source: identity-device.proto
+// source: user-device.proto
 
 /* eslint-disable */
 import { Metadata } from '@grpc/grpc-js';
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
-export const protobufPackage = 'identityDevice';
+export const protobufPackage = 'userDevice';
 
 export interface RegisterRequest {
   email: string;
@@ -25,29 +25,29 @@ export interface RegisterResponse {
   message: string;
 }
 
-export const IDENTITY_DEVICE_PACKAGE_NAME = 'identityDevice';
+export const USER_DEVICE_PACKAGE_NAME = 'userDevice';
 
-export interface IdentityServiceClient {
+export interface UserServiceClient {
   register(request: RegisterRequest, metadata?: Metadata): Observable<RegisterResponse>;
 }
 
-export interface IdentityServiceController {
+export interface UserServiceController {
   register(request: RegisterRequest, metadata?: Metadata): Promise<RegisterResponse> | Observable<RegisterResponse> | RegisterResponse;
 }
 
-export function IdentityServiceControllerMethods() {
+export function UserServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = ['register'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod('IdentityService', method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('UserService', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod('IdentityService', method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('UserService', method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const IDENTITY_SERVICE_NAME = 'IdentityService';
+export const USER_SERVICE_NAME = 'UserService';

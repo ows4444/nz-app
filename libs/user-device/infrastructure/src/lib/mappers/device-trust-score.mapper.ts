@@ -1,4 +1,4 @@
-import { DeviceTrustScoreEntity } from '@nz/identity-device-domain';
+import { DeviceTrustScoreEntity } from '@nz/user-device-domain';
 import { DeviceTrustScoreEntityORM } from '../entities';
 
 export class DeviceTrustScoreMapper {

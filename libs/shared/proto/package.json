@@ -23,7 +23,7 @@
           "entity": [
             "auth-session",
             "health",
-            "identity-device"
+            "user-device"
           ]
         }
       }

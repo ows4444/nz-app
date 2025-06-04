@@ -1,4 +1,4 @@
-import { UserProfileEntity } from '@nz/identity-device-domain';
+import { UserProfileEntity } from '@nz/user-device-domain';
 import { UserProfileEntityORM } from '../entities';
 
 export class UserProfileMapper {

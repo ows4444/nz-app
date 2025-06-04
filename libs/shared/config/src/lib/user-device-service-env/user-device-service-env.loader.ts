@@ -1,11 +1,11 @@
 import { registerAs } from '@nestjs/config';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
-import { IdentityDeviceServiceEnvironmentSchema } from './identity-device-service-env.schema';
-import { IDENTITY_DEVICE_SERVICE_ENV, IdentityDeviceServiceEnvironment } from './identity-device-service-env.types';
+import { UserDeviceServiceEnvironmentSchema } from './user-device-service-env.schema';
+import { USER_DEVICE_SERVICE_ENV, UserDeviceServiceEnvironment } from './user-device-service-env.types';
 
-export const identityDeviceServiceEnvLoader = registerAs(IDENTITY_DEVICE_SERVICE_ENV, (): IdentityDeviceServiceEnvironment => {
-  const config = plainToInstance(IdentityDeviceServiceEnvironmentSchema, process.env, {
+export const userDeviceServiceEnvLoader = registerAs(USER_DEVICE_SERVICE_ENV, (): UserDeviceServiceEnvironment => {
+  const config = plainToInstance(UserDeviceServiceEnvironmentSchema, process.env, {
     enableImplicitConversion: true,
     excludeExtraneousValues: true,
   });
@@ -23,7 +23,7 @@ export const identityDeviceServiceEnvLoader = registerAs(IDENTITY_DEVICE_SERVICE
   }
 
   return {
-    host: config.IDENTITY_DEVICE_SERVICE_HOST,
-    port: config.IDENTITY_DEVICE_SERVICE_PORT,
+    host: config.USER_DEVICE_SERVICE_HOST,
+    port: config.USER_DEVICE_SERVICE_PORT,
   };
 });

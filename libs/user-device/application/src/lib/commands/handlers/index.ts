@@ -1,3 +1,3 @@
 import { RegisterHandler } from './register.handler';
 
-export const IdentityDeviceCommandHandlers = [RegisterHandler];
+export const UserDeviceCommandHandlers = [RegisterHandler];

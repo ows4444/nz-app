@@ -5,7 +5,7 @@ import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Environment, ENVIRONMENT_ENV } from '@nz/config';
 import { EnvironmentType } from '@nz/const';
 import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
-import { health, identityDevice } from '@nz/shared-proto';
+import { health, userDevice } from '@nz/shared-proto';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
 
@@ -15,8 +15,8 @@ async function Bootstrap() {
     useFactory: (configService: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
-        package: [identityDevice.IDENTITY_DEVICE_PACKAGE_NAME, health.HEALTH_PACKAGE_NAME],
-        protoPath: [join(__dirname, 'assets', 'identity-device.proto'), join(__dirname, 'assets', 'auth-session.proto'), join(__dirname, 'assets', 'health.proto')],
+        package: [userDevice.USER_DEVICE_PACKAGE_NAME, health.HEALTH_PACKAGE_NAME],
+        protoPath: [join(__dirname, 'assets', 'user-device.proto'), join(__dirname, 'assets', 'auth-session.proto'), join(__dirname, 'assets', 'health.proto')],
         url: configService.getOrThrow<Environment>(ENVIRONMENT_ENV).url,
       },
     }),
@@ -40,7 +40,7 @@ async function Bootstrap() {
 
   await app.listen();
 
-  logger.log(`🚀 Identity-Device Service is running. on Grpc ${config.getOrThrow<Environment>(ENVIRONMENT_ENV).url}`);
+  logger.log(`🚀 User-Device Service is running. on Grpc ${config.getOrThrow<Environment>(ENVIRONMENT_ENV).url}`);
 }
 
 Bootstrap();

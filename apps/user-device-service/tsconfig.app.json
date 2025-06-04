@@ -19,16 +19,16 @@
       "path": "../../libs/shared/const/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/user-device/infrastructure/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/user-device/application/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/shared/proto/tsconfig.lib.json"
     },
     {
       "path": "../../libs/shared/infrastructure/tsconfig.lib.json"
-    },
-    {
-      "path": "../../libs/identity-device/infrastructure/tsconfig.lib.json"
-    },
-    {
-      "path": "../../libs/identity-device/application/tsconfig.lib.json"
     },
     {
       "path": "../../libs/shared/config/tsconfig.lib.json"

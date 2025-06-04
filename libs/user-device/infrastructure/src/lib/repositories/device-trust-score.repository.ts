@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DeviceTrustScoreEntity } from '@nz/identity-device-domain';
+import { DeviceTrustScoreEntity } from '@nz/user-device-domain';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { DeviceTrustScoreEntityORM } from '../entities';
 import { DeviceTrustScoreMapper } from '../mappers';

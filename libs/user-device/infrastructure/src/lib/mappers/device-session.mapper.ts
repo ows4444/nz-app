@@ -1,4 +1,4 @@
-import { DeviceSessionEntity } from '@nz/identity-device-domain';
+import { DeviceSessionEntity } from '@nz/user-device-domain';
 import { DeviceSessionEntityORM } from '../entities';
 
 export class DeviceSessionMapper {

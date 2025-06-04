@@ -1,4 +1,4 @@
-import { DeviceEntity } from '@nz/identity-device-domain';
+import { DeviceEntity } from '@nz/user-device-domain';
 import { DeviceEntityORM } from '../entities';
 
 export class DeviceMapper {

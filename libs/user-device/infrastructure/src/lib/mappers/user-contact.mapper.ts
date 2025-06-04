@@ -1,4 +1,4 @@
-import { UserContactEntity } from '@nz/identity-device-domain';
+import { UserContactEntity } from '@nz/user-device-domain';
 import { UserContactEntityORM } from '../entities';
 
 export class UserContactMapper {

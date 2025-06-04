@@ -1,4 +1,4 @@
-import { DeviceTrustEventEntity } from '@nz/identity-device-domain';
+import { DeviceTrustEventEntity } from '@nz/user-device-domain';
 import { DeviceTrustEventEntityORM } from '../entities';
 
 export class DeviceTrustEventMapper {

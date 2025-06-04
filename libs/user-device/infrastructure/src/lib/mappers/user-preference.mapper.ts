@@ -1,4 +1,4 @@
-import { UserPreferenceEntity } from '@nz/identity-device-domain';
+import { UserPreferenceEntity } from '@nz/user-device-domain';
 import { UserPreferenceEntityORM } from '../entities';
 
 export class UserPreferenceMapper {

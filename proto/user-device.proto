@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package identityDevice;
+package userDevice;
 
 
-service IdentityService {
+service UserService {
     rpc Register (RegisterRequest) returns (RegisterResponse);
 }
 

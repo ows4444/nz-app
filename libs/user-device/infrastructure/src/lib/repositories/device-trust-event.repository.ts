@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DeviceTrustEventEntity } from '@nz/identity-device-domain';
+import { DeviceTrustEventEntity } from '@nz/user-device-domain';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { DeviceTrustEventEntityORM } from '../entities';
 import { DeviceTrustEventMapper } from '../mappers';

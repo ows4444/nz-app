@@ -2,8 +2,8 @@ import { Metadata } from '@grpc/grpc-js';
 import { Inject, OnModuleInit } from '@nestjs/common';
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import type { ClientGrpc } from '@nestjs/microservices';
-import { CreateUserCredentialEvent } from '@nz/identity-device-domain';
 import { authSession } from '@nz/shared-proto';
+import { CreateUserCredentialEvent } from '@nz/user-device-domain';
 import { lastValueFrom } from 'rxjs';
 
 @EventsHandler(CreateUserCredentialEvent)

@@ -5,12 +5,20 @@ export class DeviceMapper {
   static toDomain(userContact: DeviceEntityORM): DeviceEntity {
     return DeviceEntity.restore({
       id: userContact.id,
-      deviceId: userContact.deviceId,
+      deviceFingerprint: userContact.deviceFingerprint,
+      deviceName: userContact.deviceName,
+      deviceType: userContact.deviceType,
+      osName: userContact.osName,
+      osVersion: userContact.osVersion,
+      browserName: userContact.browserName,
+      browserVersion: userContact.browserVersion,
       deviceInfo: userContact.deviceInfo,
-      lastSeenAt: userContact.lastSeenAt,
       status: userContact.status,
       trustScore: userContact.trustScore,
-
+      riskLevel: userContact.riskLevel,
+      isTrusted: userContact.isTrusted,
+      firstSeenAt: userContact.firstSeenAt,
+      lastSeenAt: userContact.lastSeenAt,
       createdAt: userContact.createdAt,
       updatedAt: userContact.updatedAt,
     });
@@ -19,12 +27,20 @@ export class DeviceMapper {
   static toPersistence(userContact: DeviceEntity): Partial<DeviceEntityORM> {
     return {
       id: userContact.id,
-      deviceId: userContact.deviceId,
+      deviceFingerprint: userContact.deviceFingerprint,
+      deviceName: userContact.deviceName,
+      deviceType: userContact.deviceType,
+      osName: userContact.osName,
+      osVersion: userContact.osVersion,
+      browserName: userContact.browserName,
+      browserVersion: userContact.browserVersion,
       deviceInfo: userContact.deviceInfo,
-      lastSeenAt: userContact.lastSeenAt,
       status: userContact.status,
       trustScore: userContact.trustScore,
-
+      riskLevel: userContact.riskLevel,
+      isTrusted: userContact.isTrusted,
+      firstSeenAt: userContact.firstSeenAt,
+      lastSeenAt: userContact.lastSeenAt,
       createdAt: userContact.createdAt,
       updatedAt: userContact.updatedAt,
     };

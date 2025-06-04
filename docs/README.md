@@ -62,10 +62,10 @@ This document outlines the database schemas for a distributed Identity and Acces
   - `verification_id` (PK), `contact_id` (FK → `user_contacts.contact_id`), `purpose` (‘registration’, ‘password_reset’, ‘mfa’, ‘contact_change’), `token_hash` (UNIQUE, NOT NULL), `code` (encrypted or hashed), `delivery_method` (‘email’, ‘sms’), `expires_at` (NOT NULL), `used_flag` (BOOLEAN, DEFAULT FALSE), `used_at`, `attempts_count` (INT, DEFAULT 0), `max_attempts` (INT, DEFAULT 5), `requested_at` (NOT NULL), `ip_address`, `user_agent`, `INDEX(token_hash), INDEX(contact_id, purpose)`
 
 ### Device Management
-- [ ] **Table: `devices` (registered devices)**
-  - `device_id` (PK), `device_fingerprint` (UNIQUE, NOT NULL), `device_name`, `device_type`, `os_name`, `os_version`, `browser_name`, `browser_version`, `device_info` (JSON), `status` (‘active’, ‘blocked’, ‘unverified’), `trust_score` (INT, 0–100), `risk_level` (‘low’, ‘medium’, ‘high’, ‘critical’), `is_trusted` (BOOLEAN, DEFAULT FALSE), `first_seen`, `last_seen`, `created_at`, `updated_at`, `INDEX(device_fingerprint)`
+- [x] **Table: `devices` (registered devices)**
+  - `device_id` (PK), `device_fingerprint` (UNIQUE, NOT NULL), `device_name`, `device_type`, `os_name`, `os_version`, `browser_name`, `browser_version`, `device_info` (JSON), `status` (‘active’, ‘blocked’, ‘unverified’), `trust_score` (INT, 0–100), `risk_level` (‘low’, ‘medium’, ‘high’, ‘critical’), `is_trusted` (BOOLEAN, DEFAULT FALSE), `first_seen_at`, `last_seen_at`, `created_at`, `updated_at`, `INDEX(device_fingerprint)`
 
-- [ ] **Table: `device_sessions` (device-specific sessions)**
+- [x] **Table: `device_sessions` (device-specific sessions)**
   - `session_id` (PK), `device_id` (FK → `devices.device_id`), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `active_flag` (BOOLEAN, DEFAULT TRUE), `ip_address`, `started_at` (NOT NULL), `last_seen_at`, `geo_location` (GEOGRAPHY or JSON), `city`, `country`, `session_duration_minutes`, `INDEX(device_id, user_id), INDEX(user_id, active_flag)`
 
 - [ ] **Table: `device_trust_events` (risk assessment)**

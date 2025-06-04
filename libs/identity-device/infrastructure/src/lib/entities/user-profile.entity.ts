@@ -1,4 +1,4 @@
-import { StringColumn, WithCreated, WithRevocation, WithSoftDelete, WithUpdated } from '@nz/shared-infrastructure';
+import { StringColumn } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { UserContactEntityORM } from './user-contact.entity';
 
@@ -47,7 +47,7 @@ class UserProfile extends BaseEntity {
 }
 
 @Entity({ name: 'users_profile' })
-export class UserProfileEntityORM extends WithSoftDelete(WithUpdated(WithCreated(WithRevocation(UserProfile)))) {
+export class UserProfileEntityORM extends UserProfile {
   @OneToMany(() => UserContactEntityORM, (contact: UserContactEntityORM) => contact.user)
   contacts?: UserContactEntityORM[];
 }

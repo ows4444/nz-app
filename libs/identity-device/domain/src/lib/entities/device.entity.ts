@@ -3,11 +3,20 @@ import { Bitwise, State } from '@nz/kernel';
 
 export interface IDeviceProps {
   id?: string;
-  deviceId: string;
+  deviceFingerprint: string;
+  deviceName: string;
+  deviceType: string;
+  osName: string;
+  osVersion: string;
+  browserName: string;
+  browserVersion: string;
   deviceInfo: string;
-  lastSeenAt: Date;
-  status: number;
+  status: Status;
   trustScore: number;
+  riskLevel: 'low' | 'medium' | 'high' | 'critical';
+  isTrusted: boolean;
+  firstSeenAt: Date;
+  lastSeenAt: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,11 +25,21 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
   private static readonly ALLOWED_STATUSES = Status.PENDING | Status.ACTIVE | Status.INACTIVE | Status.DELETED;
 
   public readonly id!: string;
-  public readonly deviceId: string;
-  public readonly deviceInfo: string;
+  public readonly deviceFingerprint: string;
+  public readonly deviceName: string;
+  public readonly deviceType: string;
+  public readonly osName: string;
+  public readonly osVersion: string;
+  public readonly browserName: string;
+  public readonly browserVersion: string;
 
-  private _lastSeenAt: Date;
+  private _riskLevel: 'low' | 'medium' | 'high' | 'critical';
+  private _isTrusted: boolean;
   private _trustScore: number;
+  private _deviceInfo: string;
+
+  public readonly firstSeenAt: Date;
+  private _lastSeenAt: Date;
 
   public readonly createdAt: Date;
   private _updatedAt: Date;
@@ -32,24 +51,50 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
     if (props.id !== undefined) {
       this.id = props.id;
     }
-    this.deviceId = props.deviceId;
-    this.deviceInfo = props.deviceInfo;
-
+    this.deviceFingerprint = props.deviceFingerprint;
+    this.deviceName = props.deviceName;
+    this.deviceType = props.deviceType;
+    this.osName = props.osName;
+    this.osVersion = props.osVersion;
+    this.browserName = props.browserName;
+    this.browserVersion = props.browserVersion;
+    this._deviceInfo = props.deviceInfo;
+    this._riskLevel = props.riskLevel;
+    this._isTrusted = props.isTrusted;
+    this.firstSeenAt = props.firstSeenAt;
+    this._lastSeenAt = props.lastSeenAt;
     this._trustScore = props.trustScore;
+    this.createdAt = props.createdAt;
+    this._updatedAt = props.updatedAt;
 
-    this._lastSeenAt = props.lastSeenAt ?? new Date();
-    this.createdAt = props.createdAt ?? new Date();
-    this._updatedAt = props.updatedAt ?? new Date();
     this.refreshStatusMessage();
   }
 
-  public static createNew(deviceId: string, deviceInfo: string): DeviceEntity {
+  public static createNew(
+    deviceFingerprint: string,
+    deviceName: string,
+    deviceType: string,
+    osName: string,
+    osVersion: string,
+    browserName: string,
+    browserVersion: string,
+    deviceInfo: string,
+  ): DeviceEntity {
     return new DeviceEntity({
-      deviceId,
+      deviceFingerprint,
+      deviceName,
+      deviceType,
+      osName,
+      osVersion,
+      browserName,
+      browserVersion,
       deviceInfo,
-      lastSeenAt: new Date(),
       status: Status.PENDING,
-      trustScore: 100,
+      trustScore: 0,
+      riskLevel: 'low',
+      isTrusted: false,
+      firstSeenAt: new Date(),
+      lastSeenAt: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -75,8 +120,20 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
     return this._statusMessage;
   }
 
+  get deviceInfo(): string {
+    return this._deviceInfo;
+  }
+
   get updatedAt(): Date {
     return this._updatedAt;
+  }
+
+  get riskLevel(): 'low' | 'medium' | 'high' | 'critical' {
+    return this._riskLevel;
+  }
+
+  get isTrusted(): boolean {
+    return this._isTrusted;
   }
 
   private static validateTransition(current: Status, next: Status): boolean {
@@ -115,6 +172,24 @@ export class DeviceEntity extends State.StatefulEntity<Status> {
       .filter((flag) => Bitwise.hasFlag(this.status, flag))
       .map((flag) => Status[flag])
       .join(' ');
+  }
+
+  /**
+   * Activate a pending or inactive device
+   */
+  public activate(): void {
+    this.transitionState(Status.ACTIVE);
+    this.touchUpdatedAt();
+    this.refreshStatusMessage();
+  }
+
+  /**
+   * Deactivate an active device
+   */
+  public deactivate(): void {
+    this.transitionState(Status.INACTIVE);
+    this.touchUpdatedAt();
+    this.refreshStatusMessage();
   }
 
   private touchUpdatedAt(): void {

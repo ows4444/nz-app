@@ -34,18 +34,6 @@
       "path": "./libs/shared/proto"
     },
     {
-      "path": "./libs/identity-device/domain"
-    },
-    {
-      "path": "./libs/identity-device/application"
-    },
-    {
-      "path": "./libs/identity-device/infrastructure"
-    },
-    {
-      "path": "./libs/identity-device/presentation"
-    },
-    {
       "path": "./libs/auth-session/infrastructure"
     },
     {
@@ -71,6 +59,18 @@
     },
     {
       "path": "./libs/shared/i18n"
+    },
+    {
+      "path": "./libs/user-device/infrastructure"
+    },
+    {
+      "path": "./libs/user-device/presentation"
+    },
+    {
+      "path": "./libs/user-device/application"
+    },
+    {
+      "path": "./libs/user-device/domain"
     }
   ]
 }

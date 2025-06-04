@@ -122,6 +122,10 @@
     "libs/identity-device/application",
     "libs/identity-device/infrastructure",
     "libs/identity-device/presentation",
-    "libs/shared/i18n"
+    "libs/shared/i18n",
+    "libs/user-device/domain",
+    "libs/user-device/application",
+    "libs/user-device/infrastructure",
+    "libs/user-device/presentation"
   ]
 }

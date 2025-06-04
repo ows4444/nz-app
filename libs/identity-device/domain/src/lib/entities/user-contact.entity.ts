@@ -1,21 +1,30 @@
 export interface IUserContactProps {
-  id?: number;
+  id?: string;
   userId: string;
+  tenantId?: string;
   type: 'email' | 'phone';
+  label: string;
   value: string;
-  isVerified: boolean;
-  isDefault: boolean;
+  verifiedFlag: boolean;
+  verifiedAt?: Date;
+  isPrimary: boolean;
+  countryCode: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export class UserContactEntity {
-  public readonly id!: number;
+  public readonly id!: string;
   public readonly userId: string;
+  public readonly tenantId?: string;
   public readonly type: 'email' | 'phone';
-  public readonly value: string;
-  private _isVerified: boolean;
-  private _isDefault: boolean;
+
+  private _label: string;
+  private _value: string;
+  private _verifiedFlag: boolean;
+  private _verifiedAt?: Date;
+  private _isPrimary: boolean;
+  private _countryCode: string;
 
   public readonly createdAt: Date;
   private _updatedAt: Date;
@@ -27,24 +36,31 @@ export class UserContactEntity {
 
     this.userId = props.userId;
     this.type = props.type;
-    this.value = props.value;
-    this._isVerified = props.isVerified;
-    this._isDefault = props.isDefault;
 
-    this.createdAt = props.createdAt ?? new Date();
-    this._updatedAt = props.updatedAt ?? new Date();
+    this._label = props.label;
+    this._value = props.value;
+    this._verifiedFlag = props.verifiedFlag;
+    this._verifiedAt = props.verifiedAt;
+    this._isPrimary = props.isPrimary;
+    this._countryCode = props.countryCode;
+
+    this.createdAt = props.createdAt;
+    this._updatedAt = props.updatedAt;
   }
 
   /**
    * Factory to create a new pending user
    */
-  public static createNew(userId: string, type: 'email' | 'phone', value: string): UserContactEntity {
+  public static createNew(userId: string, type: 'email' | 'phone', label: string, value: string, isPrimary: boolean, countryCode: string, tenantId?: string): UserContactEntity {
     return new UserContactEntity({
-      userId: userId,
+      userId,
       type,
       value,
-      isVerified: false,
-      isDefault: false,
+      countryCode,
+      label,
+      isPrimary,
+      tenantId,
+      verifiedFlag: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -59,31 +75,64 @@ export class UserContactEntity {
 
   // ----------------- Getters -----------------
 
-  get isVerified(): boolean {
-    return this._isVerified;
+  public get label(): string {
+    return this._label;
   }
 
-  get isDefault(): boolean {
-    return this._isDefault;
+  public get value(): string {
+    return this._value;
   }
 
-  get updatedAt(): Date {
+  public get verifiedFlag(): boolean {
+    return this._verifiedFlag;
+  }
+
+  public get verifiedAt(): Date | undefined {
+    return this._verifiedAt;
+  }
+
+  public get isPrimary(): boolean {
+    return this._isPrimary;
+  }
+
+  public get countryCode(): string {
+    return this._countryCode;
+  }
+
+  public get updatedAt(): Date {
     return this._updatedAt;
   }
 
   // --------------- Business Methods ---------------
 
-  public verify(): void {
-    this._isVerified = true;
+  public updateLabel(label: string): void {
+    this._label = label;
     this.touchUpdatedAt();
   }
 
-  public setDefault(): void {
-    this._isDefault = true;
+  public updateValue(value: string): void {
+    this._value = value;
     this.touchUpdatedAt();
   }
-  public unsetDefault(): void {
-    this._isDefault = false;
+
+  public verifyContact(): void {
+    this._verifiedFlag = true;
+    this._verifiedAt = new Date();
+    this.touchUpdatedAt();
+  }
+
+  public setPrimary(): void {
+    this._isPrimary = true;
+    this.touchUpdatedAt();
+  }
+
+  public unsetPrimary(): void {
+    this._isPrimary = false;
+    this.touchUpdatedAt();
+  }
+
+  public updateCountryCode(countryCode: string): void {
+    this._countryCode = countryCode;
     this.touchUpdatedAt();
   }
 

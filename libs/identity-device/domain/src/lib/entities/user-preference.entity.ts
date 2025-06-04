@@ -1,40 +1,49 @@
 export interface IUserPreferenceProps {
+  id?: string;
   userId: string;
-  key: string;
-  value: string;
-  source: string;
-  createdAt: Date;
+  tenantId?: string;
+  category: string;
+  preferenceKey: string;
+  preferenceValue: string;
+  dataType: string;
+  isEncrypted: boolean;
   updatedAt: Date;
 }
 
 export class UserPreferenceEntity {
-  public readonly id!: number;
+  public readonly id!: string;
+  public readonly tenantId?: string;
   public readonly userId: string;
-  private _key: string;
-  private _value: string;
-  private _source: string;
 
-  public readonly createdAt: Date;
+  private _category: string;
+  private _preferenceKey: string;
+  private _preferenceValue: string;
+  private _dataType: string;
+  private _isEncrypted: boolean;
   private _updatedAt: Date;
 
   private constructor(props: IUserPreferenceProps) {
     this.userId = props.userId;
-    this._key = props.key;
-    this._value = props.value;
+    this.tenantId = props.tenantId;
 
-    this._source = props.source;
+    this._category = props.category;
+    this._preferenceKey = props.preferenceKey;
+    this._preferenceValue = props.preferenceValue;
+    this._dataType = props.dataType;
+    this._isEncrypted = props.isEncrypted;
 
-    this.createdAt = props.createdAt ?? new Date();
-    this._updatedAt = props.updatedAt ?? new Date();
+    this._updatedAt = props.updatedAt;
   }
 
-  public static createNew(userId: string, key: string, value: string, source: string): UserPreferenceEntity {
+  public static createNew(userId: string, category: string, preferenceKey: string, preferenceValue: string, dataType: string, isEncrypted: boolean, tenantId?: string): UserPreferenceEntity {
     return new UserPreferenceEntity({
-      userId: userId,
-      key,
-      value,
-      source,
-      createdAt: new Date(),
+      userId,
+      tenantId,
+      category,
+      preferenceKey,
+      preferenceValue,
+      dataType,
+      isEncrypted,
       updatedAt: new Date(),
     });
   }
@@ -45,33 +54,48 @@ export class UserPreferenceEntity {
 
   // ----------------- Getters -----------------
 
-  get key(): string {
-    return this._key;
-  }
-  get source(): string {
-    return this._source;
+  public get category(): string {
+    return this._category;
   }
 
-  get value(): string {
-    return this._value;
+  public get preferenceKey(): string {
+    return this._preferenceKey;
   }
 
-  get updatedAt(): Date {
+  public get preferenceValue(): string {
+    return this._preferenceValue;
+  }
+
+  public get dataType(): string {
+    return this._dataType;
+  }
+
+  public get isEncrypted(): boolean {
+    return this._isEncrypted;
+  }
+
+  public get updatedAt(): Date {
     return this._updatedAt;
   }
 
   // --------------- Business Methods ---------------
 
-  public setValue(value: string): void {
-    this._value = value;
+  public updatePreferenceValue(newValue: string): void {
+    this._preferenceValue = newValue;
     this.touchUpdatedAt();
   }
-  public setSource(source: string): void {
-    this._source = source;
+  public updateCategory(newCategory: string): void {
+    this._category = newCategory;
     this.touchUpdatedAt();
   }
-  public setKey(key: string): void {
-    this._key = key;
+
+  public updatePreferenceKey(newKey: string): void {
+    this._preferenceKey = newKey;
+    this.touchUpdatedAt();
+  }
+
+  public updateDataType(newDataType: string): void {
+    this._dataType = newDataType;
     this.touchUpdatedAt();
   }
 

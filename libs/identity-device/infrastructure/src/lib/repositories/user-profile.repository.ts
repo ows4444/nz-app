@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Email, Username, UserProfileEntity } from '@nz/identity-device-domain';
+import { UserProfileEntity } from '@nz/identity-device-domain';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { UserProfileEntityORM } from '../entities';
 import { UserProfileMapper } from '../mappers';
@@ -17,23 +17,6 @@ export class TypeormUserProfileRepository {
 
   async findOneById(id: string, qr?: QueryRunner): Promise<UserProfileEntity | null> {
     const orm = await this.getRepository(qr).findOne({ where: { id } });
-    return orm ? UserProfileMapper.toDomain(orm) : null;
-  }
-
-  async findOneByEmailOrUsername(email: Email, username: Username, qr?: QueryRunner): Promise<UserProfileEntity | null> {
-    const orm = await this.getRepository(qr).findOne({
-      where: [{ email: email.getValue() }, { username: username.getValue() }],
-    });
-    return orm ? UserProfileMapper.toDomain(orm) : null;
-  }
-
-  async findOneByEmail(email: Email, qr?: QueryRunner): Promise<UserProfileEntity | null> {
-    const orm = await this.getRepository(qr).findOne({ where: { email: email.getValue() } });
-    return orm ? UserProfileMapper.toDomain(orm) : null;
-  }
-
-  async findOneByUsername(username: Username, qr?: QueryRunner): Promise<UserProfileEntity | null> {
-    const orm = await this.getRepository(qr).findOne({ where: { username: username.getValue() } });
     return orm ? UserProfileMapper.toDomain(orm) : null;
   }
 

@@ -16,8 +16,8 @@ export class TypeormUserPreferenceRepository {
     return queryRunner ? queryRunner.manager.getRepository(UserPreferenceEntityORM) : this.repository;
   }
 
-  async save(UserPreference: UserPreferenceEntity, qr?: QueryRunner): Promise<UserPreferenceEntity> {
-    const orm = UserPreferenceMapper.toPersistence(UserPreference);
+  async save(userPreference: UserPreferenceEntity, qr?: QueryRunner): Promise<UserPreferenceEntity> {
+    const orm = UserPreferenceMapper.toPersistence(userPreference);
     const saved = await this.getRepository(qr).save(orm);
     return UserPreferenceMapper.toDomain(saved);
   }

@@ -2,29 +2,31 @@ import { UserPreferenceEntity } from '@nz/identity-device-domain';
 import { UserPreferenceEntityORM } from '../entities';
 
 export class UserPreferenceMapper {
-  static toDomain(UserPreference: UserPreferenceEntityORM): UserPreferenceEntity {
+  static toDomain(userPreference: UserPreferenceEntityORM): UserPreferenceEntity {
     return UserPreferenceEntity.restore({
-      userId: UserPreference.userId,
-      key: UserPreference.key,
-
-      value: UserPreference.value,
-      source: UserPreference.source,
-
-      createdAt: UserPreference.createdAt,
-      updatedAt: UserPreference.updatedAt,
+      id: userPreference.id,
+      userId: userPreference.userId,
+      tenantId: userPreference.tenantId,
+      category: userPreference.category,
+      preferenceKey: userPreference.preferenceKey,
+      preferenceValue: userPreference.preferenceValue,
+      dataType: userPreference.dataType,
+      isEncrypted: userPreference.isEncrypted,
+      updatedAt: userPreference.updatedAt,
     });
   }
 
-  static toPersistence(UserPreference: UserPreferenceEntity): Partial<UserPreferenceEntityORM> {
+  static toPersistence(userPreference: UserPreferenceEntity): Partial<UserPreferenceEntityORM> {
     return {
-      userId: UserPreference.userId,
-      key: UserPreference.key,
-
-      value: UserPreference.value,
-      source: UserPreference.source,
-
-      createdAt: UserPreference.createdAt,
-      updatedAt: UserPreference.updatedAt,
+      id: userPreference.id,
+      userId: userPreference.userId,
+      tenantId: userPreference.tenantId,
+      category: userPreference.category,
+      preferenceKey: userPreference.preferenceKey,
+      preferenceValue: userPreference.preferenceValue,
+      dataType: userPreference.dataType,
+      isEncrypted: userPreference.isEncrypted,
+      updatedAt: userPreference.updatedAt,
     };
   }
 }

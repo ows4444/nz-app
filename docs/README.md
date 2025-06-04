@@ -46,19 +46,19 @@ This document outlines the database schemas for a distributed Identity and Acces
 ## Priority: HIGH - Essential for user management and device trust
 
 ### User Profiles & Preferences
-- [ ] **Table: `user_profiles` (extended user info)**
+- [x] **Table: `user_profiles` (extended user info)**
   - `user_id` (PK; FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `first_name`, `last_name`, `display_name`, `locale`, `timezone`, `avatar_url`, `bio`, `status`, `profile_visibility` (‘public’, ‘private’, ‘tenant_only’), `last_login_at`, `created_at`, `updated_at`
   - **Note:** `tenant_id = NULL` for global profile; non-null for tenant-scoped.
 
-- [ ] **Table: `user_preferences` (settings, locale)**
+- [x] **Table: `user_preferences` (settings, locale)**
   - `preference_id` (PK), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `category` (NOT NULL), `preference_key` (NOT NULL), `preference_value` (JSON or TEXT, NOT NULL), `data_type` (‘string’, ‘number’, ‘boolean’, ‘json’), `is_encrypted` (BOOLEAN, DEFAULT FALSE), `updated_at`, `UNIQUE(user_id, tenant_id, preference_key)`
 
 ### Contact Information
-- [ ] **Table: `user_contacts` (email, phone verification)**
+- [x] **Table: `user_contacts` (email, phone verification)**
   - `contact_id` (PK), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `type` (‘email’, ‘phone’, ‘address’), `label` (‘primary’, ‘work’, ‘home’), `value` (NOT NULL), `verified_flag` (BOOLEAN, DEFAULT FALSE), `verified_at`, `is_primary` (BOOLEAN, DEFAULT FALSE), `country_code`, `created_at`, `updated_at`, `INDEX(user_id, type)`
   - **Note:** Enforce one `is_primary = TRUE` per `(user_id, type)` via partial unique index.
 
-- [ ] **Table: `contact_verifications` (OTP, verification tokens)**
+- [x] **Table: `contact_verifications` (OTP, verification tokens)**
   - `verification_id` (PK), `contact_id` (FK → `user_contacts.contact_id`), `purpose` (‘registration’, ‘password_reset’, ‘mfa’, ‘contact_change’), `token_hash` (UNIQUE, NOT NULL), `code` (encrypted or hashed), `delivery_method` (‘email’, ‘sms’), `expires_at` (NOT NULL), `used_flag` (BOOLEAN, DEFAULT FALSE), `used_at`, `attempts_count` (INT, DEFAULT 0), `max_attempts` (INT, DEFAULT 5), `requested_at` (NOT NULL), `ip_address`, `user_agent`, `INDEX(token_hash), INDEX(contact_id, purpose)`
 
 ### Device Management

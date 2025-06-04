@@ -2,29 +2,47 @@ import { WithCreated, WithExpiration, WithRequested, WithUpdated, WithUsed } fro
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 class ContactVerification extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
+  @PrimaryGeneratedColumn('uuid', { name: 'verification_id' })
   id!: number;
 
-  @Column({ type: 'uuid', length: 36 })
+  @Column({ type: 'uuid', length: 36, name: 'contact_id' })
   contactId!: string;
 
   @Column()
   purpose!: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, name: 'token_hash' })
   tokenHash!: string;
 
   @Column()
   code!: string;
 
-  @Column()
+  @Column({ type: 'enum', enum: ['sms', 'email'], name: 'delivery_method' })
+  deliveryMethod!: 'sms' | 'email';
+
+  @Column({ type: 'timestamp', name: 'expires_at' })
+  expiresAt!: Date;
+
+  @Column({ type: 'boolean', default: false, name: 'used_flag' })
+  usedFlag!: boolean;
+
+  @Column({ type: 'timestamp', name: 'used_at', nullable: true })
+  usedAt?: Date;
+
+  @Column({ type: 'int', name: 'attempts_count', default: 0 })
+  attemptsCount!: number;
+
+  @Column({ type: 'int', name: 'max_attempts' })
+  maxAttempts!: number;
+
+  @Column({ type: 'timestamp', name: 'requested_at' })
+  requestedAt!: Date;
+
+  @Column({ type: 'varchar', length: 255, name: 'ip_address' })
   ipAddress!: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, name: 'user_agent' })
   userAgent!: string;
-
-  @Column({ type: 'boolean', default: false })
-  usedFlag!: boolean;
 }
 
 @Entity({ name: 'contact_verifications' })

@@ -1,16 +1,19 @@
 import { UserContactEntity } from '@nz/identity-device-domain';
-import { UserContactEntityORM, UserProfileEntityORM } from '../entities';
+import { UserContactEntityORM } from '../entities';
 
 export class UserContactMapper {
   static toDomain(userContact: UserContactEntityORM): UserContactEntity {
     return UserContactEntity.restore({
       id: userContact.id,
-      userId: userContact.user.id,
+      userId: userContact.userId,
+      tenantId: userContact.tenantId,
       type: userContact.type,
+      label: userContact.label,
       value: userContact.value,
-      isVerified: userContact.isVerified,
-      isDefault: userContact.isDefault,
-
+      verifiedFlag: userContact.verifiedFlag,
+      verifiedAt: userContact.verifiedAt,
+      isPrimary: userContact.isPrimary,
+      countryCode: userContact.countryCode,
       createdAt: userContact.createdAt,
       updatedAt: userContact.updatedAt,
     });
@@ -19,12 +22,15 @@ export class UserContactMapper {
   static toPersistence(userContact: UserContactEntity): Partial<UserContactEntityORM> {
     return {
       id: userContact.id,
-      user: { id: userContact.userId } as UserProfileEntityORM,
+      userId: userContact.userId,
+      tenantId: userContact.tenantId,
       type: userContact.type,
+      label: userContact.label,
       value: userContact.value,
-      isVerified: userContact.isVerified,
-      isDefault: userContact.isDefault,
-
+      verifiedFlag: userContact.verifiedFlag,
+      verifiedAt: userContact.verifiedAt,
+      isPrimary: userContact.isPrimary,
+      countryCode: userContact.countryCode,
       createdAt: userContact.createdAt,
       updatedAt: userContact.updatedAt,
     };

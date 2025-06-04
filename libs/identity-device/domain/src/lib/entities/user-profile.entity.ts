@@ -1,46 +1,40 @@
 import { Status } from '@nz/const';
 import { Bitwise, State } from '@nz/kernel';
-import { Email, Username } from '../value-objects';
 
 export interface IUserProfileProps {
   id?: string;
-  username: Username;
-  email: Email;
-
+  tenantId?: string;
   firstName: string;
   lastName: string;
-
   displayName: string;
-
-  avatar: string;
   locale: string;
+  timezone: string;
+  avatarUrl: string;
+  bio: string;
   status: Status;
-  deletedAt?: Date;
-  suspendedAt?: Date;
-  suspendedUntil?: Date;
-
+  profileVisibility: string;
+  lastLoginAt: Date;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export class UserProfileEntity extends State.StatefulEntity<Status> {
-  private static readonly ALLOWED_STATUSES = Status.PENDING | Status.ACTIVE | Status.INACTIVE | Status.SUSPENDED | Status.DELETED;
+  private static readonly ALLOWED_STATUSES = Status.PENDING | Status.ACTIVE | Status.INACTIVE | Status.DELETED;
   public readonly id!: string;
-  private _username: Username;
-  private _email: Email;
+  public readonly tenantId?: string;
+
   private _firstName: string;
   private _lastName: string;
-
   private _displayName: string;
-  private _avatar: string;
   private _locale: string;
+  private _timezone: string;
+  private _avatarUrl: string;
+  private _bio: string;
+  private _profileVisibility: string;
+  private _lastLoginAt: Date;
 
   public readonly createdAt: Date;
   private _updatedAt: Date;
-
-  private _deletedAt?: Date;
-  private _suspendedAt?: Date;
-  private _suspendedUntil?: Date;
 
   private _statusMessage = '';
 
@@ -49,22 +43,20 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
     if (props.id !== undefined) {
       this.id = props.id;
     }
+    this.tenantId = props.tenantId;
 
-    this._username = props.username;
-    this._email = props.email;
     this._firstName = props.firstName;
     this._lastName = props.lastName;
     this._displayName = props.displayName;
-    this._avatar = props.avatar;
     this._locale = props.locale;
+    this._timezone = props.timezone;
+    this._avatarUrl = props.avatarUrl;
+    this._bio = props.bio;
+    this._profileVisibility = props.profileVisibility;
+    this._lastLoginAt = props.lastLoginAt;
 
-    this.createdAt = props.createdAt ?? new Date();
-    this._updatedAt = props.updatedAt ?? new Date();
-
-    this._deletedAt = props.deletedAt;
-
-    this._suspendedAt = props.suspendedAt;
-    this._suspendedUntil = props.suspendedUntil;
+    this.createdAt = props.createdAt;
+    this._updatedAt = props.updatedAt;
 
     this.refreshStatusMessage();
   }
@@ -72,16 +64,19 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
   /**
    * Factory to create a new pending user
    */
-  public static register(username: Username, email: Email, firstName = '', lastName = '', locale = 'EN_en'): UserProfileEntity {
+  public static register(firstName: string, lastName: string, locale = 'EN_en', timezone = '', bio = '', tenantId?: string): UserProfileEntity {
     return new UserProfileEntity({
-      username,
-      email,
+      tenantId,
       firstName,
       lastName,
       status: Status.PENDING,
       displayName: [firstName, lastName].filter(Boolean).join(' '),
-      avatar: '',
-      locale: locale,
+      locale,
+      timezone,
+      avatarUrl: '',
+      bio,
+      profileVisibility: 'public',
+      lastLoginAt: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -95,13 +90,6 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
   }
 
   // ----------------- Getters -----------------
-  get username(): string {
-    return this._username.getValue();
-  }
-
-  get email(): string {
-    return this._email.getValue();
-  }
 
   get firstName(): string {
     return this._firstName;
@@ -119,32 +107,35 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
     return `${this._firstName} ${this._lastName}`;
   }
 
-  get avatar(): string {
-    return this._avatar;
-  }
-
   get locale(): string {
     return this._locale;
+  }
+
+  get timezone(): string {
+    return this._timezone;
   }
 
   get status(): Status {
     return this.getState();
   }
 
+  get avatarUrl(): string {
+    return this._avatarUrl;
+  }
+  get bio(): string {
+    return this._bio;
+  }
+
+  get profileVisibility(): string {
+    return this._profileVisibility;
+  }
+
+  get lastLoginAt(): Date {
+    return this._lastLoginAt;
+  }
+
   get statusMessage(): string {
     return this._statusMessage;
-  }
-
-  get deletedAt(): Date | undefined {
-    return this._deletedAt;
-  }
-
-  get suspendedAt(): Date | undefined {
-    return this._suspendedAt;
-  }
-
-  get suspendedUntil(): Date | undefined {
-    return this._suspendedUntil;
   }
 
   get updatedAt(): Date {
@@ -164,7 +155,6 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
    */
   public activate(): void {
     this.transitionState(Status.ACTIVE);
-    this.clearSuspension();
     this.touchUpdatedAt();
     this.refreshStatusMessage();
   }
@@ -174,47 +164,6 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
    */
   public deactivate(): void {
     this.transitionState(Status.INACTIVE);
-    this.touchUpdatedAt();
-    this.refreshStatusMessage();
-  }
-  /**
-   * Suspend (temporarily revoke) a user for specified days
-   */
-  public suspend(days = 30): void {
-    this.transitionState(Status.SUSPENDED);
-    this._suspendedAt = new Date();
-    this._suspendedUntil = new Date(Date.now() + days * 86400000);
-    this.touchUpdatedAt();
-    this.refreshStatusMessage();
-  }
-
-  /**
-   * Unsuspend (reactivate) a suspended user
-   */
-  public unsuspend(): void {
-    this.transitionState(Status.ACTIVE);
-    this.clearSuspension();
-    this.touchUpdatedAt();
-    this.refreshStatusMessage();
-  }
-
-  /**
-   * Permanently mark user as deleted
-   */
-  public delete(): void {
-    this.transitionState(Status.DELETED);
-    this._deletedAt = new Date();
-    this.touchUpdatedAt();
-    this.refreshStatusMessage();
-  }
-
-  /**
-   * Restore a user from deleted state
-   */
-  public restore(): void {
-    if (this._deletedAt == null) throw new Error('User is not deleted');
-    this.transitionState(Status.ACTIVE);
-    this._deletedAt = undefined;
     this.touchUpdatedAt();
     this.refreshStatusMessage();
   }
@@ -251,14 +200,6 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
   // --------------- Business Methods ---------------
 
   /**
-   * Update username
-   */
-  public updateUsername(newUsername: string): void {
-    this._username = Username.create(newUsername);
-    this.touchUpdatedAt();
-  }
-
-  /**
    * Update first name
    */
   public updateFirstName(newFirstName: string): void {
@@ -285,8 +226,8 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
   /**
    * Update avatar
    */
-  public updateAvatar(newAvatar: string): void {
-    this._avatar = newAvatar;
+  public updateAvatar(avatarUrl: string): void {
+    this._avatarUrl = avatarUrl;
     this.touchUpdatedAt();
   }
 
@@ -296,21 +237,6 @@ export class UserProfileEntity extends State.StatefulEntity<Status> {
   public updateLocale(newLocale: string): void {
     this._locale = newLocale;
     this.touchUpdatedAt();
-  }
-
-  /**
-   * Update email and mark as unverified
-   */
-  public updateEmail(newEmail: string): void {
-    this._email = Email.create(newEmail);
-    this.touchUpdatedAt();
-  }
-
-  private clearSuspension(): void {
-    this._suspendedAt = undefined;
-    this._suspendedUntil = undefined;
-    this.touchUpdatedAt();
-    this.refreshStatusMessage();
   }
 
   private refreshStatusMessage(): void {

@@ -1,21 +1,21 @@
-import { Email, Username, UserProfileEntity } from '@nz/identity-device-domain';
+import { UserProfileEntity } from '@nz/identity-device-domain';
 import { UserProfileEntityORM } from '../entities';
 
 export class UserProfileMapper {
   static toDomain(user: UserProfileEntityORM): UserProfileEntity {
     return UserProfileEntity.restore({
       id: user.id,
-      email: Email.create(user.email),
-      username: Username.create(user.username),
+      tenantId: user.tenantId,
       firstName: user.firstName,
       lastName: user.lastName,
       displayName: user.displayName,
-      status: user.status,
-      deletedAt: user.deletedAt,
-      suspendedAt: user.revokedAt,
-      suspendedUntil: user.revokedUntil,
-      avatar: user.avatar,
       locale: user.locale,
+      timezone: user.timezone,
+      avatarUrl: user.avatarUrl,
+      bio: user.bio,
+      status: user.status,
+      profileVisibility: user.profileVisibility,
+      lastLoginAt: user.lastLoginAt,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     });
@@ -24,17 +24,17 @@ export class UserProfileMapper {
   static toPersistence(user: UserProfileEntity): Partial<UserProfileEntityORM> {
     return {
       id: user.id,
-      email: user.email,
-      username: user.username,
+      tenantId: user.tenantId,
       firstName: user.firstName,
       lastName: user.lastName,
       displayName: user.displayName,
-      avatar: user.avatar,
       locale: user.locale,
+      timezone: user.timezone,
+      avatarUrl: user.avatarUrl,
+      bio: user.bio,
       status: user.status,
-      deletedAt: user.deletedAt,
-      revokedAt: user.suspendedAt,
-      revokedUntil: user.suspendedUntil,
+      profileVisibility: user.profileVisibility,
+      lastLoginAt: user.lastLoginAt,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };

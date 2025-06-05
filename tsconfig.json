@@ -71,6 +71,9 @@
     },
     {
       "path": "./apps/user-device-service"
+    },
+    {
+      "path": "./libs/shared/domain"
     }
   ]
 }

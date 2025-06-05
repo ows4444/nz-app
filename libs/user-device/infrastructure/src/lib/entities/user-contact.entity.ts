@@ -1,4 +1,3 @@
-import { WithCreated, WithUpdated } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { UserProfileEntityORM } from './user-profile.entity';
 
@@ -41,7 +40,7 @@ class UserContact extends BaseEntity {
 }
 
 @Entity({ name: 'user_contacts' })
-export class UserContactEntityORM extends WithUpdated(WithCreated(UserContact)) {
+export class UserContactEntityORM extends UserContact {
   @ManyToOne(() => UserProfileEntityORM, (user: UserProfileEntityORM) => user.contacts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user!: UserProfileEntityORM;

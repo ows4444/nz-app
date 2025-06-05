@@ -1,4 +1,3 @@
-import { WithCreated, WithUpdated } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 class UserPreference extends BaseEntity {
@@ -31,4 +30,4 @@ class UserPreference extends BaseEntity {
 }
 
 @Entity({ name: 'user_preferences' })
-export class UserPreferenceEntityORM extends WithUpdated(WithCreated(UserPreference)) {}
+export class UserPreferenceEntityORM extends UserPreference {}

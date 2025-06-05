@@ -1,4 +1,3 @@
-import { WithExpiration } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntityORM } from './user.entity';
 
@@ -40,7 +39,7 @@ class PasswordReset extends BaseEntity {
 @Index('IDX_TOKEN_HASH', ['tokenHash'])
 @Index('IDX_USER_EXPIRES', ['userId', 'expiresAt'])
 @Entity({ name: 'password_resets' })
-export class PasswordResetEntityORM extends WithExpiration(PasswordReset) {
+export class PasswordResetEntityORM extends PasswordReset {
   @ManyToOne(() => UserEntityORM, (user: UserEntityORM) => user.passwordResets, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user!: UserEntityORM;

@@ -1,4 +1,4 @@
-import { StringColumn, WithCreated } from '@nz/shared-infrastructure';
+import { StringColumn } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 class UserSession extends BaseEntity {
@@ -45,4 +45,4 @@ class UserSession extends BaseEntity {
 @Index('IDX_USER_SESSION_USER_ID_IS_ACTIVE', ['userId', 'isActive'])
 @Index('IDX_USER_SESSION_SESSION_TOKEN_HASH', ['sessionTokenHash'])
 @Entity({ name: 'device_sessions' })
-export class UserSessionEntityORM extends WithCreated(UserSession) {}
+export class UserSessionEntityORM extends UserSession {}

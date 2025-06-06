@@ -3,7 +3,7 @@ export class Username {
 
   public static create(username: string): Username {
     if (!this.isValid(username)) {
-      throw new Error('Invalid username: must be 3–20 characters, alphanumeric or underscore.');
+      throw new Error('Invalid username: must be 3-20 characters, alphanumeric or underscore.');
     }
 
     return new Username(username.toLowerCase()); // normalize if needed

@@ -4,24 +4,6 @@
   "include": [],
   "references": [
     {
-      "path": "../presentation"
-    },
-    {
-      "path": "../infrastructure"
-    },
-    {
-      "path": "../domain"
-    },
-    {
-      "path": "../../shared/proto"
-    },
-    {
-      "path": "../../shared/infrastructure"
-    },
-    {
-      "path": "../../shared/i18n"
-    },
-    {
       "path": "./tsconfig.lib.json"
     },
     {

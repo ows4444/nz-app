@@ -1,3 +1,3 @@
-import { RegisterCredentialHandler } from './register-credential.handler';
+import { RegisterHandler } from './register.handler';
 
-export const AuthSessionCommandHandlers = [RegisterCredentialHandler];
+export const AuthSessionCommandHandlers = [RegisterHandler];

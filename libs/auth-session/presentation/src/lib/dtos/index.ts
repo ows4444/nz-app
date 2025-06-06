@@ -17,7 +17,7 @@ export class LoginByUsernameDto implements authSession.LoginByUsernameRequest {
   password!: string;
 }
 
-export class RegisterRequestDto implements authSession.RegisterRequest {
+export class RegisterDto implements authSession.RegisterRequest {
   @ApiProperty({ example: 'fname' })
   firstName!: string;
 

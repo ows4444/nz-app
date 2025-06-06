@@ -19,7 +19,7 @@ export interface IOutboxEventProps {
   }>;
 
   requiresOrdering: boolean;
-  sequenceNumber: number;
+  sequenceNumber?: number;
 
   payloadSchemaVersion?: string;
   status: 'pending' | 'processing' | 'processed' | 'failed' | 'dead_letter' | 'retrying';
@@ -57,7 +57,7 @@ export class OutboxEventEntity {
   public readonly payload!: Record<string, unknown>;
 
   public readonly requiresOrdering!: boolean;
-  public readonly sequenceNumber!: number;
+  public readonly sequenceNumber?: number;
 
   public readonly payloadSchemaVersion?: string;
   public readonly maxRetryAttempts!: number;

@@ -4,7 +4,7 @@ class Device extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'device_id' })
   id!: string;
 
-  @Column({ type: 'varchar', length: 36, nullable: true, name: 'device_fingerprint' })
+  @Column({ type: 'varchar', nullable: true, name: 'device_fingerprint' })
   deviceFingerprint!: string;
 
   @Column({ type: 'varchar', length: 64, nullable: false, name: 'device_name' })
@@ -46,10 +46,10 @@ class Device extends BaseEntity {
   @Column({ type: 'timestamp', nullable: true, name: 'last_seen_at' })
   lastSeenAt!: Date;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  @CreateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'created_at' })
   createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
+  @UpdateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'updated_at' })
   updatedAt!: Date;
 }
 

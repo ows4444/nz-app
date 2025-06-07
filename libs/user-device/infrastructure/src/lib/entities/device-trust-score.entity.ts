@@ -4,13 +4,13 @@ class DeviceTrustScore extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'score_id' })
   id!: string;
 
-  @Column({ type: 'uuid', length: 36, name: 'device_id' })
+  @Column({ type: 'uuid', name: 'device_id' })
   deviceId!: string;
 
-  @Column({ type: 'uuid', length: 36, name: 'user_id' })
+  @Column({ type: 'uuid', name: 'user_id' })
   userId!: string;
 
-  @Column({ type: 'uuid', length: 36, nullable: true, name: 'tenant_id' })
+  @Column({ type: 'uuid', nullable: true, name: 'tenant_id' })
   tenantId?: string;
 
   @Column({ type: 'smallint', unsigned: true, default: 100, name: 'trust_score' })
@@ -31,10 +31,10 @@ class DeviceTrustScore extends BaseEntity {
   @Column({ type: 'timestamp', name: 'expires_at' })
   expiresAt!: Date;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  @CreateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'created_at' })
   createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
+  @UpdateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'updated_at' })
   updatedAt!: Date;
 }
 

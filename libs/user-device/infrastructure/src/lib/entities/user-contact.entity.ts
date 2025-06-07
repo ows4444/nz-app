@@ -5,10 +5,10 @@ class UserContact extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'contact_id' })
   id!: string;
 
-  @Column({ type: 'uuid', length: 36, name: 'user_id' })
+  @Column({ type: 'uuid', name: 'user_id' })
   userId!: string;
 
-  @Column({ type: 'uuid', length: 36, nullable: true, name: 'tenant_id' })
+  @Column({ type: 'uuid', nullable: true, name: 'tenant_id' })
   tenantId?: string;
 
   @Column({ type: 'enum', enum: ['email', 'phone'] })
@@ -32,10 +32,10 @@ class UserContact extends BaseEntity {
   @Column({ type: 'varchar', length: 8, nullable: true, name: 'country_code' })
   countryCode!: string;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  @CreateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'created_at' })
   createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
+  @UpdateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'updated_at' })
   updatedAt!: Date;
 }
 

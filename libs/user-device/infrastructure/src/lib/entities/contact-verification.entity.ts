@@ -4,7 +4,7 @@ class ContactVerification extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'verification_id' })
   id!: number;
 
-  @Column({ type: 'uuid', length: 36, name: 'contact_id' })
+  @Column({ type: 'uuid', name: 'contact_id' })
   contactId!: string;
 
   @Column()

@@ -44,10 +44,10 @@ class User extends BaseEntity {
   @Column({ type: 'timestamp', nullable: true, name: 'phone_verified_at' })
   phoneVerifiedAt!: Date;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  @CreateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'created_at' })
   createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
+  @UpdateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'updated_at' })
   updatedAt!: Date;
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true, name: 'deleted_at' })

@@ -4,13 +4,13 @@ class DeviceSession extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'session_id' })
   id!: string;
 
-  @Column({ type: 'uuid', length: 36, name: 'device_id' })
+  @Column({ type: 'uuid', name: 'device_id' })
   deviceId!: string;
 
-  @Column({ type: 'uuid', length: 36, name: 'user_id' })
+  @Column({ type: 'uuid', name: 'user_id' })
   userId!: string;
 
-  @Column({ type: 'uuid', length: 36, nullable: true, name: 'tenant_id' })
+  @Column({ type: 'uuid', nullable: true, name: 'tenant_id' })
   tenantId?: string;
 
   @Column({ type: 'boolean', default: true, name: 'active_flag' })

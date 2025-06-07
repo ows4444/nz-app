@@ -1,8 +1,8 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, OneToOne, UpdateDateColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { UserEntityORM } from './user.entity';
 
 class UserCredential extends BaseEntity {
-  @Column({ type: 'uuid', length: 36, name: 'user_id' })
+  @PrimaryColumn({ type: 'uuid', name: 'user_id' })
   userId!: string;
 
   @Column({ type: 'varchar', length: 255, name: 'password_hash' })
@@ -23,10 +23,10 @@ class UserCredential extends BaseEntity {
   @Column({ type: 'timestamp', nullable: true, name: 'last_password_changed_at' })
   lastPasswordChangedAt?: Date;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  @CreateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'created_at' })
   createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
+  @UpdateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'updated_at' })
   updatedAt!: Date;
 }
 

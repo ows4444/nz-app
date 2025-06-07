@@ -5,7 +5,7 @@ class UserPasswordHistory extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true, name: 'history_id' })
   id!: number;
 
-  @Column({ type: 'uuid', length: 36, name: 'user_id' })
+  @Column({ type: 'uuid', name: 'user_id' })
   userId!: string;
 
   @Column({ name: 'password_hash' })
@@ -20,7 +20,7 @@ class UserPasswordHistory extends BaseEntity {
   @Column({ name: 'pepper_version' })
   pepperVersion!: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'changed_at' })
+  @Column({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'changed_at' })
   changedAt!: Date;
 }
 

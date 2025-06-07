@@ -5,19 +5,42 @@
 // source: user-device.proto
 
 /* eslint-disable */
+import { Metadata } from '@grpc/grpc-js';
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
 export const protobufPackage = 'userDevice';
 
+export interface UserDeviceRequest {
+  userId: string;
+}
+
+export interface UserDeviceResponse {
+  userId: string;
+  deviceId: string;
+  /** e.g., "mobile", "desktop", "tablet" */
+  deviceType: string;
+  /** e.g., "iOS 14.4", "Android 11" */
+  osVersion: string;
+  /** e.g., "1.0.0" */
+  appVersion: string;
+  /** ISO 8601 format */
+  lastActiveTime: string;
+}
+
 export const USER_DEVICE_PACKAGE_NAME = 'userDevice';
 
-export interface UserServiceClient {}
+export interface UserServiceClient {
+  getUserDeviceInfo(request: UserDeviceRequest, metadata?: Metadata): Observable<UserDeviceResponse>;
+}
 
-export interface UserServiceController {}
+export interface UserServiceController {
+  getUserDeviceInfo(request: UserDeviceRequest, metadata?: Metadata): Promise<UserDeviceResponse> | Observable<UserDeviceResponse> | UserDeviceResponse;
+}
 
 export function UserServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = [];
+    const grpcMethods: string[] = ['getUserDeviceInfo'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod('UserService', method)(constructor.prototype[method], method, descriptor);
@@ -31,24 +54,3 @@ export function UserServiceControllerMethods() {
 }
 
 export const USER_SERVICE_NAME = 'UserService';
-
-export interface DeviceServiceClient {}
-
-export interface DeviceServiceController {}
-
-export function DeviceServiceControllerMethods() {
-  return function (constructor: Function) {
-    const grpcMethods: string[] = [];
-    for (const method of grpcMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod('DeviceService', method)(constructor.prototype[method], method, descriptor);
-    }
-    const grpcStreamMethods: string[] = [];
-    for (const method of grpcStreamMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod('DeviceService', method)(constructor.prototype[method], method, descriptor);
-    }
-  };
-}
-
-export const DEVICE_SERVICE_NAME = 'DeviceService';

@@ -1,31 +1,25 @@
-import { BaseEntity, Column, CreateDateColumn, Index, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 export abstract class BaseEvent extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'event_id' })
   id!: string;
 
   @Column({ type: 'uuid', nullable: true, name: 'source_tenant_id' })
-  @Index('idx_source_tenant')
   sourceTenantId?: string;
 
   @Column({ type: 'uuid', nullable: true, name: 'target_tenant_id' })
-  @Index('idx_target_tenant')
   targetTenantId?: string;
 
   @Column({ type: 'varchar', length: 20, name: 'event_scope', default: 'tenant' })
-  @Index('idx_event_scope')
   eventScope!: 'tenant' | 'global' | 'cross-tenant';
 
   @Column({ type: 'varchar', length: 100, name: 'aggregate_type' })
-  @Index('idx_aggregate_type')
   aggregateType!: string;
 
   @Column({ type: 'uuid', name: 'aggregate_id' })
-  @Index('idx_aggregate_id')
   aggregateId!: string;
 
   @Column({ type: 'varchar', length: 100, name: 'event_type' })
-  @Index('idx_event_type')
   eventType!: string;
 
   @Column({ type: 'varchar', length: 50, name: 'event_version', default: '1.0' })
@@ -38,7 +32,6 @@ export abstract class BaseEvent extends BaseEntity {
   payloadSchemaVersion?: string;
 
   @Column({ type: 'varchar', length: 20, default: 'pending' })
-  @Index('idx_status')
   status!: 'pending' | 'processing' | 'processed' | 'failed' | 'dead_letter' | 'retrying';
 
   @Column({ type: 'int', default: 0, name: 'processing_attempts' })
@@ -60,15 +53,12 @@ export abstract class BaseEvent extends BaseEntity {
   errorDetails?: Record<string, unknown>;
 
   @Column({ type: 'int', default: 5, name: 'priority' })
-  @Index('idx_priority')
   priority!: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'available_at' })
-  @Index('idx_available_at')
+  @Column({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'available_at' })
   availableAt!: Date;
 
   @Column({ type: 'timestamp', nullable: true, name: 'expires_at' })
-  @Index('idx_expires_at')
   expiresAt?: Date;
 
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'processor_id' })
@@ -81,14 +71,12 @@ export abstract class BaseEvent extends BaseEntity {
   processedAt?: Date;
 
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'correlation_id' })
-  @Index('idx_correlation_id')
   correlationId?: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'causation_id' })
   causationId?: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'message_id' })
-  @Index('idx_message_id')
   messageId?: string;
 
   @Column({ type: 'jsonb', nullable: true })

@@ -4,10 +4,10 @@ class UserPreference extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint', name: 'preference_id' })
   id!: string;
 
-  @Column({ type: 'uuid', length: 36, nullable: false, name: 'user_id' })
+  @Column({ type: 'uuid', nullable: false, name: 'user_id' })
   userId!: string;
 
-  @Column({ type: 'uuid', length: 36, nullable: true, name: 'tenant_id' })
+  @Column({ type: 'uuid', nullable: true, name: 'tenant_id' })
   tenantId?: string;
 
   @Column({ type: 'varchar', length: 64, nullable: false })
@@ -25,7 +25,7 @@ class UserPreference extends BaseEntity {
   @Column({ type: 'boolean', default: false, name: 'is_encrypted' })
   isEncrypted!: boolean;
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
+  @UpdateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'updated_at' })
   updatedAt!: Date;
 }
 

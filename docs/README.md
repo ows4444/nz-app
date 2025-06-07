@@ -748,3 +748,49 @@ This document outlines the database schemas for a distributed Identity and Acces
 ### Usage Metrics
 - [ ] **Table: `usage_metrics`**
   - `metric_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `resource_type` (‘doc’, ‘sdk’, ‘tutorial’, ‘forum’, ‘ticket’), `resource_id` (NOT NULL), `user_id` (FK → `auth-session-db.users.user_id`), `action` (‘view’, ‘download’, ‘like’, ‘comment’, ‘open_ticket’), `timestamp` (TIMESTAMP, NOT NULL), `INDEX(resource_type, timestamp), INDEX(user_id)`
+  
+---
+
+# 27. Event Routing, Subscription & Metrics Service (`event-esm-db`)
+## Priority: HIGH – Core for event‐driven orchestration across all services
+
+### Event Routing Rules
+- [ ] **Table: `event_routing_rules`**
+  - `id` (PK, UUID), `rule_name` (VARCHAR(100), NOT NULL),`source_tenant_id` (UUID, NULLABLE; FK → `tenants.tenant_id`), `event_type` (VARCHAR(100), NOT NULL), `routing_condition` (TEXT, NOT NULL) – JSONLogic or expression that determines target tenants, `target_tenants` (UUID[] ARRAY, NOT NULL) – List of tenant IDs to route to,`is_active` (BOOLEAN, DEFAULT TRUE), `priority` (INT, DEFAULT 1),`created_at` (TIMESTAMP, DEFAULT NOW())
+  - **Note:**  
+    - `source_tenant_id = NULL` implies a global rule.  
+    - Used at publish time: “Which tenant‐queue(s) should receive this event?”  
+
+---
+
+### Event Subscriptions
+- [ ] **Table: `event_subscriptions`**
+  - `subscription_id` (PK, UUID), `tenant_id` (UUID, NULLABLE; FK → `tenants.tenant_id`) – if NULL, treated as a global subscription, `event_type` (VARCHAR(100), NOT NULL), `event_scope` (VARCHAR(20), NOT NULL CHECK IN ('tenant','global','cross-tenant')), `subscriber_service` (VARCHAR(100), NOT NULL) – e.g. “analytics-service”, “notification-service”, `filter_expression` (VARCHAR(200), NULLABLE) – optional JSONLogic or SQL‐like filter to narrow incoming events, `is_active` (BOOLEAN, DEFAULT TRUE), `priority` (INT, DEFAULT 5), `created_at` (TIMESTAMP, DEFAULT NOW()), `updated_at` (TIMESTAMP, DEFAULT NOW())
+  - **Note:**  
+    - At publish time, the publisher will query this table to answer “Which services have registered for `<event_type>` in `<tenant_id>`?”  
+    - `tenant_id = NULL` means any tenant can subscribe globally.
+
+---
+
+### Event Processing Metrics
+- [ ] **Table: `event_processing_metrics`**,
+  - `id` (PK, UUID), `tenant_id` (UUID, NULLABLE; FK → `tenants.tenant_id`) – aggregate counts per tenant; NULL for global aggregates, `event_type` (VARCHAR(100), NOT NULL), `event_source` (VARCHAR(20), NOT NULL CHECK IN ('inbox','outbox')), `date_hour` (TIMESTAMP, NOT NULL) – truncated to the hour for aggregation, `total_events` (INT, DEFAULT 0), `processed_events` (INT, DEFAULT 0), `failed_events` (INT, DEFAULT 0), `avg_processing_time_ms` (DECIMAL(10,2), NULLABLE), `created_at` (TIMESTAMP, DEFAULT NOW()), `updated_at` (TIMESTAMP, DEFAULT NOW())
+  - **Note:**  
+    - Ingested via a lightweight producer (publishers and consumers emit “metric ticks”).  
+    - Enables cross‐service dashboards (e.g. “Auth vs. RBAC event failure rates by hour”).  
+
+---
+
+# Dead‐Letter Service (`event-deadletter-db`)
+## Priority: HIGH – Essential for guaranteed‐delivery and manual reprocessing
+
+### Dead Letter Events
+- [ ] **Table: `dead_letter_events`**
+  - **Inherited from BaseEvent**:
+  - `event_id` (PK, UUID), `source_tenant_id` (UUID, NULLABLE; FK → `tenants.tenant_id`), `target_tenant_id` (UUID, NULLABLE; FK → `tenants.tenant_id`), `event_scope` (VARCHAR(20), NOT NULL DEFAULT 'tenant'), `aggregate_type` (VARCHAR(100), NOT NULL), `aggregate_id` (UUID, NOT NULL), `event_type` (VARCHAR(100), NOT NULL), `event_version` (VARCHAR(50), NOT NULL DEFAULT '1.0'), `payload` (JSONB, NOT NULL), `payload_schema_version` (VARCHAR(200), NULLABLE), `status` (VARCHAR(20), NOT NULL DEFAULT 'dead_letter'), `processing_attempts` (INT, DEFAULT 0), `max_retry_attempts` (INT, DEFAULT 3), `last_error_at` (TIMESTAMP, NOT NULL), `last_error_message` (TEXT, NOT NULL), `last_error_code` (VARCHAR(100), NULLABLE), `error_details` (JSONB, NULLABLE), `priority` (INT, NOT NULL DEFAULT 5), `available_at` (TIMESTAMP, NULLABLE), `expires_at` (TIMESTAMP, NULLABLE), `processor_id` (VARCHAR(100), NULLABLE), `locked_at` (TIMESTAMP, NULLABLE), `processed_at` (TIMESTAMP, NULLABLE), `correlation_id` (VARCHAR(100), NULLABLE), `causation_id` (VARCHAR(100), NULLABLE), `message_id` (VARCHAR(100), NULLABLE), `metadata` (JSONB, NULLABLE), `created_by_user_id` (UUID, NULLABLE; FK → `users.user_id`), `created_by_service` (VARCHAR(100), NULLABLE), `created_at` (TIMESTAMP, DEFAULT NOW()), `updated_at` (TIMESTAMP, DEFAULT NOW())
+  - **Dead‐Letter Specific**:
+  - `original_event_id` (UUID, NOT NULL), `event_source` (VARCHAR(20), NOT NULL CHECK IN ('inbox','outbox')), `original_priority` (INT, NOT NULL), `original_created_at` (TIMESTAMP, NOT NULL), `original_available_at` (TIMESTAMP, NOT NULL), `failure_reason` (TEXT, NOT NULL), `failure_code` (VARCHAR(100), NULLABLE), `failure_details` (JSONB, NULLABLE), `total_attempts` (INT, NOT NULL), `first_failed_at` (TIMESTAMP, NOT NULL), `last_failed_at` (TIMESTAMP, NOT NULL), `last_processor_id` (VARCHAR(100), NULLABLE), `reprocessed` (BOOLEAN, DEFAULT FALSE), `reprocessed_at` (TIMESTAMP, NULLABLE), `reprocessed_event_id` (UUID, NULLABLE), `reprocessed_by` (VARCHAR(100), NULLABLE), `failure_category` (VARCHAR(50), NULLABLE), `can_retry` (BOOLEAN, DEFAULT TRUE), `resolution_notes` (TEXT, NULLABLE)
+  - **Note:**  
+    - Stores any event (inbox or outbox) that has exhausted all retry attempts.  
+    - Operators can browse this table to requeue or permanently skip failed events.  
+    - `source_tenant_id` and `target_tenant_id` help correlate which tenant’s pipeline failed.  

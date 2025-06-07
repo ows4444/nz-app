@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthService, AuthSessionCommandHandlers } from '@nz/auth-session-application';
+import { AuthService, AuthSessionCommandHandlers, AuthSessionQueryHandlers } from '@nz/auth-session-application';
 import {
   LoginAttemptEntityORM,
   PasswordResetEntityORM,
@@ -14,13 +14,15 @@ import {
   TypeormPasswordResetRepository,
   TypeormUserCredentialRepository,
   TypeormUserPasswordHistoryRepository,
+  TypeormUserRepository,
   TypeormUserSessionRepository,
   UserCredentialEntityORM,
+  UserEntityORM,
   UserPasswordHistoryEntityORM,
   UserSessionEntityORM,
 } from '@nz/auth-session-infrastructure';
 import { authConfigLoader, Environment, ENVIRONMENT_ENV, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
-import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
+import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter, InboxEventEntityORM, OutboxEventEntityORM, TypeormInboxEventRepository, TypeormOutboxEventRepository } from '@nz/shared-infrastructure';
 import Keyv from 'keyv';
 import { GrpcMetadataResolver, I18nModule } from 'nestjs-i18n';
 import path from 'path';
@@ -55,7 +57,17 @@ import { HealthController } from './health.controller';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         ...configService.getOrThrow<TypeOrmEnvironment>(TYPEORM_ENV),
-        entities: [UserSessionEntityORM, LoginAttemptEntityORM, PasswordResetEntityORM, SessionPolicyEntityORM, UserCredentialEntityORM, UserPasswordHistoryEntityORM],
+        entities: [
+          UserEntityORM,
+          UserSessionEntityORM,
+          LoginAttemptEntityORM,
+          PasswordResetEntityORM,
+          SessionPolicyEntityORM,
+          UserCredentialEntityORM,
+          UserPasswordHistoryEntityORM,
+          InboxEventEntityORM,
+          OutboxEventEntityORM,
+        ],
       }),
       imports: [ConfigModule],
     }),
@@ -84,13 +96,17 @@ import { HealthController } from './health.controller';
         provide: APP_FILTER,
         useClass: GrpcServerExceptionFilter,
       },
+      TypeormUserRepository,
       TypeormUserSessionRepository,
       TypeormLoginAttemptRepository,
       TypeormPasswordResetRepository,
       TypeormUserCredentialRepository,
       TypeormUserPasswordHistoryRepository,
+      TypeormInboxEventRepository,
+      TypeormOutboxEventRepository,
     ],
     AuthSessionCommandHandlers,
+    AuthSessionQueryHandlers,
   ),
 })
 export class AppModule {}

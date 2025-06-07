@@ -4,9 +4,19 @@ package userDevice;
 
 
 service UserService {
+    rpc GetUserDeviceInfo (UserDeviceRequest) returns (UserDeviceResponse);
     
 }
+ 
 
-service DeviceService {
-    
+message UserDeviceRequest {
+    string user_id = 1;
+}
+message UserDeviceResponse {
+    string user_id = 1;
+    string device_id = 2;
+    string device_type = 3; // e.g., "mobile", "desktop", "tablet"
+    string os_version = 4; // e.g., "iOS 14.4", "Android 11"
+    string app_version = 5; // e.g., "1.0.0"
+    string last_active_time = 6; // ISO 8601 format
 }

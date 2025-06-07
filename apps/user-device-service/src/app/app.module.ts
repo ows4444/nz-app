@@ -7,7 +7,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AUTH_SESSION_SERVICE_ENV, AuthSessionServiceEnvironment, authSessionServiceEnvLoader, Environment, ENVIRONMENT_ENV, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
-import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter } from '@nz/shared-infrastructure';
+import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter, InboxEventEntityORM, OutboxEventEntityORM, TypeormInboxEventRepository, TypeormOutboxEventRepository } from '@nz/shared-infrastructure';
 import { authSession, health } from '@nz/shared-proto';
 import { UserDeviceCommandHandlers, UserDeviceEventHandlers, UserService } from '@nz/user-device-application';
 import {
@@ -73,7 +73,7 @@ const protoPath = (name: string) => path.join(__dirname, 'assets', `${name.repla
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         ...configService.getOrThrow<TypeOrmEnvironment>(TYPEORM_ENV),
-        entities: [DeviceEntityORM, UserContactEntityORM, ContactVerificationEntityORM, UserPreferenceEntityORM, UserProfileEntityORM],
+        entities: [DeviceEntityORM, UserContactEntityORM, ContactVerificationEntityORM, UserPreferenceEntityORM, UserProfileEntityORM, InboxEventEntityORM, OutboxEventEntityORM],
       }),
       imports: [ConfigModule],
     }),
@@ -107,6 +107,8 @@ const protoPath = (name: string) => path.join(__dirname, 'assets', `${name.repla
       TypeormUserContactRepository,
       TypeormUserPreferenceRepository,
       TypeormUserProfileRepository,
+      TypeormOutboxEventRepository,
+      TypeormInboxEventRepository,
     ],
     UserDeviceCommandHandlers,
     UserDeviceEventHandlers,

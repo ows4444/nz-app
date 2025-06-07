@@ -19,9 +19,6 @@
       "path": "../../libs/shared/const/tsconfig.lib.json"
     },
     {
-      "path": "../../libs/user-device/presentation/tsconfig.lib.json"
-    },
-    {
       "path": "../../libs/auth-session/presentation/tsconfig.lib.json"
     },
     {

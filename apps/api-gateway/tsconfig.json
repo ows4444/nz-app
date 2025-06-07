@@ -10,9 +10,6 @@
       "path": "../../libs/shared/const"
     },
     {
-      "path": "../../libs/user-device/presentation"
-    },
-    {
       "path": "../../libs/auth-session/presentation"
     },
     {

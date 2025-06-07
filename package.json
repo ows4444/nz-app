@@ -66,6 +66,7 @@
     "mysql2": "^3.14.0",
     "nestjs-i18n": "^10.5.1",
     "nx": "21.1.2",
+    "pg": "^8.16.0",
     "prettier": "^2.6.2",
     "prettier-plugin-organize-imports": "^4.1.0",
     "ts-jest": "^29.1.0",

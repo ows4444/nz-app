@@ -102,6 +102,7 @@ export class DeadLetterEventEntity {
   public reprocessedBy?: string;
   public failureCategory?: string;
   public canRetry!: boolean;
+  public resolutionNotes?: string;
 
   // Audit fields
   private _createdAt: Date = new Date();
@@ -157,6 +158,7 @@ export class DeadLetterEventEntity {
     this.reprocessedBy = props.reprocessedBy;
     this.failureCategory = props.failureCategory;
     this.canRetry = props.canRetry;
+    this.resolutionNotes = props.resolutionNotes;
     this._createdAt = props.createdAt;
     this._updatedAt = props.updatedAt;
   }

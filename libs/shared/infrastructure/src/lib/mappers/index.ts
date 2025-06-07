@@ -1,3 +1,4 @@
+export * from './dead-letter-event.mapper';
 export * from './event-processing-metrics.mapper';
 export * from './event-routing-rule.mapper';
 export * from './event-subscription.mapper';

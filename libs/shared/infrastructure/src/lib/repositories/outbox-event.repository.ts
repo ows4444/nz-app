@@ -5,7 +5,7 @@ import { OutboxEventEntityORM } from '../entities';
 import { OutboxEventMapper } from '../mappers';
 
 @Injectable()
-export class TypeormOutboxRepository {
+export class TypeormOutboxEventRepository {
   private repository: Repository<OutboxEventEntityORM>;
 
   constructor(dataSource: DataSource) {

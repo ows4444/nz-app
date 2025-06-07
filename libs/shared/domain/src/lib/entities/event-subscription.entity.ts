@@ -19,7 +19,7 @@ export class EventSubscriptionEntity {
   public readonly subscriberService: string;
   private _filterExpression?: string;
   private _isActive: boolean;
-  public readonly priority: number;
+  private _priority: number;
   public readonly createdAt: Date;
   private _updatedAt: Date;
 
@@ -33,7 +33,7 @@ export class EventSubscriptionEntity {
     this.subscriberService = props.subscriberService;
     this._filterExpression = props.filterExpression;
     this._isActive = props.isActive;
-    this.priority = props.priority;
+    this._priority = props.priority;
     this.createdAt = props.createdAt;
     this._updatedAt = props.updatedAt;
   }
@@ -63,6 +63,10 @@ export class EventSubscriptionEntity {
 
   public get filterExpression(): string | undefined {
     return this._filterExpression;
+  }
+
+  public get priority(): number {
+    return this._priority;
   }
 
   // --------------- Business Methods ---------------

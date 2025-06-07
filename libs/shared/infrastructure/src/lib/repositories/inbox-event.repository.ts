@@ -5,7 +5,7 @@ import { InboxEventEntityORM } from '../entities';
 import { InboxEventMapper } from '../mappers';
 
 @Injectable()
-export class TypeormInboxRepository {
+export class TypeormInboxEventRepository {
   private repository: Repository<InboxEventEntityORM>;
 
   constructor(dataSource: DataSource) {

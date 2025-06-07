@@ -20,7 +20,7 @@ export class EventSubscriptionEntityORM extends BaseEntity {
   subscriberService!: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true, name: 'filter_expression' })
-  filterExpression?: string; // JSON path or SQL-like filter
+  filterExpression?: string;  
 
   @Column({ type: 'boolean', default: true, name: 'is_active' })
   isActive!: boolean;

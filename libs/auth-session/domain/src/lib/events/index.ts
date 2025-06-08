@@ -1,1 +1,1 @@
-export * from './impl';
+export * from './global-user-registered.event';

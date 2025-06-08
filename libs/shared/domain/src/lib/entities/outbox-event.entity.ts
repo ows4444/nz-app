@@ -1,3 +1,12 @@
+export type DeliveryTarget = {
+  targetService: string;
+  targetTenant?: string;
+  delivered: boolean;
+  deliveredAt?: Date;
+  attempts: number;
+  lastError?: string;
+};
+
 export interface IOutboxEventProps {
   id?: string;
   sourceTenantId?: string;
@@ -9,14 +18,7 @@ export interface IOutboxEventProps {
   eventVersion: string;
   payload: Record<string, unknown>;
 
-  deliveryTargets?: Array<{
-    targetService: string;
-    targetTenant?: string;
-    delivered: boolean;
-    deliveredAt?: Date;
-    attempts: number;
-    lastError?: string;
-  }>;
+  deliveryTargets?: Array<DeliveryTarget>;
 
   requiresOrdering: boolean;
   sequenceNumber?: number;

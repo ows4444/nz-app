@@ -74,6 +74,9 @@
     },
     {
       "path": "./libs/shared/domain"
+    },
+    {
+      "path": "./libs/shared/application"
     }
   ]
 }

@@ -28,6 +28,7 @@
     "@nestjs/cqrs": "^11.0.3",
     "@nestjs/graphql": "^13.1.0",
     "@nestjs/microservices": "^11.1.0",
+    "@nestjs/schedule": "^6.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/swagger": "^11.1.5",
     "@nestjs/testing": "^11.0.0",

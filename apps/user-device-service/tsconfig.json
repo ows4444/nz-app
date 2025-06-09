@@ -22,6 +22,9 @@
       "path": "../../libs/shared/infrastructure"
     },
     {
+      "path": "../../libs/shared/application"
+    },
+    {
       "path": "../../libs/shared/config"
     },
     {

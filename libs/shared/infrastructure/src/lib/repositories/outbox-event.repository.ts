@@ -21,6 +21,11 @@ export class TypeormOutboxEventRepository {
     return orm ? OutboxEventMapper.toDomain(orm) : null;
   }
 
+  async findPending(take: number, qr?: QueryRunner): Promise<OutboxEventEntity[]> {
+    const orm = await this.getRepository(qr).find({ where: { status: 'pending' }, take });
+    return orm.map(OutboxEventMapper.toDomain);
+  }
+
   async save(outboxEvent: OutboxEventEntity, qr?: QueryRunner): Promise<OutboxEventEntity> {
     const orm = OutboxEventMapper.toPersistence(outboxEvent);
     const saved = await this.getRepository(qr).save(orm);

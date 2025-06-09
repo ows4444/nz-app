@@ -1,3 +1,4 @@
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import KeyvRedis from '@keyv/redis';
 import { CacheModule } from '@nestjs/cache-manager';
 import { Module, Provider } from '@nestjs/common';
@@ -5,8 +6,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AUTH_SESSION_SERVICE_ENV, AuthSessionServiceEnvironment, authSessionServiceEnvLoader, Environment, ENVIRONMENT_ENV, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
+import { OutboxService } from '@nz/shared-application';
 import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter, InboxEventEntityORM, OutboxEventEntityORM, TypeormInboxEventRepository, TypeormOutboxEventRepository } from '@nz/shared-infrastructure';
 import { authSession, health } from '@nz/shared-proto';
 import { UserDeviceCommandHandlers, UserDeviceEventHandlers, UserService } from '@nz/user-device-application';
@@ -32,6 +35,7 @@ const protoPath = (name: string) => path.join(__dirname, 'assets', `${name.repla
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     CqrsModule.forRoot(),
     I18nModule.forRootAsync({
       imports: [ConfigModule],
@@ -89,10 +93,32 @@ const protoPath = (name: string) => path.join(__dirname, 'assets', `${name.repla
       envFilePath: [__dirname],
       load: [authSessionServiceEnvLoader],
     }),
+    RabbitMQModule.forRoot({
+      exchanges: [
+        {
+          name: 'events.fanout',
+          type: 'fanout',
+          options: { durable: true },
+        },
+        {
+          name: 'events.topic',
+          type: 'topic',
+          options: { durable: true },
+        },
+        {
+          name: 'commands.direct',
+          type: 'direct',
+          options: { durable: true },
+        },
+      ],
+      uri: 'amqp://guest:guest@localhost:5672',
+      connectionInitOptions: { wait: false },
+    }),
   ],
   controllers: [HealthController, UserController],
   providers: ([] as Provider[]).concat(
     [
+      OutboxService,
       UserService,
       {
         provide: APP_INTERCEPTOR,

@@ -1,9 +1,11 @@
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import KeyvRedis from '@keyv/redis';
 import { CacheModule } from '@nestjs/cache-manager';
 import { Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthService, AuthSessionCommandHandlers, AuthSessionQueryHandlers } from '@nz/auth-session-application';
 import {
@@ -22,6 +24,7 @@ import {
   UserSessionEntityORM,
 } from '@nz/auth-session-infrastructure';
 import { authConfigLoader, Environment, ENVIRONMENT_ENV, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
+import { OutboxService } from '@nz/shared-application';
 import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter, InboxEventEntityORM, OutboxEventEntityORM, TypeormInboxEventRepository, TypeormOutboxEventRepository } from '@nz/shared-infrastructure';
 import Keyv from 'keyv';
 import { GrpcMetadataResolver, I18nModule } from 'nestjs-i18n';
@@ -31,6 +34,7 @@ import { HealthController } from './health.controller';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     CqrsModule.forRoot(),
     I18nModule.forRootAsync({
       imports: [ConfigModule],
@@ -83,10 +87,32 @@ import { HealthController } from './health.controller';
       envFilePath: [__dirname],
       load: [authConfigLoader],
     }),
+    RabbitMQModule.forRoot({
+      exchanges: [
+        {
+          name: 'events.fanout',
+          type: 'fanout',
+          options: { durable: true },
+        },
+        {
+          name: 'events.topic',
+          type: 'topic',
+          options: { durable: true },
+        },
+        {
+          name: 'commands.direct',
+          type: 'direct',
+          options: { durable: true },
+        },
+      ],
+      uri: 'amqp://guest:guest@localhost:5672',
+      connectionInitOptions: { wait: false },
+    }),
   ],
   controllers: [HealthController, AuthController],
   providers: ([] as Provider[]).concat(
     [
+      OutboxService,
       AuthService,
       {
         provide: APP_INTERCEPTOR,

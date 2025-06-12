@@ -107,6 +107,7 @@ import { HealthController } from './health.controller';
       ],
       uri: 'amqp://guest:guest@localhost:5672',
       connectionInitOptions: { wait: false },
+      enableControllerDiscovery: true,
     }),
   ],
   controllers: [HealthController, AuthController],

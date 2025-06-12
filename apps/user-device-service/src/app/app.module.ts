@@ -113,6 +113,7 @@ const protoPath = (name: string) => path.join(__dirname, 'assets', `${name.repla
       ],
       uri: 'amqp://guest:guest@localhost:5672',
       connectionInitOptions: { wait: false },
+      enableControllerDiscovery: true,
     }),
   ],
   controllers: [HealthController, UserController],

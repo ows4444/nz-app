@@ -44,7 +44,7 @@ export class GlobalUserCreatedEvent implements IOutboxEventProps {
     createdByService: string;
     priority?: number;
     maxRetryAttempts?: number;
-    deliveryTargets?: DeliveryTarget[];
+    deliveryTargets: DeliveryTarget[];
     correlationId?: string;
     causationId?: string;
     metadata?: Record<string, unknown>;

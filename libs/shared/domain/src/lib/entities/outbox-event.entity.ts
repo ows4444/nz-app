@@ -18,7 +18,7 @@ export interface IOutboxEventProps {
   eventVersion: string;
   payload: Record<string, unknown>;
 
-  deliveryTargets?: Array<DeliveryTarget>;
+  deliveryTargets: Array<DeliveryTarget>;
 
   requiresOrdering: boolean;
   sequenceNumber?: number;
@@ -74,7 +74,7 @@ export class OutboxEventEntity {
   public readonly createdByService?: string;
   public readonly createdAt!: Date;
 
-  private _deliveryTargets?: Array<{
+  private _deliveryTargets: Array<{
     targetService: string;
     targetTenant?: string;
     delivered: boolean;
@@ -174,6 +174,7 @@ export class OutboxEventEntity {
       eventType,
       eventVersion,
       payload,
+      deliveryTargets: [],
       requiresOrdering: options.requiresOrdering ?? false,
       sequenceNumber: options.sequenceNumber ?? 0,
       payloadSchemaVersion: options.payloadSchemaVersion,
@@ -200,16 +201,14 @@ export class OutboxEventEntity {
 
   // ----------------- Getters -----------------
 
-  public get deliveryTargets():
-    | Array<{
-        targetService: string;
-        targetTenant?: string;
-        delivered: boolean;
-        deliveredAt?: Date;
-        attempts: number;
-        lastError?: string;
-      }>
-    | undefined {
+  public get deliveryTargets(): Array<{
+    targetService: string;
+    targetTenant?: string;
+    delivered: boolean;
+    deliveredAt?: Date;
+    attempts: number;
+    lastError?: string;
+  }> {
     return this._deliveryTargets;
   }
 

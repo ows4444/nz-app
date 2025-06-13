@@ -24,7 +24,7 @@ import {
   UserSessionEntityORM,
 } from '@nz/auth-session-infrastructure';
 import { authConfigLoader, Environment, ENVIRONMENT_ENV, SharedConfigModule, TYPEORM_ENV, TypeOrmEnvironment } from '@nz/config';
-import { OutboxService } from '@nz/shared-application';
+import { InboxService, OutboxService } from '@nz/shared-application';
 import { GrpcIdempotencyInterceptor, GrpcServerExceptionFilter, InboxEventEntityORM, OutboxEventEntityORM, TypeormInboxEventRepository, TypeormOutboxEventRepository } from '@nz/shared-infrastructure';
 import Keyv from 'keyv';
 import { GrpcMetadataResolver, I18nModule } from 'nestjs-i18n';
@@ -87,33 +87,40 @@ import { HealthController } from './health.controller';
       envFilePath: [__dirname],
       load: [authConfigLoader],
     }),
-    RabbitMQModule.forRoot({
-      exchanges: [
-        {
-          name: 'events.fanout',
-          type: 'fanout',
-          options: { durable: true },
-        },
-        {
-          name: 'events.topic',
-          type: 'topic',
-          options: { durable: true },
-        },
-        {
-          name: 'commands.direct',
-          type: 'direct',
-          options: { durable: true },
-        },
-      ],
-      uri: 'amqp://guest:guest@localhost:5672',
-      connectionInitOptions: { wait: false },
-      enableControllerDiscovery: true,
+    RabbitMQModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        exchanges: [
+          {
+            name: 'events',
+            type: 'topic',
+            options: {
+              durable: true,
+            },
+          },
+        ],
+        queues: [
+          {
+            name: `${configService.getOrThrow<Environment>(ENVIRONMENT_ENV).appName}.events`,
+            exchange: 'events',
+            routingKey: configService.getOrThrow<Environment>(ENVIRONMENT_ENV).appName,
+            options: {
+              durable: true,
+            },
+          },
+        ],
+        uri: 'amqp://guest:guest@localhost:5672',
+        connectionInitOptions: { wait: false },
+        enableControllerDiscovery: true,
+      }),
     }),
   ],
   controllers: [HealthController, AuthController],
   providers: ([] as Provider[]).concat(
     [
       OutboxService,
+      InboxService,
       AuthService,
       {
         provide: APP_INTERCEPTOR,

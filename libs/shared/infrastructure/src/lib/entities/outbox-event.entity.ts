@@ -7,7 +7,7 @@ import { BaseEvent } from './base-event';
 @Entity('outbox_events')
 export class OutboxEventEntityORM extends BaseEvent {
   @Column({ type: 'jsonb', nullable: true, name: 'delivery_targets' })
-  deliveryTargets?: Array<{
+  deliveryTargets!: Array<{
     targetService: string;
     targetTenant?: string;
     delivered: boolean;

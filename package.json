@@ -47,6 +47,7 @@
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@swc/jest": "~0.2.36",
+    "@types/amqplib": "^0.10.7",
     "@types/babel__code-frame": "^7.0.6",
     "@types/bcrypt": "^5.0.2",
     "@types/jest": "^29.5.12",

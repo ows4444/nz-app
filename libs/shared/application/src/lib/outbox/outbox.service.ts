@@ -10,7 +10,7 @@ export class OutboxService {
 
   async publishToSpecific(event: OutboxEventEntity, serviceName: string): Promise<void> {
     try {
-      await this.amqpConnection.publish('events', serviceName, event, {
+      await this.amqpConnection.publish('events', serviceName, event.toJSON(), {
         persistent: true,
         messageId: event.id,
         timestamp: Date.now(),

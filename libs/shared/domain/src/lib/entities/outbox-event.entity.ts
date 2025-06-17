@@ -373,4 +373,32 @@ export class OutboxEventEntity {
       this._updatedAt = new Date();
     }
   }
+
+  public toJSON(): Partial<IOutboxEventProps> {
+    return {
+      id: this.id,
+      sourceTenantId: this.sourceTenantId,
+      targetTenantId: this.targetTenantId,
+      eventScope: this.eventScope,
+      aggregateType: this.aggregateType,
+      aggregateId: this.aggregateId,
+      eventType: this.eventType,
+      eventVersion: this.eventVersion,
+      payload: this.payload,
+      requiresOrdering: this.requiresOrdering,
+      sequenceNumber: this.sequenceNumber,
+      payloadSchemaVersion: this.payloadSchemaVersion,
+      maxRetryAttempts: this.maxRetryAttempts,
+      priority: this.priority,
+      availableAt: this.availableAt,
+      expiresAt: this.expiresAt,
+      processorId: this.processorId,
+      correlationId: this.correlationId,
+      causationId: this.causationId,
+      messageId: this.messageId,
+      metadata: this.metadata,
+      createdByUserId: this.createdByUserId,
+      createdByService: this.createdByService,
+    };
+  }
 }

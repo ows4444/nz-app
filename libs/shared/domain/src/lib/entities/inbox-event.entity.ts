@@ -9,9 +9,7 @@ export interface IInboxEventProps {
   eventVersion: string;
   payload: Record<string, unknown>;
 
-  sourceService: string;
   receivedAt: Date;
-  isDuplicate: boolean;
   originalEventId?: string;
 
   payloadSchemaVersion?: string;
@@ -49,9 +47,7 @@ export class InboxEventEntity {
   public readonly eventVersion!: string;
   public readonly payload!: Record<string, unknown>;
 
-  public readonly sourceService!: string;
   public readonly receivedAt!: Date;
-  public readonly isDuplicate!: boolean;
   public readonly originalEventId?: string;
 
   public readonly payloadSchemaVersion?: string;
@@ -92,9 +88,7 @@ export class InboxEventEntity {
     this.eventVersion = props.eventVersion;
     this.payload = props.payload;
 
-    this.sourceService = props.sourceService;
     this.receivedAt = props.receivedAt;
-    this.isDuplicate = props.isDuplicate;
     this.originalEventId = props.originalEventId;
 
     this.payloadSchemaVersion = props.payloadSchemaVersion;
@@ -129,9 +123,6 @@ export class InboxEventEntity {
     eventType: string,
     eventVersion: string,
     payload: Record<string, unknown>,
-    sourceService: string,
-    receivedAt: Date,
-    isDuplicate = false,
     options: {
       sourceTenantId?: string;
       targetTenantId?: string;
@@ -161,9 +152,7 @@ export class InboxEventEntity {
       eventType,
       eventVersion,
       payload,
-      sourceService,
-      receivedAt,
-      isDuplicate,
+      receivedAt: now,
       originalEventId: options.originalEventId,
       payloadSchemaVersion: options.payloadSchemaVersion,
       status: 'pending',

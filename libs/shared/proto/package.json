@@ -23,7 +23,8 @@
           "entity": [
             "auth-session",
             "health",
-            "user-device"
+            "user-device",
+            "esm"
           ]
         }
       }

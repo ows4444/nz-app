@@ -5,7 +5,6 @@ package userDevice;
 
 service UserService {
     rpc GetUserDeviceInfo (UserDeviceRequest) returns (UserDeviceResponse);
-    
 }
  
 

@@ -1,19 +1,46 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Environment, ENVIRONMENT_ENV } from '@nz/config';
+import { EnvironmentType } from '@nz/const';
+import { LOGGER_SERVICE, LoggerService } from '@nz/logger';
+import { esm, health } from '@nz/shared-proto';
+import { join } from 'path';
 import { AppModule } from './app/app.module';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+async function Bootstrap() {
+  const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(AppModule, {
+    bufferLogs: true,
+    useFactory: (configService: ConfigService) => ({
+      transport: Transport.GRPC,
+      options: {
+        package: [esm.ESM_PACKAGE_NAME, health.HEALTH_PACKAGE_NAME],
+        protoPath: [join(__dirname, 'assets', 'esm.proto'), join(__dirname, 'assets', 'health.proto')],
+        url: configService.getOrThrow<Environment>(ENVIRONMENT_ENV).url,
+      },
+    }),
+
+    inject: [ConfigService],
+  });
+
+  const logger = new Logger(Bootstrap.name);
+  const loggerService: LoggerService = app.get(LOGGER_SERVICE);
+
+  app.useLogger(loggerService);
+
+  app.useGlobalPipes(new ValidationPipe());
+
+  app.flushLogs();
+  const config: ConfigService = app.get(ConfigService);
+  const isProduction = config.getOrThrow<string>('NODE_ENV') === EnvironmentType.Production;
+  if (isProduction) {
+    app.enableShutdownHooks();
+  }
+
+  await app.listen();
+
+  logger.log(`🚀 ESM Service is running. on Grpc ${config.getOrThrow<Environment>(ENVIRONMENT_ENV).url}`);
 }
 
-bootstrap();
+Bootstrap();

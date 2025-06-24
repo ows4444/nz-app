@@ -77,6 +77,12 @@
     },
     {
       "path": "./libs/shared/application"
+    },
+    {
+      "path": "./apps/esm-service-e2e"
+    },
+    {
+      "path": "./apps/esm-service"
     }
   ]
 }

@@ -40,7 +40,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/api-gateway-e2e/**/*", "apps/auth-session-service-e2e/**/*", "apps/user-device-service-e2e/**/*"]
+      "exclude": ["apps/api-gateway-e2e/**/*", "apps/auth-session-service-e2e/**/*", "apps/user-device-service-e2e/**/*", "apps/esm-service-e2e/**/*"]
     },
     {
       "plugin": "@nx/webpack/plugin",

@@ -4,6 +4,18 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/shared/proto"
+    },
+    {
+      "path": "../../libs/shared/logger"
+    },
+    {
+      "path": "../../libs/shared/const"
+    },
+    {
+      "path": "../../libs/shared/config"
+    },
+    {
       "path": "./tsconfig.app.json"
     },
     {

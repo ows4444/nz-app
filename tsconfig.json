@@ -83,6 +83,18 @@
     },
     {
       "path": "./apps/esm-service"
+    },
+    {
+      "path": "./libs/esm/domain"
+    },
+    {
+      "path": "./libs/esm/application"
+    },
+    {
+      "path": "./libs/esm/infrastructure"
+    },
+    {
+      "path": "./libs/esm/presentation"
     }
   ]
 }

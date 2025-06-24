@@ -87,6 +87,10 @@
     "libs/shared/*",
     "libs/user-device/*",
     "libs/auth-session/*",
-    "tools/*"
+    "tools/*",
+    "libs/esm/domain",
+    "libs/esm/application",
+    "libs/esm/infrastructure",
+    "libs/esm/presentation"
   ]
 }

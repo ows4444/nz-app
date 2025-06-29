@@ -21,8 +21,8 @@ export class TypeormUserSessionRepository {
     return orm ? UserSessionMapper.toDomain(orm) : null;
   }
 
-  async save(UserSession: UserSessionEntity, qr?: QueryRunner): Promise<UserSessionEntity> {
-    const orm = UserSessionMapper.toPersistence(UserSession);
+  async save(userSession: UserSessionEntity, qr?: QueryRunner): Promise<UserSessionEntity> {
+    const orm = UserSessionMapper.toPersistence(userSession);
     const saved = await this.getRepository(qr).save(orm);
     return UserSessionMapper.toDomain(saved);
   }

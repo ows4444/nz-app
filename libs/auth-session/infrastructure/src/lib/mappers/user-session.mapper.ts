@@ -2,39 +2,39 @@ import { UserSessionEntity } from '@nz/auth-session-domain';
 import { UserSessionEntityORM } from '../entities';
 
 export class UserSessionMapper {
-  static toDomain(loginAttempt: UserSessionEntityORM): UserSessionEntity {
+  static toDomain(userSession: UserSessionEntityORM): UserSessionEntity {
     return UserSessionEntity.restore({
-      id: loginAttempt.id,
-      userId: loginAttempt.userId,
-      tenantId: loginAttempt.tenantId,
-      deviceFingerprint: loginAttempt.deviceFingerprint,
-      sessionTokenHash: loginAttempt.sessionTokenHash,
-      ipAddress: loginAttempt.ipAddress,
-      userAgent: loginAttempt.userAgent,
-      startedAt: loginAttempt.startedAt,
-      lastActivityAt: loginAttempt.lastActivityAt,
-      expiresAt: loginAttempt.expiresAt,
-      terminatedAt: loginAttempt.terminatedAt,
-      terminationReason: loginAttempt.terminationReason,
-      isActive: loginAttempt.isActive,
+      id: userSession.id,
+      userId: userSession.userId,
+      tenantId: userSession.tenantId,
+      deviceFingerprint: userSession.deviceFingerprint,
+      sessionTokenHash: userSession.sessionTokenHash,
+      ipAddress: userSession.ipAddress,
+      userAgent: userSession.userAgent,
+      startedAt: userSession.startedAt,
+      lastActivityAt: userSession.lastActivityAt,
+      expiresAt: userSession.expiresAt,
+      terminatedAt: userSession.terminatedAt,
+      terminationReason: userSession.terminationReason,
+      isActive: userSession.isActive,
     });
   }
 
-  static toPersistence(loginAttempt: UserSessionEntity): Partial<UserSessionEntityORM> {
+  static toPersistence(userSession: UserSessionEntity): Partial<UserSessionEntityORM> {
     return {
-      id: loginAttempt.id,
-      userId: loginAttempt.userId,
-      tenantId: loginAttempt.tenantId,
-      deviceFingerprint: loginAttempt.deviceFingerprint,
-      sessionTokenHash: loginAttempt.sessionTokenHash,
-      ipAddress: loginAttempt.ipAddress,
-      userAgent: loginAttempt.userAgent,
-      startedAt: loginAttempt.startedAt,
-      lastActivityAt: loginAttempt.lastActivityAt,
-      expiresAt: loginAttempt.expiresAt,
-      terminatedAt: loginAttempt.terminatedAt,
-      terminationReason: loginAttempt.terminationReason,
-      isActive: loginAttempt.isActive,
+      id: userSession.id,
+      userId: userSession.userId,
+      tenantId: userSession.tenantId,
+      deviceFingerprint: userSession.deviceFingerprint,
+      sessionTokenHash: userSession.sessionTokenHash,
+      ipAddress: userSession.ipAddress,
+      userAgent: userSession.userAgent,
+      startedAt: userSession.startedAt,
+      lastActivityAt: userSession.lastActivityAt,
+      expiresAt: userSession.expiresAt,
+      terminatedAt: userSession.terminatedAt,
+      terminationReason: userSession.terminationReason,
+      isActive: userSession.isActive,
     };
   }
 }

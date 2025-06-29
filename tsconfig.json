@@ -34,18 +34,6 @@
       "path": "./libs/shared/proto"
     },
     {
-      "path": "./libs/identity-device/domain"
-    },
-    {
-      "path": "./libs/identity-device/application"
-    },
-    {
-      "path": "./libs/identity-device/infrastructure"
-    },
-    {
-      "path": "./libs/identity-device/presentation"
-    },
-    {
       "path": "./libs/auth-session/infrastructure"
     },
     {
@@ -58,12 +46,6 @@
       "path": "./libs/auth-session/domain"
     },
     {
-      "path": "./apps/identity-device-service-e2e"
-    },
-    {
-      "path": "./apps/identity-device-service"
-    },
-    {
       "path": "./apps/auth-session-service-e2e"
     },
     {
@@ -71,6 +53,48 @@
     },
     {
       "path": "./libs/shared/i18n"
+    },
+    {
+      "path": "./libs/user-device/infrastructure"
+    },
+    {
+      "path": "./libs/user-device/presentation"
+    },
+    {
+      "path": "./libs/user-device/application"
+    },
+    {
+      "path": "./libs/user-device/domain"
+    },
+    {
+      "path": "./apps/user-device-service-e2e"
+    },
+    {
+      "path": "./apps/user-device-service"
+    },
+    {
+      "path": "./libs/shared/domain"
+    },
+    {
+      "path": "./libs/shared/application"
+    },
+    {
+      "path": "./apps/esm-service-e2e"
+    },
+    {
+      "path": "./apps/esm-service"
+    },
+    {
+      "path": "./libs/esm/domain"
+    },
+    {
+      "path": "./libs/esm/application"
+    },
+    {
+      "path": "./libs/esm/infrastructure"
+    },
+    {
+      "path": "./libs/esm/presentation"
     }
   ]
 }

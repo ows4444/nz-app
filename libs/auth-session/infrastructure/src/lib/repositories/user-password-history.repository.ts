@@ -21,8 +21,8 @@ export class TypeormUserPasswordHistoryRepository {
     return orm ? UserPasswordHistoryMapper.toDomain(orm) : null;
   }
 
-  async save(UserPasswordHistory: UserPasswordHistoryEntity, qr?: QueryRunner): Promise<UserPasswordHistoryEntity> {
-    const orm = UserPasswordHistoryMapper.toPersistence(UserPasswordHistory);
+  async save(userPasswordHistory: UserPasswordHistoryEntity, qr?: QueryRunner): Promise<UserPasswordHistoryEntity> {
+    const orm = UserPasswordHistoryMapper.toPersistence(userPasswordHistory);
     const saved = await this.getRepository(qr).save(orm);
     return UserPasswordHistoryMapper.toDomain(saved);
   }

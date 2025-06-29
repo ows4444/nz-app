@@ -21,8 +21,8 @@ export class TypeormSessionPolicyRepository {
     return orm ? SessionPolicyMapper.toDomain(orm) : null;
   }
 
-  async save(SessionPolicy: SessionPolicyEntity, qr?: QueryRunner): Promise<SessionPolicyEntity> {
-    const orm = SessionPolicyMapper.toPersistence(SessionPolicy);
+  async save(sessionPolicy: SessionPolicyEntity, qr?: QueryRunner): Promise<SessionPolicyEntity> {
+    const orm = SessionPolicyMapper.toPersistence(sessionPolicy);
     const saved = await this.getRepository(qr).save(orm);
     return SessionPolicyMapper.toDomain(saved);
   }

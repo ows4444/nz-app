@@ -16,6 +16,11 @@ export class EnvironmentSchema {
   @Expose()
   @IsString()
   @Transform(({ value }: { value: string }) => value?.trim())
+  APP_NAME!: string;
+
+  @Expose()
+  @IsString()
+  @Transform(({ value }: { value: string }) => value?.trim())
   HOST!: string;
 
   @Expose()

@@ -1,6 +1,6 @@
 #!/bin/sh
-nx affected --target=lint --fix
-nx affected --target=typecheck
-nx affected:lint --fix
+NX_TUI=false nx affected --target=lint --fix
+NX_TUI=false nx affected --target=typecheck
+NX_TUI=false nx affected:lint --fix
 git add libs/**/package.json apps/**/package.json
 npx lint-staged

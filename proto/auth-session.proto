@@ -5,7 +5,7 @@ package authSession;
 service AuthService {
   rpc LoginByEmail (LoginByEmailRequest) returns (LoginResponse);
   rpc LoginByUsername (LoginByUsernameRequest) returns (LoginResponse);
-  rpc RegisterCredential (RegisterCredentialRequest) returns (RegisterCredentialResponse);
+  rpc RegisterUser (RegisterRequest) returns (RegisterResponse);
 }
 
 message LoginByEmailRequest {
@@ -23,13 +23,15 @@ message LoginResponse {
   string message = 2;
 }
 
-message RegisterCredentialRequest {
-  string userId = 1;
-  string password = 2; 
+message RegisterRequest {
+  string email = 1;
+  string username = 2;
+  string password = 3;
+  string firstName = 4;
+  string lastName = 5;
+  string deviceId = 6;
+  string deviceInfo = 7;
 }
-
-message RegisterCredentialResponse {
+message RegisterResponse {
   string message = 1;
-  bool success = 2;
-  string passwordHash = 3;
 }

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package esm;
+
+service ESMService {
+    rpc GetESMInfo (ESMRequest) returns (ESMResponse);
+}
+
+message ESMRequest {
+    string esm_id = 1;
+}
+
+message ESMResponse {
+    string esm_id = 1;
+    string esm_type = 2; // e.g., "email", "sms", "push"
+    string content = 3; // The content of the ESM
+    string status = 4; // e.g., "sent", "delivered", "failed"
+    string timestamp = 5; // ISO 8601 format
+    string recipient_id = 6; // ID of the recipient
+}

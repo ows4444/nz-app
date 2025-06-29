@@ -1,4 +1,4 @@
-# IAM System - Distributed Database Architecture
+# Nizaami - Distributed Database Architecture
 
 ## Overview
 This document outlines the database schemas for a distributed Identity and Access Management (IAM) system where each service maintains its own database. Services communicate through well-defined APIs and maintain data consistency through event-driven patterns. All tables now include a `tenant_id` (nullable when global) to support subdomain-based tenancy (shared infra) and self-hosted deployments (isolated per-tenant).
@@ -46,32 +46,32 @@ This document outlines the database schemas for a distributed Identity and Acces
 ## Priority: HIGH - Essential for user management and device trust
 
 ### User Profiles & Preferences
-- [ ] **Table: `user_profiles` (extended user info)**
+- [x] **Table: `user_profiles` (extended user info)**
   - `user_id` (PK; FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `first_name`, `last_name`, `display_name`, `locale`, `timezone`, `avatar_url`, `bio`, `status`, `profile_visibility` (‘public’, ‘private’, ‘tenant_only’), `last_login_at`, `created_at`, `updated_at`
   - **Note:** `tenant_id = NULL` for global profile; non-null for tenant-scoped.
 
-- [ ] **Table: `user_preferences` (settings, locale)**
+- [x] **Table: `user_preferences` (settings, locale)**
   - `preference_id` (PK), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `category` (NOT NULL), `preference_key` (NOT NULL), `preference_value` (JSON or TEXT, NOT NULL), `data_type` (‘string’, ‘number’, ‘boolean’, ‘json’), `is_encrypted` (BOOLEAN, DEFAULT FALSE), `updated_at`, `UNIQUE(user_id, tenant_id, preference_key)`
 
 ### Contact Information
-- [ ] **Table: `user_contacts` (email, phone verification)**
+- [x] **Table: `user_contacts` (email, phone verification)**
   - `contact_id` (PK), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `type` (‘email’, ‘phone’, ‘address’), `label` (‘primary’, ‘work’, ‘home’), `value` (NOT NULL), `verified_flag` (BOOLEAN, DEFAULT FALSE), `verified_at`, `is_primary` (BOOLEAN, DEFAULT FALSE), `country_code`, `created_at`, `updated_at`, `INDEX(user_id, type)`
   - **Note:** Enforce one `is_primary = TRUE` per `(user_id, type)` via partial unique index.
 
-- [ ] **Table: `contact_verifications` (OTP, verification tokens)**
+- [x] **Table: `contact_verifications` (OTP, verification tokens)**
   - `verification_id` (PK), `contact_id` (FK → `user_contacts.contact_id`), `purpose` (‘registration’, ‘password_reset’, ‘mfa’, ‘contact_change’), `token_hash` (UNIQUE, NOT NULL), `code` (encrypted or hashed), `delivery_method` (‘email’, ‘sms’), `expires_at` (NOT NULL), `used_flag` (BOOLEAN, DEFAULT FALSE), `used_at`, `attempts_count` (INT, DEFAULT 0), `max_attempts` (INT, DEFAULT 5), `requested_at` (NOT NULL), `ip_address`, `user_agent`, `INDEX(token_hash), INDEX(contact_id, purpose)`
 
 ### Device Management
-- [ ] **Table: `devices` (registered devices)**
-  - `device_id` (PK), `device_fingerprint` (UNIQUE, NOT NULL), `device_name`, `device_type`, `os_name`, `os_version`, `browser_name`, `browser_version`, `device_info` (JSON), `status` (‘active’, ‘blocked’, ‘unverified’), `trust_score` (INT, 0–100), `risk_level` (‘low’, ‘medium’, ‘high’, ‘critical’), `is_trusted` (BOOLEAN, DEFAULT FALSE), `first_seen`, `last_seen`, `created_at`, `updated_at`, `INDEX(device_fingerprint)`
+- [x] **Table: `devices` (registered devices)**
+  - `device_id` (PK), `device_fingerprint` (UNIQUE, NOT NULL), `device_name`, `device_type`, `os_name`, `os_version`, `browser_name`, `browser_version`, `device_info` (JSON), `status` (‘active’, ‘blocked’, ‘unverified’), `trust_score` (INT, 0–100), `risk_level` (‘low’, ‘medium’, ‘high’, ‘critical’), `is_trusted` (BOOLEAN, DEFAULT FALSE), `first_seen_at`, `last_seen_at`, `created_at`, `updated_at`, `INDEX(device_fingerprint)`
 
-- [ ] **Table: `device_sessions` (device-specific sessions)**
+- [x] **Table: `device_sessions` (device-specific sessions)**
   - `session_id` (PK), `device_id` (FK → `devices.device_id`), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `active_flag` (BOOLEAN, DEFAULT TRUE), `ip_address`, `started_at` (NOT NULL), `last_seen_at`, `geo_location` (GEOGRAPHY or JSON), `city`, `country`, `session_duration_minutes`, `INDEX(device_id, user_id), INDEX(user_id, active_flag)`
 
-- [ ] **Table: `device_trust_events` (risk assessment)**
+- [x] **Table: `device_trust_events` (risk assessment)**
   - `event_id` (PK), `device_id` (FK → `devices.device_id`), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `event_type` (‘trusted’, ‘untrusted’, ‘blocked’, ‘flagged’, ‘verified’), `reason`, `created_by` (FK → `auth-session-db.users.user_id`), `created_at`, `metadata_json` (JSON), `INDEX(device_id), INDEX(user_id)`
 
-- [ ] **Table: `device_trust_scores` (risk assessment)**
+- [x] **Table: `device_trust_scores` (risk assessment)**
   - `score_id` (PK), `device_id` (FK → `devices.device_id`), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `trust_score` (INT, 0–100), `risk_level` (‘low’, ‘medium’, ‘high’, ‘critical’), `calculation_method` (VARCHAR), `contributing_factors_json` (JSON), `last_calculated_at`, `expires_at`, `created_at`, `updated_at`, `INDEX(device_id), INDEX(user_id)`
 
 ---
@@ -502,3 +502,295 @@ This document outlines the database schemas for a distributed Identity and Acces
 
 ---
 
+# 18. Notification Service (`notification-db`)
+## Priority: HIGH – Asynchronous messaging and alerts
+
+### Notification Channels
+- [ ] **Table: `notification_channels`**
+  - `channel_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `type` (‘email’, ‘sms’, ‘push’, ‘webhook’), `description`, `is_active` (BOOLEAN, DEFAULT TRUE), `settings_json` (JSON), `created_at`, `updated_at`
+  - **Note:** One row per delivery mechanism; tenant‐specific overrides when `tenant_id` is non‐null.
+
+### Notification Templates
+- [ ] **Table: `notification_templates`**
+  - `template_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `channel_id` (NOT NULL; FK → `notification_channels.channel_id`), `subject` (VARCHAR), `body_html` (TEXT), `body_text` (TEXT), `variables_json` (JSON), `is_active` (BOOLEAN, DEFAULT TRUE), `created_by` (FK → `auth-session-db.users.user_id`), `created_at`, `updated_at`, `INDEX(tenant_id, name)`
+  - **Note:** Reusable message definitions per channel; variable substitution configured via `variables_json`.
+
+### Notification Subscriptions
+- [ ] **Table: `notification_subscriptions`**
+  - `subscription_id` (PK), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `channel_id` (NOT NULL; FK → `notification_channels.channel_id`), `event_type` (VARCHAR, NOT NULL), `is_enabled` (BOOLEAN, DEFAULT TRUE), `created_at`, `updated_at`, `UNIQUE(user_id, channel_id, event_type)`
+  - **Note:** Tracks which events each user/team is opted into; tenant-specific when `tenant_id` non‐null.
+
+### User Notifications
+- [ ] **Table: `user_notifications`**
+  - `notification_id` (PK), `user_id` (FK → `auth-session-db.users.user_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `template_id` (FK → `notification_templates.template_id`), `payload_json` (JSON), `channel_id` (FK → `notification_channels.channel_id`), `status` (‘pending’, ‘sent’, ‘failed’, ‘delivered’, ‘read’), `attempt_count` (INT, DEFAULT 0), `last_attempt_at`, `delivered_at`, `read_at`, `created_at`, `updated_at`, `INDEX(user_id, status), INDEX(template_id)`
+  - **Note:** One row per notification instance per recipient; status transitions tracked for retry logic.
+
+### Notification Logs
+- [ ] **Table: `notification_logs`**
+  - `log_id` (PK), `notification_id` (FK → `user_notifications.notification_id`), `channel_id` (FK → `notification_channels.channel_id`), `attempted_at` (NOT NULL), `status` (‘sent’, ‘failed’), `response_code` (VARCHAR), `response_message` (TEXT), `error_details` (JSON), `INDEX(notification_id), INDEX(channel_id)`
+
+---
+
+# 19. Logging & Observability Service (`logging-observability-db`)
+## Priority: MEDIUM – Centralized logs, metrics, and tracing
+
+### Log Streams
+- [ ] **Table: `log_streams`**
+  - `stream_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `description`, `source_service` (VARCHAR), `retention_days` (INT), `is_active` (BOOLEAN, DEFAULT TRUE), `created_at`, `updated_at`, `INDEX(tenant_id, source_service)`
+
+### Logs
+- [ ] **Table: `logs`**
+  - `log_id` (PK), `stream_id` (FK → `log_streams.stream_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `timestamp` (TIMESTAMP, NOT NULL), `level` (‘DEBUG’, ‘INFO’, ‘WARN’, ‘ERROR’, ‘FATAL’), `message` (TEXT), `service_name` (VARCHAR), `instance_id` (VARCHAR), `metadata_json` (JSON), `trace_id` (UUID), `span_id` (UUID), `created_at`, `INDEX(stream_id, timestamp), INDEX(level, timestamp)`
+
+### Metrics
+- [ ] **Table: `metrics`**
+  - `metric_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `service_name` (VARCHAR), `instance_id` (VARCHAR), `labels_json` (JSON), `value` (FLOAT), `timestamp` (TIMESTAMP, NOT NULL), `created_at`, `INDEX(name, timestamp), INDEX(tenant_id, timestamp)`
+
+### Traces
+- [ ] **Table: `traces`**
+  - `trace_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `service_name` (VARCHAR), `span_id` (NOT NULL), `parent_span_id` (NULLABLE), `operation_name` (VARCHAR), `start_time` (TIMESTAMP, NOT NULL), `end_time` (TIMESTAMP), `duration_ms` (INT), `attributes_json` (JSON), `INDEX(service_name, start_time), INDEX(trace_id)`
+
+### Alert Rules
+- [ ] **Table: `alert_rules`**
+  - `rule_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `description`, `rule_type` (‘log’, ‘metric’, ‘trace’), `condition_json` (JSON), `threshold` (FLOAT), `severity` (‘low’, ‘medium’, ‘high’, ‘critical’), `is_enabled` (BOOLEAN, DEFAULT TRUE), `created_at`, `updated_at`, `INDEX(tenant_id, rule_type)`
+
+### Alerts & Notifications
+- [ ] **Table: `alerts`**
+  - `alert_id` (PK), `rule_id` (FK → `alert_rules.rule_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `triggered_at` (TIMESTAMP, NOT NULL), `resolved_at`, `status` (‘triggered’, ‘acknowledged’, ‘resolved’), `details_json` (JSON), `created_at`, `INDEX(rule_id, triggered_at), INDEX(status)`
+
+---
+
+# 20. Search & Indexing Service (`search-index-db`)
+## Priority: MEDIUM – Full-text search and document indexing
+
+### Index Definitions
+- [ ] **Table: `indexes`**
+  - `index_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `description`, `schema_json` (JSON), `shard_count` (INT), `is_active` (BOOLEAN, DEFAULT TRUE), `created_at`, `updated_at`, `UNIQUE(tenant_id, name)`
+
+### Index Shards
+- [ ] **Table: `index_shards`**
+  - `shard_id` (PK), `index_id` (FK → `indexes.index_id`), `shard_key` (VARCHAR, NOT NULL), `status` (‘initializing’, ‘healthy’, ‘rebalancing’, ‘degraded’), `node_assignment` (VARCHAR), `created_at`, `INDEX(index_id), INDEX(status)`
+
+### Documents
+- [ ] **Table: `documents`**
+  - `doc_id` (PK), `index_id` (FK → `indexes.index_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `document_json` (JSON), `version` (INT, DEFAULT 1), `status` (‘indexed’, ‘stale’, ‘deleted’), `ingested_at` (TIMESTAMP, NOT NULL), `updated_at`, `INDEX(index_id, status), INDEX(tenant_id, ingested_at)`
+
+### Index Mappings
+- [ ] **Table: `index_mappings`**
+  - `mapping_id` (PK), `index_id` (FK → `indexes.index_id`), `field_name` (VARCHAR, NOT NULL), `field_type` (‘text’, ‘keyword’, ‘number’, ‘date’, ‘geo_point’, ‘nested’), `analyzers_json` (JSON), `attributes_json` (JSON), `created_at`, `updated_at`, `UNIQUE(index_id, field_name)`
+
+### Search Queries
+- [ ] **Table: `search_queries`**
+  - `query_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `index_id` (FK → `indexes.index_id`), `query_string` (TEXT, NOT NULL), `filters_json` (JSON), `sort_json` (JSON), `execution_time_ms` (INT), `result_count` (INT), `executed_at` (TIMESTAMP, NOT NULL), `INDEX(tenant_id, executed_at), INDEX(index_id)`
+
+### Search Logs
+- [ ] **Table: `search_logs`**
+  - `log_id` (PK), `query_id` (FK → `search_queries.query_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `status` (‘success’, ‘error’), `error_details` (TEXT), `created_at`, `INDEX(query_id), INDEX(status)`
+
+---
+
+# 21. File Storage & Asset Management Service (`file-storage-db`)
+## Priority: MEDIUM – Binary/object storage, versioning, and metadata
+
+### Storage Nodes
+- [ ] **Table: `storage_nodes`**
+  - `node_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `region` (VARCHAR), `endpoint_url` (VARCHAR), `capacity_bytes` (BIGINT), `used_bytes` (BIGINT), `status` (‘online’, ‘offline’, ‘degraded’), `created_at`, `updated_at`, `INDEX(tenant_id, status)`
+
+### Files
+- [ ] **Table: `files`**
+  - `file_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `bucket` (VARCHAR, NOT NULL), `path` (VARCHAR, NOT NULL), `current_version_id` (FK → `file_versions.version_id`), `size_bytes` (BIGINT), `mime_type` (VARCHAR), `checksum` (VARCHAR), `is_public` (BOOLEAN, DEFAULT FALSE), `created_by` (FK → `auth-session-db.users.user_id`), `created_at`, `updated_at`, `UNIQUE(tenant_id, bucket, path)`
+
+### File Versions
+- [ ] **Table: `file_versions`**
+  - `version_id` (PK), `file_id` (FK → `files.file_id`), `version_number` (INT, NOT NULL), `storage_node_id` (FK → `storage_nodes.node_id`), `object_key` (VARCHAR, NOT NULL), `size_bytes` (BIGINT), `checksum` (VARCHAR), `created_at` (TIMESTAMP, NOT NULL), `INDEX(file_id, version_number), INDEX(storage_node_id)`
+
+### File Metadata
+- [ ] **Table: `file_metadata`**
+  - `metadata_id` (PK), `file_id` (FK → `files.file_id`), `key` (VARCHAR, NOT NULL), `value` (VARCHAR or JSON, NOT NULL), `is_indexed` (BOOLEAN, DEFAULT FALSE), `created_at`, `UNIQUE(file_id, key)`
+
+### Storage Policies
+- [ ] **Table: `storage_policies`**
+  - `policy_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `description`, `max_file_size_bytes` (BIGINT), `allowed_mime_types` (ARRAY), `retention_days` (INT), `versioning_enabled` (BOOLEAN, DEFAULT TRUE), `created_at`, `updated_at`, `UNIQUE(tenant_id, name)`
+
+### Access Controls
+- [ ] **Table: `file_access_controls`**
+  - `access_id` (PK), `file_id` (FK → `files.file_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `subject_type` (‘user’, ‘role’, ‘group’), `subject_id` (NOT NULL), `permission` (‘read’, ‘write’, ‘delete’), `granted_by` (FK → `auth-session-db.users.user_id`), `granted_at` (TIMESTAMP, NOT NULL), `INDEX(file_id), INDEX(subject_type, subject_id)`
+
+---
+
+# 22. Workflow & Orchestration Service (`workflow-db`)
+## Priority: MEDIUM – Defining, scheduling, and executing multi‐step processes
+
+### Workflows
+- [ ] **Table: `workflows`**
+  - `workflow_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `description`, `definition_json` (JSON), `version` (INT, DEFAULT 1), `status` (‘draft’, ‘active’, ‘deprecated’), `created_by` (FK → `auth-session-db.users.user_id`), `created_at`, `updated_at`, `UNIQUE(tenant_id, name, version)`
+
+### Workflow Instances
+- [ ] **Table: `workflow_instances`**
+  - `instance_id` (PK), `workflow_id` (FK → `workflows.workflow_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `status` (‘running’, ‘failed’, ‘completed’, ‘canceled’), `context_json` (JSON), `started_at` (TIMESTAMP, NOT NULL), `ended_at`, `created_at`, `INDEX(workflow_id, status), INDEX(tenant_id, started_at)`
+
+### Tasks
+- [ ] **Table: `tasks`**
+  - `task_id` (PK), `workflow_id` (FK → `workflows.workflow_id`), `name` (NOT NULL), `type` (‘service_call’, ‘script’, ‘timer’, ‘conditional’), `definition_json` (JSON), `order_index` (INT), `is_mandatory` (BOOLEAN, DEFAULT TRUE), `created_at`, `updated_at`, `INDEX(workflow_id, order_index)`
+
+### Task Attempts
+- [ ] **Table: `task_attempts`**
+  - `attempt_id` (PK), `instance_id` (FK → `workflow_instances.instance_id`), `task_id` (FK → `tasks.task_id`), `status` (‘pending’, ‘running’, ‘success’, ‘failed’), `input_json` (JSON), `output_json` (JSON), `start_time` (TIMESTAMP), `end_time` (TIMESTAMP), `attempt_number` (INT), `error_details` (TEXT), `INDEX(instance_id, task_id), INDEX(status)`
+
+### Task Dependencies
+- [ ] **Table: `task_dependencies`**
+  - `dependency_id` (PK), `workflow_id` (FK → `workflows.workflow_id`), `parent_task_id` (FK → `tasks.task_id`), `child_task_id` (FK → `tasks.task_id`), `dependency_type` (‘sequential’, ‘parallel’, ‘conditional’), `created_at`, `INDEX(workflow_id), INDEX(parent_task_id)`
+
+### Event Subscriptions
+- [ ] **Table: `event_subscriptions`**
+  - `subscription_id` (PK), `workflow_id` (FK → `workflows.workflow_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `event_type` (VARCHAR, NOT NULL), `condition_json` (JSON), `created_at`, `INDEX(tenant_id, event_type), INDEX(workflow_id)`
+
+---
+
+# 23. Backup & Disaster Recovery Service (`backup-disaster-db`)
+## Priority: MEDIUM – Scheduled backups, retention, and restore management
+
+### Backup Jobs
+- [ ] **Table: `backup_jobs`**
+  - `job_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `service_name` (VARCHAR, NOT NULL), `database_name` (VARCHAR), `storage_location` (VARCHAR, NOT NULL), `schedule_id` (FK → `backup_schedules.schedule_id`), `last_run_at`, `next_run_at`, `status` (‘scheduled’, ‘running’, ‘completed’, ‘failed’), `created_at`, `updated_at`, `INDEX(tenant_id, service_name)`
+
+### Backup Schedules
+- [ ] **Table: `backup_schedules`**
+  - `schedule_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `frequency_cron` (VARCHAR, NOT NULL), `retention_days` (INT), `created_by` (FK → `auth-session-db.users.user_id`), `created_at`, `updated_at`, `UNIQUE(tenant_id, name)`
+
+### Backup Archives
+- [ ] **Table: `backup_archives`**
+  - `archive_id` (PK), `job_id` (FK → `backup_jobs.job_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `run_at` (TIMESTAMP, NOT NULL), `storage_uri` (VARCHAR, NOT NULL), `size_bytes` (BIGINT), `checksum` (VARCHAR), `status` (‘available’, ‘expired’, ‘deleted’), `expired_at`, `created_at`, `INDEX(job_id, run_at)`
+
+### Restore Jobs
+- [ ] **Table: `restore_jobs`**
+  - `restore_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `archive_id` (FK → `backup_archives.archive_id`), `target_service` (VARCHAR, NOT NULL), `target_database` (VARCHAR), `initiated_by` (FK → `auth-session-db.users.user_id`), `started_at` (TIMESTAMP), `completed_at`, `status` (‘pending’, ‘running’, ‘success’, ‘failed’), `error_details` (TEXT), `INDEX(tenant_id, status), INDEX(archive_id)`
+
+### DR Plans
+- [ ] **Table: `dr_plans`**
+  - `plan_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `description`, `components_json` (JSON), `test_schedule_cron` (VARCHAR), `last_tested_at`, `status` (‘draft’, ‘active’, ‘deprecated’), `created_at`, `updated_at`, `UNIQUE(tenant_id, name)`
+
+### DR Events
+- [ ] **Table: `dr_events`**
+  - `event_id` (PK), `plan_id` (FK → `dr_plans.plan_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `event_type` (‘failover’, ‘failback’, ‘test’), `initiated_by` (FK → `auth-session-db.users.user_id`), `started_at` (TIMESTAMP), `completed_at`, `status` (‘pending’, ‘running’, ‘success’, ‘failed’), `details_json` (JSON), `INDEX(plan_id, status), INDEX(tenant_id)`
+
+---
+
+# 24. Configuration Management Service (`config-mgmt-db`)
+## Priority: MEDIUM – Centralized configuration, feature flags, and dynamic settings
+
+### Configurations
+- [ ] **Table: `configurations`**
+  - `config_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `key` (VARCHAR, NOT NULL), `value` (TEXT or JSON, NOT NULL), `environment` (‘development’, ‘staging’, ‘production’), `description`, `version` (INT, DEFAULT 1), `is_active` (BOOLEAN, DEFAULT TRUE), `created_at`, `updated_at`, `UNIQUE(tenant_id, key, environment)`
+
+### Config Versions
+- [ ] **Table: `config_versions`**
+  - `version_id` (PK), `config_id` (FK → `configurations.config_id`), `version_number` (INT, NOT NULL), `value` (TEXT or JSON, NOT NULL), `changed_by` (FK → `auth-session-db.users.user_id`), `changed_at` (TIMESTAMP, NOT NULL), `change_reason` (TEXT), `INDEX(config_id, version_number)`
+
+### Feature Flags
+- [ ] **Table: `feature_flags`**
+  - `flag_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `name` (NOT NULL), `description`, `default_state` (‘on’, ‘off’), `conditions_json` (JSON), `is_active` (BOOLEAN, DEFAULT TRUE), `created_at`, `updated_at`, `UNIQUE(tenant_id, name)`
+
+### Distributed Locks
+- [ ] **Table: `distributed_locks`**
+  - `lock_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `resource_key` (VARCHAR, NOT NULL), `owner_id` (VARCHAR, e.g. application instance ID), `acquired_at` (TIMESTAMP, NOT NULL), `expires_at` (TIMESTAMP), `status` (‘locked’, ‘released’), `INDEX(resource_key), INDEX(owner_id)`
+
+---
+
+# 25. Key Management Service (`kms-db`)
+## Priority: HIGH – Tenant‐scoped encryption key lifecycle and access control
+
+### Keys
+- [ ] **Table: `keys`**
+  - `key_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `alias` (VARCHAR, NOT NULL), `key_type` (‘symmetric’, ‘asymmetric’), `description`, `status` (‘enabled’, ‘disabled’, ‘pending_deletion’), `created_at`, `updated_at`, `UNIQUE(tenant_id, alias)`
+
+### Key Versions
+- [ ] **Table: `key_versions`**
+  - `version_id` (PK), `key_id` (FK → `keys.key_id`), `version_number` (INT, NOT NULL), `public_key` (TEXT, NULLABLE), `private_key_enc` (TEXT, NOT NULL), `algorithm` (VARCHAR), `created_at` (TIMESTAMP, NOT NULL), `expires_at`, `status` (‘active’, ‘disabled’, ‘destroyed’), `INDEX(key_id, version_number)`
+
+### Key Usage Logs
+- [ ] **Table: `key_usage_logs`**
+  - `log_id` (PK), `key_id` (FK → `keys.key_id`), `version_id` (FK → `key_versions.version_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `operation` (‘encrypt’, ‘decrypt’, ‘sign’, ‘verify’), `requester_id` (FK → `auth-session-db.users.user_id` or application ID), `timestamp` (TIMESTAMP, NOT NULL), `ip_address`, `user_agent`, `status` (‘success’, ‘failure’), `INDEX(key_id, operation), INDEX(timestamp)`
+
+### Key Policies
+- [ ] **Table: `key_policies`**
+  - `policy_id` (PK), `key_id` (FK → `keys.key_id`), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `policy_json` (JSON, NOT NULL), `version` (INT, DEFAULT 1), `created_by` (FK → `auth-session-db.users.user_id`), `created_at`, `updated_at`, `INDEX(key_id, version)`
+
+### KMS Aliases
+- [ ] **Table: `kms_aliases`**
+  - `alias_id` (PK), `key_id` (FK → `keys.key_id`), `alias_name` (VARCHAR, NOT NULL), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `created_at`, `INDEX(tenant_id, alias_name), UNIQUE(tenant_id, alias_name)`
+
+---
+
+# 26. Developer Portal Service (`dev-portal-db`)
+## Priority: LOW – Documentation, SDKs, and community support
+
+### API Documentation
+- [ ] **Table: `api_docs`**
+  - `doc_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `title` (NOT NULL), `version` (VARCHAR), `content_markdown` (TEXT), `html_rendered` (TEXT), `status` (‘draft’, ‘published’, ‘deprecated’), `created_by` (FK → `auth-session-db.users.user_id`), `created_at`, `updated_at`, `INDEX(tenant_id, title, version)`
+
+### SDK Releases
+- [ ] **Table: `sdk_releases`**
+  - `sdk_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `language` (‘js’, ‘py’, ‘java’, etc.), `version` (VARCHAR, NOT NULL), `package_url` (VARCHAR, NOT NULL), `release_notes` (TEXT), `is_stable` (BOOLEAN, DEFAULT TRUE), `released_at` (TIMESTAMP, NOT NULL), `INDEX(tenant_id, language, version)`
+
+### Tutorials & Guides
+- [ ] **Table: `tutorials`**
+  - `tutorial_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `title` (NOT NULL), `description`, `content_markdown` (TEXT), `difficulty` (‘beginner’, ‘intermediate’, ‘advanced’), `tags` (ARRAY), `created_by` (FK → `auth-session-db.users.user_id`), `created_at`, `updated_at`, `INDEX(tenant_id, tags)`
+
+### Forum Posts
+- [ ] **Table: `forum_posts`**
+  - `post_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `author_id` (FK → `auth-session-db.users.user_id`), `title` (NOT NULL), `content` (TEXT), `parent_post_id` (NULLABLE; FK → `forum_posts.post_id`), `status` (‘open’, ‘closed’, ‘archived’), `created_at`, `updated_at`, `INDEX(tenant_id, author_id), INDEX(parent_post_id)`
+
+### Support Tickets
+- [ ] **Table: `support_tickets`**
+  - `ticket_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `user_id` (FK → `auth-session-db.users.user_id`), `subject` (VARCHAR, NOT NULL), `description` (TEXT), `status` (‘open’, ‘in_progress’, ‘resolved’, ‘closed’), `priority` (‘low’, ‘medium’, ‘high’), `assigned_to` (FK → `auth-session-db.users.user_id`), `created_at`, `updated_at`, `INDEX(tenant_id, status), INDEX(user_id)`
+
+### Usage Metrics
+- [ ] **Table: `usage_metrics`**
+  - `metric_id` (PK), `tenant_id` (NULLABLE; FK → `tenants.tenant_id`), `resource_type` (‘doc’, ‘sdk’, ‘tutorial’, ‘forum’, ‘ticket’), `resource_id` (NOT NULL), `user_id` (FK → `auth-session-db.users.user_id`), `action` (‘view’, ‘download’, ‘like’, ‘comment’, ‘open_ticket’), `timestamp` (TIMESTAMP, NOT NULL), `INDEX(resource_type, timestamp), INDEX(user_id)`
+  
+---
+
+# 27. Event Routing, Subscription & Metrics Service (`event-esm-db`)
+## Priority: HIGH – Core for event‐driven orchestration across all services
+
+### Event Routing Rules
+- [ ] **Table: `event_routing_rules`**
+  - `id` (PK, UUID), `rule_name` (VARCHAR(100), NOT NULL),`source_tenant_id` (UUID, NULLABLE; FK → `tenants.tenant_id`), `event_type` (VARCHAR(100), NOT NULL), `routing_condition` (TEXT, NOT NULL) – JSONLogic or expression that determines target tenants, `target_tenants` (UUID[] ARRAY, NOT NULL) – List of tenant IDs to route to,`is_active` (BOOLEAN, DEFAULT TRUE), `priority` (INT, DEFAULT 1),`created_at` (TIMESTAMP, DEFAULT NOW())
+  - **Note:**  
+    - `source_tenant_id = NULL` implies a global rule.  
+    - Used at publish time: “Which tenant‐queue(s) should receive this event?”  
+
+---
+
+### Event Subscriptions
+- [ ] **Table: `event_subscriptions`**
+  - `subscription_id` (PK, UUID), `tenant_id` (UUID, NULLABLE; FK → `tenants.tenant_id`) – if NULL, treated as a global subscription, `event_type` (VARCHAR(100), NOT NULL), `event_scope` (VARCHAR(20), NOT NULL CHECK IN ('tenant','global','cross-tenant')), `subscriber_service` (VARCHAR(100), NOT NULL) – e.g. “analytics-service”, “notification-service”, `filter_expression` (VARCHAR(200), NULLABLE) – optional JSONLogic or SQL‐like filter to narrow incoming events, `is_active` (BOOLEAN, DEFAULT TRUE), `priority` (INT, DEFAULT 5), `created_at` (TIMESTAMP, DEFAULT NOW()), `updated_at` (TIMESTAMP, DEFAULT NOW())
+  - **Note:**  
+    - At publish time, the publisher will query this table to answer “Which services have registered for `<event_type>` in `<tenant_id>`?”  
+    - `tenant_id = NULL` means any tenant can subscribe globally.
+
+---
+
+### Event Processing Metrics
+- [ ] **Table: `event_processing_metrics`**,
+  - `id` (PK, UUID), `tenant_id` (UUID, NULLABLE; FK → `tenants.tenant_id`) – aggregate counts per tenant; NULL for global aggregates, `event_type` (VARCHAR(100), NOT NULL), `event_source` (VARCHAR(20), NOT NULL CHECK IN ('inbox','outbox')), `date_hour` (TIMESTAMP, NOT NULL) – truncated to the hour for aggregation, `total_events` (INT, DEFAULT 0), `processed_events` (INT, DEFAULT 0), `failed_events` (INT, DEFAULT 0), `avg_processing_time_ms` (DECIMAL(10,2), NULLABLE), `created_at` (TIMESTAMP, DEFAULT NOW()), `updated_at` (TIMESTAMP, DEFAULT NOW())
+  - **Note:**  
+    - Ingested via a lightweight producer (publishers and consumers emit “metric ticks”).  
+    - Enables cross‐service dashboards (e.g. “Auth vs. RBAC event failure rates by hour”).  
+
+---
+
+# Dead‐Letter Service (`event-deadletter-db`)
+## Priority: HIGH – Essential for guaranteed‐delivery and manual reprocessing
+
+### Dead Letter Events
+- [ ] **Table: `dead_letter_events`**
+  - **Inherited from BaseEvent**:
+  - `event_id` (PK, UUID), `source_tenant_id` (UUID, NULLABLE; FK → `tenants.tenant_id`), `target_tenant_id` (UUID, NULLABLE; FK → `tenants.tenant_id`), `event_scope` (VARCHAR(20), NOT NULL DEFAULT 'tenant'), `aggregate_type` (VARCHAR(100), NOT NULL), `aggregate_id` (UUID, NOT NULL), `event_type` (VARCHAR(100), NOT NULL), `event_version` (VARCHAR(50), NOT NULL DEFAULT '1.0'), `payload` (JSONB, NOT NULL), `payload_schema_version` (VARCHAR(200), NULLABLE), `status` (VARCHAR(20), NOT NULL DEFAULT 'dead_letter'), `processing_attempts` (INT, DEFAULT 0), `max_retry_attempts` (INT, DEFAULT 3), `last_error_at` (TIMESTAMP, NOT NULL), `last_error_message` (TEXT, NOT NULL), `last_error_code` (VARCHAR(100), NULLABLE), `error_details` (JSONB, NULLABLE), `priority` (INT, NOT NULL DEFAULT 5), `available_at` (TIMESTAMP, NULLABLE), `expires_at` (TIMESTAMP, NULLABLE), `processor_id` (VARCHAR(100), NULLABLE), `locked_at` (TIMESTAMP, NULLABLE), `processed_at` (TIMESTAMP, NULLABLE), `correlation_id` (VARCHAR(100), NULLABLE), `causation_id` (VARCHAR(100), NULLABLE), `message_id` (VARCHAR(100), NULLABLE), `metadata` (JSONB, NULLABLE), `created_by_user_id` (UUID, NULLABLE; FK → `users.user_id`), `created_by_service` (VARCHAR(100), NULLABLE), `created_at` (TIMESTAMP, DEFAULT NOW()), `updated_at` (TIMESTAMP, DEFAULT NOW())
+  - **Dead‐Letter Specific**:
+  - `original_event_id` (UUID, NOT NULL), `event_source` (VARCHAR(20), NOT NULL CHECK IN ('inbox','outbox')), `original_priority` (INT, NOT NULL), `original_created_at` (TIMESTAMP, NOT NULL), `original_available_at` (TIMESTAMP, NOT NULL), `failure_reason` (TEXT, NOT NULL), `failure_code` (VARCHAR(100), NULLABLE), `failure_details` (JSONB, NULLABLE), `total_attempts` (INT, NOT NULL), `first_failed_at` (TIMESTAMP, NOT NULL), `last_failed_at` (TIMESTAMP, NOT NULL), `last_processor_id` (VARCHAR(100), NULLABLE), `reprocessed` (BOOLEAN, DEFAULT FALSE), `reprocessed_at` (TIMESTAMP, NULLABLE), `reprocessed_event_id` (UUID, NULLABLE), `reprocessed_by` (VARCHAR(100), NULLABLE), `failure_category` (VARCHAR(50), NULLABLE), `can_retry` (BOOLEAN, DEFAULT TRUE), `resolution_notes` (TEXT, NULLABLE)
+  - **Note:**  
+    - Stores any event (inbox or outbox) that has exhausted all retry attempts.  
+    - Operators can browse this table to requeue or permanently skip failed events.  
+    - `source_tenant_id` and `target_tenant_id` help correlate which tenant’s pipeline failed.  

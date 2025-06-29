@@ -4,6 +4,12 @@
   "include": [],
   "references": [
     {
+      "path": "../../shared/domain"
+    },
+    {
+      "path": "../../shared/i18n"
+    },
+    {
       "path": "../presentation"
     },
     {

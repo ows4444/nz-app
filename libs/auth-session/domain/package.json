@@ -24,6 +24,10 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "bcrypt": "^5.1.1",
-    "uuid": "11.1.0"
+    "uuid": "11.1.0",
+    "@nestjs/cqrs": "^11.0.3",
+    "@nz/const": "0.0.1",
+    "@nz/kernel": "0.0.1",
+    "@nz/shared-domain": "0.0.1"
   }
 }

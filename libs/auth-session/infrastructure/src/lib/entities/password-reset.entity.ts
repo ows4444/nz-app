@@ -1,4 +1,3 @@
-import { WithExpiration } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntityORM } from './user.entity';
 
@@ -6,7 +5,7 @@ class PasswordReset extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true, name: 'reset_id' })
   id!: number;
 
-  @Column({ type: 'uuid', length: 36, name: 'user_id' })
+  @Column({ type: 'uuid', name: 'user_id' })
   userId!: string;
 
   @Column({ type: 'varchar', length: 255, name: 'token_hash' })
@@ -18,7 +17,7 @@ class PasswordReset extends BaseEntity {
   @Column({ type: 'timestamp', name: 'expires_at' })
   expiresAt!: Date;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'requested_at' })
+  @Column({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'requested_at' })
   requestedAt!: Date;
 
   @Column({ type: 'varchar', length: 45, name: 'ip_address' })
@@ -40,7 +39,7 @@ class PasswordReset extends BaseEntity {
 @Index('IDX_TOKEN_HASH', ['tokenHash'])
 @Index('IDX_USER_EXPIRES', ['userId', 'expiresAt'])
 @Entity({ name: 'password_resets' })
-export class PasswordResetEntityORM extends WithExpiration(PasswordReset) {
+export class PasswordResetEntityORM extends PasswordReset {
   @ManyToOne(() => UserEntityORM, (user: UserEntityORM) => user.passwordResets, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user!: UserEntityORM;

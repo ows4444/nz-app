@@ -5,6 +5,7 @@ export interface Environment {
   environment: EnvironmentType;
   isProduction: boolean;
   port: number;
+  appName: string;
 
   awsRegion: string;
   host: string;

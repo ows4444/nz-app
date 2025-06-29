@@ -34,6 +34,7 @@
     "@grpc/grpc-js": "^1.13.3",
     "@nestjs/microservices": "^11.1.0",
     "@nestjs/cache-manager": "^3.0.1",
-    "@nestjs/core": "^11.0.0"
+    "@nestjs/core": "^11.0.0",
+    "@nz/shared-domain": "0.0.1"
   }
 }

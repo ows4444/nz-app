@@ -1,0 +1,27 @@
+{
+  "name": "@nz/esm-service-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "esm-service-e2e",
+    "implicitDependencies": [
+      "esm-service"
+    ],
+    "targets": {
+      "e2e": {
+        "executor": "@nx/jest:jest",
+        "outputs": [
+          "{projectRoot}/test-output/jest/coverage"
+        ],
+        "options": {
+          "jestConfig": "apps/esm-service-e2e/jest.config.ts",
+          "passWithNoTests": true
+        },
+        "dependsOn": [
+          "esm-service:build",
+          "esm-service:serve"
+        ]
+      }
+    }
+  }
+}

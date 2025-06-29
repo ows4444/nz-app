@@ -1,0 +1,27 @@
+{
+  "name": "@nz/user-device-service-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "user-device-service-e2e",
+    "implicitDependencies": [
+      "user-device-service"
+    ],
+    "targets": {
+      "e2e": {
+        "executor": "@nx/jest:jest",
+        "outputs": [
+          "{projectRoot}/test-output/jest/coverage"
+        ],
+        "options": {
+          "jestConfig": "apps/user-device-service-e2e/jest.config.ts",
+          "passWithNoTests": true
+        },
+        "dependsOn": [
+          "user-device-service:build",
+          "user-device-service:serve"
+        ]
+      }
+    }
+  }
+}

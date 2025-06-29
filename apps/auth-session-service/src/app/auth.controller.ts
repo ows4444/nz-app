@@ -10,11 +10,8 @@ import { Observable } from 'rxjs';
 export class AuthController implements authSession.AuthServiceController {
   constructor(private readonly authService: AuthService) {}
   @GrpcIdempotent()
-  registerCredential(
-    request: authSession.RegisterCredentialRequest,
-    metadata?: Metadata,
-  ): Promise<authSession.RegisterCredentialResponse> | Observable<authSession.RegisterCredentialResponse> | authSession.RegisterCredentialResponse {
-    return this.authService.registerCredential(request);
+  registerUser(request: authSession.RegisterRequest, metadata?: Metadata): Promise<authSession.RegisterResponse> | Observable<authSession.RegisterResponse> | authSession.RegisterResponse {
+    return this.authService.register(request, metadata);
   }
   @GrpcIdempotent()
   loginByEmail(request: authSession.LoginByEmailRequest, metadata?: Metadata): Promise<authSession.LoginResponse> | Observable<authSession.LoginResponse> | authSession.LoginResponse {

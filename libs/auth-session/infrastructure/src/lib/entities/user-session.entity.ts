@@ -1,14 +1,14 @@
-import { StringColumn, WithCreated } from '@nz/shared-infrastructure';
+import { StringColumn } from '@nz/shared-infrastructure';
 import { BaseEntity, Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 class UserSession extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'session_id' })
   id!: string;
 
-  @Column({ type: 'uuid', length: 36, name: 'user_id' })
+  @Column({ type: 'uuid', name: 'user_id' })
   userId!: string;
 
-  @Column({ type: 'uuid', length: 36, nullable: true, name: 'tenant_id' })
+  @Column({ type: 'uuid', nullable: true, name: 'tenant_id' })
   tenantId?: string;
 
   @StringColumn({ length: 256, nullable: false, trim: true, name: 'device_fingerprint' })
@@ -23,10 +23,10 @@ class UserSession extends BaseEntity {
   @StringColumn({ length: 256, nullable: false, lowercase: true, trim: true, name: 'user_agent' })
   userAgent!: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'started_at' })
+  @Column({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'started_at' })
   startedAt!: Date;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'last_activity_at' })
+  @Column({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'last_activity_at' })
   lastActivityAt!: Date;
 
   @Column({ type: 'timestamp', name: 'expires_at' })
@@ -45,4 +45,4 @@ class UserSession extends BaseEntity {
 @Index('IDX_USER_SESSION_USER_ID_IS_ACTIVE', ['userId', 'isActive'])
 @Index('IDX_USER_SESSION_SESSION_TOKEN_HASH', ['sessionTokenHash'])
 @Entity({ name: 'device_sessions' })
-export class UserSessionEntityORM extends WithCreated(UserSession) {}
+export class UserSessionEntityORM extends UserSession {}

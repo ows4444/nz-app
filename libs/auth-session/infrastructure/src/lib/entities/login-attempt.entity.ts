@@ -5,10 +5,10 @@ class LoginAttempt extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true, name: 'attempt_id' })
   id!: number;
 
-  @Column({ type: 'uuid', length: 36, name: 'user_id' })
+  @Column({ type: 'uuid', name: 'user_id' })
   userId!: string;
 
-  @Column({ type: 'uuid', length: 36, nullable: true, name: 'tenant_id' })
+  @Column({ type: 'uuid', nullable: true, name: 'tenant_id' })
   tenantId?: string;
 
   @StringColumn({ length: 256, nullable: true, lowercase: true, trim: true, name: 'email_attempted' })

@@ -1,1 +1,1 @@
-export * from './register-credential.command';
+export * from './register.command';

@@ -4,7 +4,7 @@ class SessionPolicy extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'policy_id' })
   id!: string;
 
-  @Column({ type: 'uuid', nullable: true, length: 36, name: 'tenant_id' })
+  @Column({ type: 'uuid', nullable: true, name: 'tenant_id' })
   tenantId?: string;
 
   @Column({ type: 'int', unsigned: true, name: 'max_concurrent_sessions' })
@@ -25,10 +25,10 @@ class SessionPolicy extends BaseEntity {
   @Column({ type: 'boolean', name: 'device_trust_required' })
   deviceTrustRequired!: boolean;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  @CreateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'created_at' })
   createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
+  @UpdateDateColumn({ type: 'timestamp', precision: 6, default: (): string => 'CURRENT_TIMESTAMP(6)', name: 'updated_at' })
   updatedAt!: Date;
 }
 

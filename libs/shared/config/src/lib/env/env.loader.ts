@@ -56,6 +56,7 @@ export const envLoader = registerAs(ENVIRONMENT_ENV, (): Environment => {
   return {
     url: `${config.HOST}:${config.PORT}`,
     host: config.HOST,
+    appName: config.APP_NAME,
     apiPrefix: config.API_PREFIX,
     environment: config.NODE_ENV,
     isProduction: config.NODE_ENV === EnvironmentType.Production,

@@ -37,6 +37,7 @@
     "@nestjs/common": "^11.0.0",
     "@nz/shared-i18n": "0.0.1",
     "nestjs-i18n": "^10.5.1",
-    "@grpc/grpc-js": "^1.13.3"
+    "@grpc/grpc-js": "^1.13.3",
+    "@nz/shared-domain": "0.0.1"
   }
 }

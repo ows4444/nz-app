@@ -1,5 +1,5 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { Exclude, Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { IsDefined, IsObject, IsOptional, ValidateNested } from 'class-validator';
 
 import 'reflect-metadata';
@@ -59,18 +59,6 @@ export class ObjectFieldProcessor extends BaseFieldProcessor<ObjectFieldSchema> 
 
     if (schema.default !== undefined) {
       decorators.push(this.createDefaultValueTransform(schema.default));
-    }
-
-    return decorators;
-  }
-
-  generateSerializationDecorators(schema: ObjectFieldSchema, excludeAll: boolean): PropertyDecorator[] {
-    const decorators: PropertyDecorator[] = [];
-
-    if (excludeAll && schema.expose) {
-      decorators.push(Expose());
-    } else if (!excludeAll && schema.exclude) {
-      decorators.push(Exclude());
     }
 
     return decorators;

@@ -17,7 +17,7 @@ export class MemoryCacheStrategy implements ICacheStrategy {
       return null;
     }
 
-    return entry.value as T;
+    return entry.value as Promise<T>;
   }
 
   async set<T>(key: string, value: T, ttl?: number): Promise<void> {
@@ -26,7 +26,7 @@ export class MemoryCacheStrategy implements ICacheStrategy {
       expires: ttl ? Date.now() + ttl * 1000 : undefined,
     };
 
-    this.cache.set(key, entry);
+    await this.cache.set(key, entry);
   }
 
   async delete(key: string): Promise<boolean> {

@@ -1,5 +1,4 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { Exclude, Expose } from 'class-transformer';
 import { ArrayMaxSize, ArrayMinSize, IsArray, IsDefined, IsOptional, ValidateNested } from 'class-validator';
 
 import 'reflect-metadata';
@@ -66,18 +65,6 @@ export class ArrayFieldProcessor extends BaseFieldProcessor<ArrayFieldSchema> {
     if (schema.items.type === FieldType.OBJECT) {
       // This would need to be implemented with nested class generation
       // For now, we'll skip this complex case
-    }
-
-    return decorators;
-  }
-
-  generateSerializationDecorators(schema: ArrayFieldSchema, excludeAll: boolean): PropertyDecorator[] {
-    const decorators: PropertyDecorator[] = [];
-
-    if (excludeAll && schema.expose) {
-      decorators.push(Expose());
-    } else if (!excludeAll && schema.exclude) {
-      decorators.push(Exclude());
     }
 
     return decorators;

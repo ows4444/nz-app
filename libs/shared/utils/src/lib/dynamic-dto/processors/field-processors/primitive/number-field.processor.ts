@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Exclude, Expose, Transform } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { IsDefined, IsNumber, IsOptional, Max, Min } from 'class-validator';
 import { BaseFieldProcessor } from '../../../core/abstractions/base-field-processor.abstract';
 import { FieldType } from '../../../core/enums';
@@ -50,18 +50,6 @@ export class NumberFieldProcessor extends BaseFieldProcessor<NumberFieldSchema> 
 
     if (schema.default !== undefined) {
       decorators.push(this.createDefaultValueTransform(schema.default));
-    }
-
-    return decorators;
-  }
-
-  generateSerializationDecorators(schema: NumberFieldSchema, excludeAll: boolean): PropertyDecorator[] {
-    const decorators: PropertyDecorator[] = [];
-
-    if (excludeAll && schema.expose) {
-      decorators.push(Expose());
-    } else if (!excludeAll && schema.exclude) {
-      decorators.push(Exclude());
     }
 
     return decorators;

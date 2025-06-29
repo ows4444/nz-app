@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Exclude, Expose, Transform } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { IsDefined, IsEmail, IsNotEmpty, IsOptional, IsString, IsUrl, IsUUID, Length, Matches } from 'class-validator';
 import { v4 as uuidv4 } from 'uuid';
 import { BaseFieldProcessor } from '../../../core/abstractions/base-field-processor.abstract';
@@ -70,18 +70,6 @@ export class StringFieldProcessor extends BaseFieldProcessor<StringFieldSchema> 
       decorators.push(this.createAutoGenerateTransform(schema.autoGenerate));
     } else if (schema.default !== undefined) {
       decorators.push(this.createDefaultValueTransform(schema.default));
-    }
-
-    return decorators;
-  }
-
-  generateSerializationDecorators(schema: StringFieldSchema, excludeAll: boolean): PropertyDecorator[] {
-    const decorators: PropertyDecorator[] = [];
-
-    if (excludeAll && schema.expose) {
-      decorators.push(Expose());
-    } else if (!excludeAll && schema.exclude) {
-      decorators.push(Exclude());
     }
 
     return decorators;

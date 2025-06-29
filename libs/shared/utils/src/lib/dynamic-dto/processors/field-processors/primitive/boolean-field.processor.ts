@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Exclude, Expose, Transform } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { IsBoolean, IsDefined, IsOptional } from 'class-validator';
 import { BaseFieldProcessor } from '../../../core/abstractions/base-field-processor.abstract';
 import { FieldType } from '../../../core/enums';
@@ -42,18 +42,6 @@ export class BooleanFieldProcessor extends BaseFieldProcessor<BooleanFieldSchema
 
     if (schema.default !== undefined) {
       decorators.push(this.createDefaultValueTransform(schema.default));
-    }
-
-    return decorators;
-  }
-
-  generateSerializationDecorators(schema: BooleanFieldSchema, excludeAll: boolean): PropertyDecorator[] {
-    const decorators: PropertyDecorator[] = [];
-
-    if (excludeAll && schema.expose) {
-      decorators.push(Expose());
-    } else if (!excludeAll && schema.exclude) {
-      decorators.push(Exclude());
     }
 
     return decorators;

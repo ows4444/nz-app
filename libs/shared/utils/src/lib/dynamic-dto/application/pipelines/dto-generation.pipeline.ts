@@ -24,7 +24,7 @@ export class DtoGenerationPipeline {
       const decorators = [
         ...processor.generateValidationDecorators(fieldSchema, isRequired, false),
         ...processor.generateTransformationDecorators(fieldSchema),
-        ...processor.generateSerializationDecorators(fieldSchema, schema.excludeAll),
+        ...processor.generateSerializationDecorators(fieldSchema, isRequired, schema.excludeAll),
       ];
 
       this.applyDecorators(DynamicClass, fieldName, decorators);

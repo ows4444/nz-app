@@ -6,14 +6,30 @@ export enum FieldType {
   OBJECT = 'object',
   DATE = 'date',
   ENUM = 'enum',
-  // UNION = 'union',
-  // INTERSECTION = 'intersection',
+  FILE = 'file',
+  JSON = 'json',
+  REFERENCE = 'reference',
+  COMPUTED = 'computed',
+  UNION = 'union',
+  TUPLE = 'tuple',
+  MAP = 'map',
+  SET = 'set',
+}
+export enum AutoGenerationType {
+  UUID = 'uuid',
+  TIMESTAMP = 'timestamp',
+  INCREMENTAL = 'incremental',
+  SLUG = 'slug',
+  HASH = 'hash',
+  RANDOM_STRING = 'random_string',
+  SEQUENCE = 'sequence',
 }
 
 export enum ValidationStrategy {
   STRICT = 'strict',
-  LENIENT = 'lenient',
-  CUSTOM = 'custom',
+  LOOSE = 'loose',
+  TRANSFORM = 'transform',
+  SANITIZE = 'sanitize',
 }
 
 export enum CacheStrategy {
@@ -21,10 +37,4 @@ export enum CacheStrategy {
   REDIS = 'redis',
   HYBRID = 'hybrid',
   NONE = 'none',
-}
-
-export enum AutoGenerationType {
-  UUID = 'uuid',
-  TIMESTAMP = 'timestamp',
-  CUSTOM = 'custom',
 }

@@ -58,7 +58,7 @@ export class ObjectFieldProcessor extends BaseFieldProcessor<ObjectFieldSchema> 
     }
 
     if (schema.default !== undefined) {
-      decorators.push(this.createDefaultValueTransform(schema.default));
+      decorators.push(this.createDefaultValueTransform(schema));
     }
 
     return decorators;

@@ -42,13 +42,18 @@ export class ArrayFieldProcessor extends BaseFieldProcessor<ArrayFieldSchema> {
     }
 
     // Item validation
-    if (schema.items.type === FieldType.OBJECT) {
+    if (!Array.isArray(schema.items) && schema.items.type === FieldType.OBJECT) {
       decorators.push(ValidateNested({ each: true }));
-    } else {
+    } else if (!Array.isArray(schema.items)) {
       const itemProcessor = this.processorRegistry.getProcessor(schema.items.type);
       const itemDecorators = itemProcessor.generateValidationDecorators(schema.items, true, true);
       // Apply each: true to item decorators
       decorators.push(...itemDecorators); //.map((decorator) => this.makeEachDecorator(decorator)));
+    }
+    // If schema.items is an array, handle accordingly if needed
+    else if (Array.isArray(schema.items)) {
+      // This case is not handled in the original code, but we can add a check if needed
+      // For now, we'll skip this complex case
     }
 
     return decorators;
@@ -58,11 +63,10 @@ export class ArrayFieldProcessor extends BaseFieldProcessor<ArrayFieldSchema> {
     const decorators: PropertyDecorator[] = [];
 
     if (schema.default !== undefined) {
-      decorators.push(this.createDefaultValueTransform(schema.default));
+      decorators.push(this.createDefaultValueTransform(schema));
     }
-
     // Nested object transformation
-    if (schema.items.type === FieldType.OBJECT) {
+    if (!Array.isArray(schema.items) && schema.items.type === FieldType.OBJECT) {
       // This would need to be implemented with nested class generation
       // For now, we'll skip this complex case
     }

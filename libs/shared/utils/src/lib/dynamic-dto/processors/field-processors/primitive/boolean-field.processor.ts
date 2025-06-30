@@ -41,7 +41,7 @@ export class BooleanFieldProcessor extends BaseFieldProcessor<BooleanFieldSchema
     );
 
     if (schema.default !== undefined) {
-      decorators.push(this.createDefaultValueTransform(schema.default));
+      decorators.push(this.createDefaultValueTransform(schema));
     }
 
     return decorators;

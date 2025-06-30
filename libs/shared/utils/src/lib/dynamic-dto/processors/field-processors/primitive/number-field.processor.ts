@@ -49,7 +49,7 @@ export class NumberFieldProcessor extends BaseFieldProcessor<NumberFieldSchema> 
     );
 
     if (schema.default !== undefined) {
-      decorators.push(this.createDefaultValueTransform(schema.default));
+      decorators.push(this.createDefaultValueTransform(schema));
     }
 
     return decorators;

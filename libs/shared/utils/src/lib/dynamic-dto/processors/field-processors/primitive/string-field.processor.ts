@@ -4,7 +4,7 @@ import { IsDefined, IsEmail, IsNotEmpty, IsOptional, IsString, IsUrl, IsUUID, Le
 import { v4 as uuidv4 } from 'uuid';
 import { BaseFieldProcessor } from '../../../core/abstractions/base-field-processor.abstract';
 import { AutoGenerationType, FieldType } from '../../../core/enums';
-import { StringFieldSchema } from '../../../core/interfaces/schema';
+import { StringFieldSchema, StringFormat } from '../../../core/interfaces/schema';
 
 @Injectable()
 export class StringFieldProcessor extends BaseFieldProcessor<StringFieldSchema> {
@@ -45,18 +45,22 @@ export class StringFieldProcessor extends BaseFieldProcessor<StringFieldSchema> 
 
     // Format validation
     switch (schema.format) {
-      case 'email':
+      case StringFormat.EMAIL: {
         decorators.push(IsEmail({}, parentIsArray ? { each: true } : undefined));
-
         break;
-      case 'url':
+      }
+      case StringFormat.URL: {
         decorators.push(IsUrl({}, parentIsArray ? { each: true } : undefined));
-
         break;
-      case 'uuid':
+      }
+      case StringFormat.UUID: {
         decorators.push(IsUUID(undefined, parentIsArray ? { each: true } : undefined));
-
         break;
+      }
+      case StringFormat.DATE: {
+        // No specific decorator for date, but we can add a custom validation if needed
+        break;
+      }
     }
 
     return decorators;
@@ -69,7 +73,7 @@ export class StringFieldProcessor extends BaseFieldProcessor<StringFieldSchema> 
     if (schema.autoGenerate) {
       decorators.push(this.createAutoGenerateTransform(schema.autoGenerate));
     } else if (schema.default !== undefined) {
-      decorators.push(this.createDefaultValueTransform(schema.default));
+      decorators.push(this.createDefaultValueTransform(schema));
     }
 
     return decorators;
@@ -78,13 +82,11 @@ export class StringFieldProcessor extends BaseFieldProcessor<StringFieldSchema> 
   private createAutoGenerateTransform(autoGenerate: StringFieldSchema['autoGenerate']): PropertyDecorator {
     return Transform(({ value }) => {
       if (value === undefined && autoGenerate) {
-        switch (autoGenerate.type) {
+        switch (autoGenerate) {
           case AutoGenerationType.UUID:
             return uuidv4();
           case AutoGenerationType.TIMESTAMP:
             return new Date().toISOString();
-          case AutoGenerationType.CUSTOM:
-            return autoGenerate.generator?.();
           default:
             return value;
         }

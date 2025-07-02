@@ -5,6 +5,10 @@ export class SchemaCompatibilitySpecification {
     return this.areVersionsCompatible(currentSchema, newSchema) && this.areFieldsCompatible(currentSchema, newSchema) && this.areRequiredFieldsCompatible(currentSchema, newSchema);
   }
 
+  static isCompatible(oldSchema: DynamicSchemaEntity, newSchema: DynamicSchemaEntity): boolean {
+    return oldSchema.version.isCompatibleWith(newSchema.version);
+  }
+
   private areVersionsCompatible(current: DynamicSchemaEntity, newSchema: DynamicSchemaEntity): boolean {
     return current.isCompatibleWith(newSchema);
   }

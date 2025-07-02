@@ -3,13 +3,13 @@ import { Transform } from 'class-transformer';
 import { IsDefined, IsNumber, IsOptional, Max, Min } from 'class-validator';
 import { BaseFieldProcessor } from '../../../core/abstractions/base-field-processor.abstract';
 import { FieldType } from '../../../core/enums';
-import { NumberFieldSchema } from '../../../core/interfaces/schema';
+import { FieldSchema, NumberFieldSchema } from '../../../core/interfaces/schema';
 
 @Injectable()
 export class NumberFieldProcessor extends BaseFieldProcessor<NumberFieldSchema> {
   readonly supportedType = FieldType.NUMBER;
 
-  canProcess(schema: any): schema is NumberFieldSchema {
+  canProcess(schema: FieldSchema): schema is NumberFieldSchema {
     return schema.type === FieldType.NUMBER;
   }
 

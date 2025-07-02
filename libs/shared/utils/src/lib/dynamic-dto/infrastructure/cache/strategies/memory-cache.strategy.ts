@@ -20,24 +20,24 @@ export class MemoryCacheStrategy implements ICacheStrategy {
     return entry.value as Promise<T>;
   }
 
-  async set<T>(key: string, value: T, ttl?: number): Promise<void> {
+  set<T>(key: string, value: T, ttl?: number): void {
     const entry = {
       value,
       expires: ttl ? Date.now() + ttl * 1000 : undefined,
     };
 
-    await this.cache.set(key, entry);
+    this.cache.set(key, entry);
   }
 
-  async delete(key: string): Promise<boolean> {
+  delete(key: string): boolean {
     return this.cache.delete(key);
   }
 
-  async clear(): Promise<void> {
+  clear(): void {
     this.cache.clear();
   }
 
-  async has(key: string): Promise<boolean> {
+  has(key: string): boolean {
     const exists = this.cache.has(key);
 
     if (exists) {

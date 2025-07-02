@@ -7,7 +7,7 @@ import 'reflect-metadata';
 import { DtoGenerationPipeline } from '../../../application/pipelines/dto-generation.pipeline';
 import { BaseFieldProcessor } from '../../../core/abstractions/base-field-processor.abstract';
 import { FieldType } from '../../../core/enums';
-import { ObjectFieldSchema } from '../../../core/interfaces/schema';
+import { FieldSchema, ObjectFieldSchema } from '../../../core/interfaces/schema';
 import { DynamicSchemaEntity } from '../../../domain/entities/dynamic-schema.entity';
 import { SchemaVersion } from '../../../domain/value-objects/schema-version.vo';
 
@@ -20,7 +20,7 @@ export class ObjectFieldProcessor extends BaseFieldProcessor<ObjectFieldSchema> 
     super();
   }
 
-  canProcess(schema: any): schema is ObjectFieldSchema {
+  canProcess(schema: FieldSchema): schema is ObjectFieldSchema {
     return schema.type === FieldType.OBJECT;
   }
 

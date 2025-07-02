@@ -1,5 +1,9 @@
 export class SchemaVersion {
-  constructor(private readonly major: number, private readonly minor: number, private readonly patch: number) {
+  constructor(
+    private readonly major: number,
+    private readonly minor: number,
+    private readonly patch: number,
+  ) {
     if (major < 0 || minor < 0 || patch < 0) {
       throw new Error('Version numbers must be non-negative');
     }

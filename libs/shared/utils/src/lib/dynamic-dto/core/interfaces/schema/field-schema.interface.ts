@@ -1,4 +1,4 @@
-import { AutoGenerationType, CacheStrategy, FieldType } from '../../enums';
+import { AutoGenerationType, CacheStrategy, CaseTransform, CharacterSet, FieldType, StringFormat, WhitespaceType } from '../../enums';
 import { AutoGenerateConfig } from '../config/auto-generate-config.interface';
 import { DiscriminatorConfig } from '../config/discriminator-config.interface';
 import { ImageConfig } from '../config/image-config.interface';
@@ -99,6 +99,7 @@ export interface NumberFieldSchema extends BaseFieldSchema {
   multipleOf?: number;
   integer?: boolean;
   positive?: boolean;
+  negative?: boolean;
   finite?: boolean;
   format?: 'float' | 'double' | 'int32' | 'int64' | 'decimal';
   unit?: string;
@@ -126,6 +127,8 @@ export interface ArrayFieldSchema extends BaseFieldSchema {
 export interface ObjectFieldSchema extends BaseFieldSchema {
   type: FieldType.OBJECT;
   properties: Record<string, FieldSchema>;
+  minProperties?: number;
+  maxProperties?: number;
   required?: string[];
   additionalProperties?: boolean;
   patternProperties?: Record<string, FieldSchema>;
@@ -257,109 +260,6 @@ export interface PatternRule {
   caseSensitive?: boolean;
   multiline?: boolean;
   global?: boolean;
-}
-
-export enum StringFormat {
-  EMAIL = 'email',
-  URL = 'url',
-  UUID = 'uuid',
-  GUID = 'guid',
-  DATE = 'date',
-  TIME = 'time',
-  DATETIME = 'datetime',
-  PHONE = 'phone',
-  MOBILE = 'mobile',
-  LANDLINE = 'landline',
-  IPV4 = 'ipv4',
-  IPV6 = 'ipv6',
-  MAC_ADDRESS = 'mac_address',
-  SLUG = 'slug',
-  USERNAME = 'username',
-  PASSWORD = 'password',
-  HASH = 'hash',
-  JWT = 'jwt',
-  BASE64 = 'base64',
-  HEX = 'hex',
-  BINARY = 'binary',
-  JSON = 'json',
-  XML = 'xml',
-  HTML = 'html',
-  CSS = 'css',
-  JAVASCRIPT = 'javascript',
-  SQL = 'sql',
-  REGEX = 'regex',
-  MARKDOWN = 'markdown',
-  YAML = 'yaml',
-  CSV = 'csv',
-  MIME_TYPE = 'mime_type',
-  FILE_PATH = 'file_path',
-  DOMAIN = 'domain',
-  SUBDOMAIN = 'subdomain',
-  HOSTNAME = 'hostname',
-  PORT = 'port',
-  CREDIT_CARD = 'credit_card',
-  SSN = 'ssn',
-  PASSPORT = 'passport',
-  LICENSE_PLATE = 'license_plate',
-  ISBN = 'isbn',
-  ISSN = 'issn',
-  BARCODE = 'barcode',
-  QR_CODE = 'qr_code',
-  COLOR_HEX = 'color_hex',
-  COLOR_RGB = 'color_rgb',
-  COLOR_HSL = 'color_hsl',
-  CURRENCY = 'currency',
-  PERCENTAGE = 'percentage',
-  COORDINATE = 'coordinate',
-  LATITUDE = 'latitude',
-  LONGITUDE = 'longitude',
-  TIMEZONE = 'timezone',
-  LANGUAGE_CODE = 'language_code',
-  COUNTRY_CODE = 'country_code',
-  POSTAL_CODE = 'postal_code',
-  SEMVER = 'semver',
-  CRON = 'cron',
-}
-
-export enum CaseTransform {
-  NONE = 'none',
-  LOWER = 'lower',
-  UPPER = 'upper',
-  TITLE = 'title',
-  SENTENCE = 'sentence',
-  CAMEL = 'camel',
-  PASCAL = 'pascal',
-  SNAKE = 'snake',
-  KEBAB = 'kebab',
-  CONSTANT = 'constant',
-  DOT = 'dot',
-  PATH = 'path',
-  HEADER = 'header',
-  ALTERNATING = 'alternating',
-  INVERSE = 'inverse',
-  CAPITALIZE_FIRST = 'capitalize_first',
-  CAPITALIZE_WORDS = 'capitalize_words',
-}
-
-export enum CharacterSet {
-  ALPHA = 'alpha',
-  NUMERIC = 'numeric',
-  ALPHANUMERIC = 'alphanumeric',
-  ASCII = 'ascii',
-  UNICODE = 'unicode',
-  PRINTABLE = 'printable',
-  WHITESPACE = 'whitespace',
-  PUNCTUATION = 'punctuation',
-  SPECIAL = 'special',
-  EMOJI = 'emoji',
-  ACCENTED = 'accented',
-  CJK = 'cjk',
-  ARABIC = 'arabic',
-  HEBREW = 'hebrew',
-  CYRILLIC = 'cyrillic',
-  GREEK = 'greek',
-  THAI = 'thai',
-  DEVANAGARI = 'devanagari',
 }
 
 export interface FormatOptions {
@@ -593,17 +493,6 @@ export interface WhitespaceRule {
   preserve?: 'leading' | 'trailing' | 'inner' | 'all' | 'none';
   maxConsecutive?: number;
   types?: WhitespaceType[];
-}
-
-export enum WhitespaceType {
-  SPACE = 'space',
-  TAB = 'tab',
-  NEWLINE = 'newline',
-  CARRIAGE_RETURN = 'carriage_return',
-  FORM_FEED = 'form_feed',
-  VERTICAL_TAB = 'vertical_tab',
-  NON_BREAKING_SPACE = 'non_breaking_space',
-  ZERO_WIDTH_SPACE = 'zero_width_space',
 }
 
 export interface LineBreakRule {

@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Transform } from 'class-transformer';
-import { IsDefined, IsEmail, IsNotEmpty, IsOptional, IsString, IsUrl, IsUUID, Length, Matches } from 'class-validator';
+import { IsDateString, IsDefined, IsEmail, IsNotEmpty, IsOptional, IsString, IsUrl, IsUUID, Length, Matches } from 'class-validator';
 import { v4 as uuidv4 } from 'uuid';
 import { BaseFieldProcessor } from '../../../core/abstractions/base-field-processor.abstract';
-import { AutoGenerationType, FieldType } from '../../../core/enums';
-import { StringFieldSchema, StringFormat } from '../../../core/interfaces/schema';
+import { AutoGenerationType, FieldType, StringFormat } from '../../../core/enums';
+import { FieldSchema, StringFieldSchema } from '../../../core/interfaces/schema';
 
 @Injectable()
 export class StringFieldProcessor extends BaseFieldProcessor<StringFieldSchema> {
   readonly supportedType = FieldType.STRING;
 
-  canProcess(schema: any): schema is StringFieldSchema {
+  canProcess(schema: FieldSchema): schema is StringFieldSchema {
     return schema.type === FieldType.STRING;
   }
 
@@ -58,9 +58,10 @@ export class StringFieldProcessor extends BaseFieldProcessor<StringFieldSchema> 
         break;
       }
       case StringFormat.DATE: {
-        // No specific decorator for date, but we can add a custom validation if needed
+        decorators.push(IsDateString({}, parentIsArray ? { each: true } : undefined));
         break;
       }
+      // Add more formats as needed TODO: Handle more formats
     }
 
     return decorators;
@@ -80,7 +81,7 @@ export class StringFieldProcessor extends BaseFieldProcessor<StringFieldSchema> 
   }
 
   private createAutoGenerateTransform(autoGenerate: StringFieldSchema['autoGenerate']): PropertyDecorator {
-    return Transform(({ value }) => {
+    return Transform(({ value }): string => {
       if (value === undefined && autoGenerate) {
         switch (autoGenerate) {
           case AutoGenerationType.UUID:

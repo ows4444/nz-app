@@ -3,13 +3,13 @@ import { Transform } from 'class-transformer';
 import { IsBoolean, IsDefined, IsOptional } from 'class-validator';
 import { BaseFieldProcessor } from '../../../core/abstractions/base-field-processor.abstract';
 import { FieldType } from '../../../core/enums';
-import { BooleanFieldSchema } from '../../../core/interfaces/schema';
+import { BooleanFieldSchema, FieldSchema } from '../../../core/interfaces/schema';
 
 @Injectable()
 export class BooleanFieldProcessor extends BaseFieldProcessor<BooleanFieldSchema> {
   readonly supportedType = FieldType.BOOLEAN;
 
-  canProcess(schema: any): schema is BooleanFieldSchema {
+  canProcess(schema: FieldSchema): schema is BooleanFieldSchema {
     return schema.type === FieldType.BOOLEAN;
   }
 

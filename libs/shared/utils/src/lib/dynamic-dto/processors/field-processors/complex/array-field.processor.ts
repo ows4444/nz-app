@@ -5,7 +5,7 @@ import 'reflect-metadata';
 
 import { BaseFieldProcessor } from '../../../core/abstractions/base-field-processor.abstract';
 import { FieldType } from '../../../core/enums';
-import { ArrayFieldSchema } from '../../../core/interfaces/schema';
+import { ArrayFieldSchema, FieldSchema } from '../../../core/interfaces/schema';
 import { FieldProcessorRegistry } from '../field-processor.registry';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class ArrayFieldProcessor extends BaseFieldProcessor<ArrayFieldSchema> {
     super();
   }
 
-  canProcess(schema: any): schema is ArrayFieldSchema {
+  canProcess(schema: FieldSchema): schema is ArrayFieldSchema {
     return schema.type === FieldType.ARRAY;
   }
 

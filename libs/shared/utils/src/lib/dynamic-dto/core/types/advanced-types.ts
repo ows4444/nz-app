@@ -4,6 +4,7 @@ export interface ValidationResult {
   isValid: boolean;
   errors: string[];
   warnings: string[];
+  fieldPath?: string;
 }
 
 export interface ProcessingContext {

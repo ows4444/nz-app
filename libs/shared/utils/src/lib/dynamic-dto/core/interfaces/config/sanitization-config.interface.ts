@@ -3,13 +3,13 @@ export interface SanitizationConfig {
   script?: boolean;
   sql?: boolean;
   xss?: boolean;
-  path?: boolean; // Path traversal
-  command?: boolean; // Command injection
-  unicode?: boolean; // Unicode normalization attacks
-  bom?: boolean; // Byte order mark
+  path?: boolean;
+  command?: boolean;
+  unicode?: boolean;
+  bom?: boolean;
   controlChars?: boolean;
-  zeroWidth?: boolean; // Zero-width characters
-  rtl?: boolean; // RTL override attacks
+  zeroWidth?: boolean;
+  rtl?: boolean;
   custom?: CustomSanitizer[];
 }
 

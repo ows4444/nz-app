@@ -7,6 +7,17 @@ import path from 'path';
 import { EnvironmentSchema } from './env.schema';
 import { Environment, ENVIRONMENT_ENV } from './env.types';
 
+export function sortEnvFiles(files: string[]): string[] {
+  return files.sort((a, b) => {
+    const aSegments = a.split(path.sep).length;
+    const bSegments = b.split(path.sep).length;
+    if (aSegments !== bSegments) {
+      return bSegments - aSegments;
+    }
+    return b.length - a.length;
+  });
+}
+
 export function getEnvFile(envFilePath: string | string[] | undefined): string[] {
   const nodeEnv = process.env.NODE_ENV ?? EnvironmentType.Development;
 
@@ -22,17 +33,6 @@ export function getEnvFile(envFilePath: string | string[] | undefined): string[]
   return sortEnvFiles(
     envFilePathStr ? [...envFileNames.map((name) => path.join('apps', envFilePathStr.split(path.sep)[envFilePathStr.split(path.sep).indexOf('apps') + 1], name)), ...envFileNames] : envFileNames,
   );
-}
-
-export function sortEnvFiles(files: string[]): string[] {
-  return files.sort((a, b) => {
-    const aSegments = a.split(path.sep).length;
-    const bSegments = b.split(path.sep).length;
-    if (aSegments !== bSegments) {
-      return bSegments - aSegments;
-    }
-    return b.length - a.length;
-  });
 }
 
 export const envLoader = registerAs(ENVIRONMENT_ENV, (): Environment => {

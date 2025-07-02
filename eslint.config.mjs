@@ -31,6 +31,7 @@ export default [
           ],
         },
       ],
+      '@typescript-eslint/no-use-before-define': ['error', { classes: true }],
     },
   },
   {
